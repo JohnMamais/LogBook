@@ -1,0 +1,82 @@
+body {
+    font-family: sans-serif;
+    background-color: rgb(153, 186, 192);
+    background-image: url('paper23.png');
+    background-repeat: repeat-x, repeat-y;
+    background-size: 100%;
+    background-attachment: fixed;
+
+}
+
+form {
+    background: rgba(153, 186, 192, 0.8);
+    color: white;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+fieldset{
+  box-sizing: content-box;
+  width: 100%;
+  border: solid #5B6DCD 10px;
+  padding: 5px;
+}
+
+button {
+    background-color: white;
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px;
+}
+
+button:hover {
+    border: 5px solid white;
+    background-color:rgb(209, 221, 223);
+
+}
+
+button:active{
+    background-color: rgb(153, 186, 192);
+    color: white;
+    border: 5px solid white;
+}
+
+select {
+    border-radius: 10px;
+    background-color: white;
+    width: 200px;
+}
+
+input{
+    border-radius: 10px;
+    background-color: white;
+    width: 200px;
+}
+
+h3 {
+    background: rgba(153, 186, 192, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    margin-right: 65%;
+}
+
+h1 {
+    background: rgba(153, 186, 192, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    margin-left: 25%;
+    margin-right: 25%;
+
+}
+
+#new_available_subjects_div {
+    background-color: rgba(109, 147, 156, 0.792);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+}
