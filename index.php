@@ -61,9 +61,9 @@
 
       // Set session variables
       //static $SESSION;
-      $_SESSION["user_id"] = $user["id"];
+      $_SESSION['user_id'] = $user["id"];
       $_SESSION['user'] = $user["username"];
-      $_SESSION["isAdmin"]=$user["isAdmin"];
+      $_SESSION['isAdmin']=$user["isAdmin"];
 
       // Redirect to a secured page
       if($user["isAdmin"]){

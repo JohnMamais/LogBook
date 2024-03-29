@@ -1,12 +1,14 @@
 <?php
   //getting first and last name of user from the database based on their username
-  $fname = $lname = "";
-  $nameQuery = "SELECT fname, lname FROM USER WHERE username = '$username';";
+  //$username = "john_doe";
+  $fname = $lname = $userid = "";
+  $nameQuery = "SELECT fname, lname, id FROM USER WHERE username = '$username';";
   $result = $GLOBALS['conn']->query($nameQuery);
   if ($result->num_rows>0){
       while($row = $result->fetch_assoc()){
           $fname = $row['fname'];
           $lname = $row['lname'];
+          $userid = $row['id'];
       }
   }
 ?>
@@ -32,7 +34,7 @@
                 }
             }
             else{
-                echo '<option value="">Δεν βρέθηκαν μαθήματα</option>';
+                echo '<option value="">Δεν βρέθηκαν ειδικότητες.</option>';
             }
         ?>
     </select>
@@ -83,7 +85,7 @@
     <p id="teacher-info">Διδάσκων/ουσα: <?php echo "• $fname $lname ($username)";?></p>
     <br>
     <div style="text-align:center;">
-        <button type="submit" value="submit" id="submit" name="submit">Υποβολή</button> &emsp; <button type="reset">Αρχικοποίηση</button>
+        <button type="submit" value="submit" id="submit" name="submit">Υποβολή</button> &emsp; <button type="reset">Απαλοιφή</button>
     </div>
 </form>
 <!-- log out
@@ -95,7 +97,7 @@
 -->
 
 <div id="myFooter">
-    <p>Τμήμα ΤΕΠ • Γ'2 • 2023<br>Ιωάννης Μαμάης • Ηλίας Μοτσενίγος • Ιάκωβος Χαραλαμπόπουλος</p>
+    <p>Τμήμα ΤΕΠ • Δ'2 • 2024<br>Ιωάννης Μαμάης • Ηλίας Μοτσενίγος</p>
 </div>
 
 <!--JAVASCRIPT SCRIPTS--> 
@@ -133,13 +135,13 @@
 
  <script> // getting available subjects
     $(document).ready(function(){ //όταν είναι ready το αρχείο 
-        $('#specialty').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
+        $('#semester').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
             $.ajax({//update σελίδας χωρίς reload
                 type: 'POST',
                 url: 'getActiveSubjects.php',
-                data: {get_subjects: 'get_subjects', specialty: $('#specialty').val()},
+                data: {get_subjects: 'get_subjects', specialty: $('#specialty').val(), date: $('#entryDate').val(), semester: $('#semester').val()},
                 success: function (get_subjects){
-                        $('#subject').html(get_subjects);
+                        $('#subject_span').html(get_subjects);
                 }
             })
         });
@@ -150,17 +152,21 @@
 <!-- form data processing-->
 <?php
 if(isset($_POST['submit'])){
-    if($SERVER['REQUEST_METHOD']='POST'){
-        //initializing variables
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        //initializing error variables
         $dateError = $specialtyError = $semesterError = $classError = $subjectError = $periodError = $entryError = "";
-        $date = $specialty = $semester = $class = $subject = $periods = $entry= "";
+        
+        //initializing value variables
+        $date = $specialty = $semester = $class = $subject = $periods = $entry= $season ="";
 
         //checking input for all data and passing them into php variables if filled
 
         //date
         if(empty($_POST['entryDate'])){
-            $dateError = "Παρακαλώ επιλέξτε ημερομηνία.";
-            echo "<script>document.getElementById('entryDate').style.borderColor='#d95f57';</script>";
+            $dateError = "Παρακαλώ επιλέξτε ημερομηνία. ";
+            echo "<script>document.getElementById('entryDate').style.borderColor='#d95f57';
+            </script>";
         }
         else{
             $date = $_POST['entryDate'];
@@ -171,7 +177,7 @@ if(isset($_POST['submit'])){
 
         //specialty
         if(empty($_POST['specialty'])){
-            $specialtyError = "Παρακαλώ επιλέξτε ειδικότητα.";
+            $specialtyError = "Παρακαλώ επιλέξτε ειδικότητα. ";
             echo "<script>document.getElementById('specialty').style.borderColor='#d95f57';</script>";
         }
         else{
@@ -180,7 +186,7 @@ if(isset($_POST['submit'])){
 
         //semester
         if(empty($_POST['semester'])){
-            $semesterError = "Παρακαλώ επιλέξτε εξάμηνο.";
+            $semesterError = "Παρακαλώ επιλέξτε εξάμηνο. ";
             echo "<script>document.getElementById('semester').style.borderColor='#d95f57';</script>";
         }
         else{
@@ -196,7 +202,7 @@ if(isset($_POST['submit'])){
 
         //class
         if(empty($_POST['class'])){
-            $classError = "Παρακαλώ επιλέξτε τμήμα.";
+            $classError = "Παρακαλώ επιλέξτε τμήμα. ";
             echo "<script>document.getElementById('class').style.borderColor='#d95f57';</script>";
         }
         else{
@@ -205,7 +211,7 @@ if(isset($_POST['submit'])){
 
         //subject
         if(empty($_POST['subject'])){
-            $subjectError = "Παρακαλώ επιλέξτε μάθημα.";
+            $subjectError = "Παρακαλώ επιλέξτε μάθημα. ";
             echo "<script>document.getElementById('subject').style.borderColor='#d95f57';</script>";
         }
         else{
@@ -214,7 +220,7 @@ if(isset($_POST['submit'])){
 
         //taught periods
         if(empty($_POST['period'])){
-            $periodError = "Παρακαλώ επιλέξτε διδακτικές ώρες.";
+            $periodError = "Παρακαλώ επιλέξτε διδακτικές ώρες. ";
             echo "<script>document.getElementById('periodField').style.borderColor='#d95f57';</script>";
         }
         else{
@@ -227,7 +233,7 @@ if(isset($_POST['submit'])){
 
         //entry 
         if(empty($_POST['entry'])){
-            $entryError = "Παρακαλώ συμπληρώστε την ύλη του μαθήματος.";
+            $entryError = "Παρακαλώ συμπληρώστε την ύλη του μαθήματος. ";
             echo "<script>document.getElementById('entry').style.borderColor='#d95f57';</script>";
         }
         else{
@@ -245,7 +251,7 @@ if(isset($_POST['submit'])){
         if(!empty($date) && !empty($specialty) && !empty($semester) && !empty($class) && !empty($subject) && !empty($periods) && !empty($entry)){
             //adding the entry data to the system's database 
             $sql = "INSERT INTO bookentry (date, specialtyID, semester, class, subjectID, periods, description, username, year, season)
-            VALUES ('$date', $specialty, '$semester', $class, $subject, '$periodsString', '$entry', 'john_doe', $year, '$season')";
+            VALUES ('$date', $specialty, '$semester', $class, $subject, '$periodsString', '$entry', $userid, $year, '$season')";
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Οι εγγραφές προστέθηκαν επιτυχώς!');</script>";
             } 
@@ -253,7 +259,10 @@ if(isset($_POST['submit'])){
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
-            }  
+        }
+        else{
+        echo "<script>alert('".$dateError. $specialtyError . $semesterError . $classError . $subjectError . $periodError . $entryError."');</script>";
+        }  
     }
 }
 ?>

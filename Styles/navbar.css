@@ -1,7 +1,14 @@
+*{
+  margin:0;
+  padding:0;
 
+}
 /* Styling the top menu */
 .top-menu {
   background-color: rgb(109, 147, 156);
+  display:grid;
+  grid-template-columns: 14fr 1fr;
+  align-items:center; /* Vertically center items */
 }
 
 .top-menu ul {
@@ -12,7 +19,7 @@
 }
 
 .top-menu ul li {
-  display: inline-block;
+  display:inline-block;
 }
 
 .top-menu ul li a {
@@ -24,4 +31,20 @@
 
 .top-menu ul li a:hover {
   background-color: #555;
+}
+
+a.logout {
+  display: inline-block;
+  padding: 10px 10px;
+  color: #fff; /* Text color */
+  text-decoration: none; /* Remove underline */
+  border: 1px solid transparent; /* Optional: Add border */
+  border-radius: 5px; /* Optional: Add border radius for rounded corners */
+  font-size: 12px; /* Optional: Adjust font size */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+a.logout:hover {
+  background-color: #555;
+  
 }

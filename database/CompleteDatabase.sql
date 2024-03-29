@@ -45,8 +45,7 @@ CREATE TABLE class(
   semester CHAR NOT NULL,
   PRIMARY KEY (id,  specialtyID, edPeriodID, semester),
   FOREIGN KEY (specialtyID) REFERENCES specialty(specialtyID),
-  FOREIGN KEY (edPeriodID) REFERENCES edPeriod(id),
-  CHECK (numOfClasses BETWEEN 1 and 5)
+  FOREIGN KEY (edPeriodID) REFERENCES edPeriod(id)
 );
 
 CREATE TABLE activeSubjects(
@@ -66,15 +65,17 @@ CREATE TABLE bookEntry(
   username INT NOT NULL,
   subjectID INT NOT NULL,
   specialtyID INT NOT NULL,
-  edPeriodID INT NOT NULL,
+  #--edPeriodID INT NOT NULL,
   class	INT NOT NULL,
-  classID INT NOT NULL,
+  #--classID INT NOT NULL,
+  year INT NOT NULL,
+  season VARCHAR(10) NOT NULL,
   semester CHAR NOT NULL,
   PRIMARY KEY (entryID),
   FOREIGN KEY (username) REFERENCES User(id),
   FOREIGN KEY (subjectID) REFERENCES Subject(subjectID),
-  FOREIGN KEY (specialtyID) REFERENCES class(specialtyID),
-  FOREIGN KEY (classID) REFERENCES class(id)
+  FOREIGN KEY (specialtyID) REFERENCES class(specialtyID)
+  #--FOREIGN KEY (classID) REFERENCES class(id)
 );
 
 CREATE TABLE serverLog(
@@ -84,6 +85,9 @@ CREATE TABLE serverLog(
   PRIMARY KEY(id)
 );
 
+INSERT INTO user(username, password, fname, lname, isAdmin) VALUES
+("admin","$argon2id$v=19$m=65536,t=10,p=2$VG51S3NEMUNjUzlKRi5qeA$2oBIjLpv3CHXLauPSrKk/cdCTSHlYm/UjaEl8yrhf0k","Admin", "Doe", 1),
+("teacher", "$argon2id$v=19$m=65536,t=10,p=2$dDVGenBmMzB5dXQ5b2hKQg$SM7ddR01kMPOewffQ0zLp1vOU8TWB+iQTlRkv21D6y0","Teacher","Doe",0);
 
 INSERT INTO specialty(name) VALUES
 ("ΣΤΕΛΕΧΟΣ ΨΗΦΙΑΚΟΥ MARKETING ΣΤΟ ΗΛΕΚΤΡΟΝΙΚΟ ΕΜΠΟΡΙΟ"),
@@ -498,10 +502,11 @@ DROP USER IF EXISTS 'teacher'@'localhost';
 CREATE USER 'login'@'localhost' IDENTIFIED BY 'Log_Book_2024_IEK_AIGALEO@login';
 
 GRANT SELECT ON log_book.user TO 'login'@'localhost';
-GRANT INSERT ON log_book.serverLog TO 'login'@'localhost';
+GRANT INSERT ON log_book.serverlog TO 'login'@'localhost';
 
 CREATE USER 'bookAdmin'@'localhost' IDENTIFIED BY 'Log_Book_2024_IEK_AIGALEO@adminuser';
 
+GRANT INSERT ON log_book.serverlog TO 'bookAdmin'@'localhost';
 GRANT SELECT ON log_book.user TO 'bookAdmin'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON log_book.activesubjects TO 'bookAdmin'@'localhost';
 GRANT SELECT ON log_book.bookentry TO 'bookAdmin'@'localhost';
@@ -514,7 +519,8 @@ GRANT EXECUTE ON PROCEDURE log_book.newUser TO 'bookAdmin'@'localhost';
 
 CREATE USER 'teacher'@'localhost' IDENTIFIED BY 'Log_Book_2024_IEK_AIGALEO@teacheruser';
 
-GRANT SELECT ON log_book.activesubjects TO 'teacher'@'localhost';
+GRANT INSERT ON log_book.serverlog TO 'teacher'@'localhost';
+GRANT SELECT ON log_book.activesubjects  TO 'teacher'@'localhost';
 GRANT INSERT ON log_book.bookentry TO 'teacher'@'localhost';
 GRANT SELECT ON log_book.class TO 'teacher'@'localhost';
 GRANT SELECT ON log_book.edperiod TO 'teacher'@'localhost';

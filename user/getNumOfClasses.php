@@ -36,10 +36,16 @@
      }
 
      function getNumOfClasses($semester, $specialty, $year, $season){
-        $query = "SELECT numOfClasses FROM class WHERE specialtyID ='".$specialty."' AND year = '".$year."' AND season = '".$season."';";
+        
+        $query = "SELECT id FROM edperiod WHERE year = $year AND season = '$season';";
         $result = $GLOBALS['conn']->query($query);
+        $row = $result->fetch_assoc();
+        $edPeriodID = $row['id'];
 
-        echo "<select id='class' name='class' size='20'>";
+        $query = "SELECT numOfClasses FROM class WHERE specialtyID ='".$specialty."' AND edPeriodID = '".$edPeriodID."' AND semester = '".$semester."';";
+        echo "<script>console.log('$query');</script>";
+        $result = $GLOBALS['conn']->query($query);
+        
 
         if ($result && $result->num_rows > 0){
             echo "<option value=''>Επιλέξτε Tμήμα</option>";

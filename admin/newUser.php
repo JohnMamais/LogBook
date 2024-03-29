@@ -1,9 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<META http-equiv="content-type" content="text/html; charset=utf-8">
-<title> Εισαγωγή Νέου Χρήστη </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="../Styles/logBookMainStyleSheet.css">
+  <title>Δ.Θ.Σ.Α.Ε.Κ. Αιγάλεω: Διαχείρηση</title>
+
+  <link rel="stylesheet" href="../Styles/logBookMainStyleSheet.css">
+  <link rel="stylesheet" href="../Styles/loginStyleSheet.css">
 
 </head>
 <body>
@@ -17,7 +21,36 @@
       return $data;
   }
 
-  require_once("adminConfig.php");
+  function alert($message){
+    echo "<script>alert('$message');</script>";
+  }
+
+  require_once("../ConnectionConfigs/adminConfig.php");
+  include_once("navbar.php");
+
+  //handling of intruders
+  //performing log out routine, redirect to login and logging to the DB
+  if(!isset($_SESSION['user']) || $_SESSION['isAdmin']!=0){
+
+      $log="Unauthorized user attempted to acces user creator.";
+      if(isset($_SESSION['user'])){
+        $uname=$_SESSION['user'];
+        $log.="Username: $uname";
+      }
+      $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
+      $stmt = $conn->prepare($sql);
+      //binding parameters
+      $stmt->bind_param("s",$log);
+      if($stmt->execute()){
+        //meow
+        //log inserted
+      }
+      //closing statment
+      $stmt->close();
+      $conn->close();
+      header("Location: ../logout.php");
+      exit();
+  }
 
   // Initialize error variables
   $fNameError = '';
@@ -25,6 +58,7 @@
   $uNameError = '';
   $passError = '';
   $pass2Error = '';
+  $usernameError = '';
 
   // Initialize POST variables with empty strings
   $fname = "";
@@ -33,7 +67,10 @@
   $password = "";
   $passwordCheck = "";
 
-  //add -> && isset($_SESSION["user_id"] && $_SESSION["isAdmin"])
+  //initialize DB log
+  $log="";
+
+
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
     //get values
     $fname=test_input($_POST['fname']);
@@ -47,30 +84,39 @@
     // Initialize a flag to track whether to proceed or not
     $proceed = 1;
 
+    //logging error Messages
+    $log=$log."Err.: ";
+
     // Check if any variable from the form is empty
     if (!isset($fname) || empty($fname)) {
         $fNameError = "Απαραίτητο πεδίο";
         $proceed = 0;
+        //logging error Messages
+        $log=$log. "fn|";
     }
 
     if (!isset($lname) || empty($lname)) {
         $lNameError = 'Απαραίτητο πεδίο';
         $proceed = 0;
+        $log=$log. "ln|";
     }
 
     if (!isset($user) || empty($user)) {
         $uNameError = 'Απαραίτητο πεδίο';
         $proceed = 0;
+        $log=$log. "un|";
     }
 
     if (!isset($password) || empty($password)) {
         $passError = 'Απαραίτητο πεδίο';
         $proceed = 0;
+        $log=$log. "pass|";
     }
 
     if (!isset($passwordCheck) || empty($passwordCheck)) {
         $pass2Error = 'Απαραίτητο πεδίο';
         $proceed = 0;
+        $log=$log. "pass2|";
     }
 
     // Check if the two passwords match
@@ -78,7 +124,10 @@
         $passError = 'Οι κωδικοί δεν ταιριάζουν';
         $pass2Error = 'Οι κωδικοί δεν ταιριάζουν';
         $proceed = 0;
+        $log=$log. "passAuth|";
     }
+
+
 
     //preparing query to check for duplicate username
     $sql = "SELECT username FROM user WHERE username= ?";
@@ -94,9 +143,12 @@
       //check
       if($checkUser){
         $proceed=0;
-        $usernameErr="Υπάρχει ήδη χρήστης με αυτό το username";
+        $usernameError="Υπάρχει ήδη χρήστης με αυτό το username";
+        $log=$log. "DuplUname|";
       }
     }
+
+
 
     //proceed to SQL
     if($proceed){
@@ -112,6 +164,7 @@
       ];
       $hash=password_hash($password, $algo, $options);
 
+      //new user stored procedure
       //query preperation
       $sql = "CALL newUser(?, ?, ?, ?, ?, ?)";
       $stmt = $conn->prepare($sql);
@@ -120,34 +173,55 @@
 
       //executing
       if ($stmt->execute()) {
-          echo "Stored procedure newUser executed successfully.<br>";
+          $log= "Stored proc.newUser executed | ";
 
           //getting results (msg:bool 1=success, 0=fail)
           $rtrn = $stmt->get_result();
           $rtrn = $rtrn->fetch_assoc();
 
           //printing results
-          echo "Procedure returned $rtrn[msg]";
+          $log= $log. "Procedure returned $rtrn[msg]";
+          if($rtrn['msg']==1){
+            //logging new user success
+            alert("Ο χρήστης $user καταχωρήθηκε επιτυχώς.");
+            $log=$log. "| New User: $user | Admin Status: $admin | Cr. By: ".$_SESSION['user'];
+          } else {
+            //logging new user failure
+            alert("Δυστυχώς ο χρήστης δεν μπόρεσε να καταχωρηθεί στο σύστημα. Προσπαθήστε ξανά αλλιώς επικοινωήστε με τον υπεύθυνο του συστήματος.");
+            $pass=isset($hash);
+            $log=$log. "|info passed: fn:$fname,ln: $lname,un: $user,pass: $pass,iA $admin";
+          }
 
       } else {
-        //error
-          echo "Error executing stored procedure: " . $stmt->error;
+        //error executing sql statement
+        //αν εμφανιστει αυτο σκαει η βαση πριν το stored procedure
+        $log = $log. "Error executing sql statement: " . $stmt->error;
       }
 
       //closing statment
       $stmt->close();
 
     } else {
-
+      $log="FAILED - ". $log;
     }
+    //preparing query to insert log data into DB
+    $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
+    $stmt = $conn->prepare($sql);
+    //binding parameters
+    $stmt->bind_param("s",$log);
+    if($stmt->execute()){
+      //meow
+      //log inserted
+    }
+    //closing statment
+    $stmt->close();
   }
 
   //closing connection
   $conn->close();
 
   ?>
-
-  <fieldset> <legend>Εισαγωγη Νέου Χρήστη</legend>
+  <h1>Εισαγωγη Νέου Χρήστη</h1>
   <form name="newUser" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
 
     Όνομα <?php echo "$fNameError";?> <br>
@@ -165,6 +239,7 @@
     Επαλήθευση Κωδικού <?php echo "$pass2Error";?> <br>
     <input type="password" name="pass_confirm" size="20" maxlength="20" /> <br>
 
+    <br>
     Admin <br>
     <input type="radio" name="isAdmin" value="0" checked="checked" /> Διδάσκων/ουσα
     <input type="radio" name="isAdmin" value="1" /> Διαχειριστής
@@ -173,8 +248,7 @@
     <button type="submit">Καταχώρηση Χρήστη</button>
     &emsp;
     <button type="reset">Επαναφορά Φόρμας</button>
-    <?php echo "$uNameError";?>
+    <?php echo "$usernameError";?>
   </form>
-</fieldset>
 </body>
 </html>
