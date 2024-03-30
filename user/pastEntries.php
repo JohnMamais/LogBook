@@ -7,9 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <?php 
+    <?php
         //database connection file
-        include_once '../databaseConnection.php';
+        include_once '../teacherConfig.php';
         $currentSemester;
     ?>
     <h1>Προηγούμενες Εγγραφές</h1>
@@ -20,7 +20,7 @@
             <?php
                 $query = "SELECT specialtyID, name FROM specialty;";
                 $result = $conn->query($query);
-                
+
                 if($result->num_rows > 0){
                     while($row = $result->fetch_assoc()){
                         echo "<option value='".$row['specialtyID']."'>".$row['name']."</option>";
@@ -31,7 +31,7 @@
                 }
             ?>
         </select>
-        
+
         <label for="semester">Εξάμηνο: </label>
         <select name="semester" id="semester">
             <option value="">Επιλέξτε Εξάμηνο</option>

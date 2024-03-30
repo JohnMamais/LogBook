@@ -1,5 +1,5 @@
 <?php
-    include_once '../ConnectionConfigs/databaseConnection.php';
+    include_once '../ConnectionConfigs/adminConfig.php';
 
     if(isset($_POST["edPeriod"])){
         //getting data from the form

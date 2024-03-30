@@ -1,5 +1,5 @@
 <?php
-    include_once '../databaseConnection.php';
+    include_once '../teacherConfig.php';
 
      if(isset($_POST["getNumOfClasses"]) && !empty($_POST["getNumOfClasses"])){
         //getting data from the form
@@ -32,11 +32,11 @@
         }
 
         getNumOfClasses($semester, $specialty, $year, $season);
-        
+
      }
 
      function getNumOfClasses($semester, $specialty, $year, $season){
-        
+
         $query = "SELECT id FROM edperiod WHERE year = $year AND season = '$season';";
         $result = $GLOBALS['conn']->query($query);
         $row = $result->fetch_assoc();
@@ -45,7 +45,7 @@
         $query = "SELECT numOfClasses FROM class WHERE specialtyID ='".$specialty."' AND edPeriodID = '".$edPeriodID."' AND semester = '".$semester."';";
         echo "<script>console.log('$query');</script>";
         $result = $GLOBALS['conn']->query($query);
-        
+
 
         if ($result && $result->num_rows > 0){
             echo "<option value=''>Επιλέξτε Tμήμα</option>";

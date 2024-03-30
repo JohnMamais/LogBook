@@ -1,5 +1,5 @@
 <?php
-   include_once '../databaseConnection.php';
+   include_once '../teacherConfig.php';
 
     if(isset($_POST["get_subjects"])&& !empty($_POST['get_subjects'])){
         $calledFunction = $_POST['get_subjects'];

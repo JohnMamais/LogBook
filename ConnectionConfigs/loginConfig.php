@@ -5,9 +5,9 @@
   $password="Log_Book_2024_IEK_AIGALEO@login";
   $db="log_book";
 
-  //connect
-  $conn=mysqli_connect($servername,$username,$password, $db);
+  //connecting to database
+  $GLOBALS['conn'] = mysqli_connect($serverName, $serverUsername, $password, $dbname);
   if(!$conn){
-    die("Connection failed: ". mysqli_connection_error());
+      die("Connection to database failed.". mysqli_connect_error());
   }
-?>
+  ?>

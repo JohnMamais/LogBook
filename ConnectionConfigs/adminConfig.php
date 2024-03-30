@@ -1,16 +1,14 @@
 <?php
 
   //Server Info
-  $servername="localhost";
-  $username="bookAdmin";
+  $serverName="localhost";
+  $serverUsername="bookAdmin";
   $password="Log_Book_2024_IEK_AIGALEO@adminuser";
-  $db="log_book";
+  $dbname="log_book";
 
-  session_start();
-
-  //connect
-  $conn=mysqli_connect($servername,$username,$password, $db);
+  //connecting to database
+  $GLOBALS['conn'] = mysqli_connect($serverName, $serverUsername, $password, $dbname);
   if(!$conn){
-    die("Connection failed: ". mysqli_connection_error());
+      die("Connection to database failed.". mysqli_connect_error());
   }
 ?>

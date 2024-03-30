@@ -17,7 +17,7 @@
   //PHP Setup
   //starting session, connecting to DB and including top menu
     session_start();
-    include_once("../ConnectionConfigs/databaseConnection.php");
+    include_once("../ConnectionConfigs/adminConfig.php");
     include_once("navbar.php");
 
     //handling of intruders

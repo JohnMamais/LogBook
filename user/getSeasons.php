@@ -1,5 +1,5 @@
 <?php
-   include_once '../databaseConnection.php';
+   include_once '../teacherConfig.php';
 
      $month = "-";
      if(isset($_POST["date"])){
@@ -10,13 +10,13 @@
         $month .= $monthIni;
         $month .= "-";
      }
-     
+
      getSeasons($month);
-     
+
      function getSeasons($month){
 
         $winterMonths = "--09-10-11-12-01-";//additional dash at the start to prohibit strpos from returning 0
-        $springMonths = "--03-04-05-06-07-";//additional dash at the start to prohibit strpos from returning 0 
+        $springMonths = "--03-04-05-06-07-";//additional dash at the start to prohibit strpos from returning 0
 
         if(strpos($winterMonths, $month)){
             echo "<select id='semester' name='semester'>";

@@ -25,12 +25,13 @@
     echo "<script>alert('$message');</script>";
   }
 
+  session_start();
   require_once("../ConnectionConfigs/adminConfig.php");
   include_once("navbar.php");
 
   //handling of intruders
   //performing log out routine, redirect to login and logging to the DB
-  if(!isset($_SESSION['user']) || $_SESSION['isAdmin']!=0){
+  if(!isset($_SESSION['user']) && $_SESSION['isAdmin']){
 
       $log="Unauthorized user attempted to acces user creator.";
       if(isset($_SESSION['user'])){
@@ -63,7 +64,7 @@
   // Initialize POST variables with empty strings
   $fname = "";
   $lname = "";
-  $user = "";
+  $username = "";
   $password = "";
   $passwordCheck = "";
 
@@ -75,7 +76,7 @@
     //get values
     $fname=test_input($_POST['fname']);
     $lname=test_input($_POST['lname']);
-    $user=test_input($_POST['username']);
+    $username=test_input($_POST['username']);
     $password=test_input($_POST['password']);
     $passwordCheck=test_input($_POST["pass_confirm"]);//used for double checking
     $admin=$_POST['isAdmin'];
@@ -101,7 +102,7 @@
         $log=$log. "ln|";
     }
 
-    if (!isset($user) || empty($user)) {
+    if (!isset($username) || empty($username)) {
         $uNameError = 'Απαραίτητο πεδίο';
         $proceed = 0;
         $log=$log. "un|";
@@ -169,7 +170,7 @@
       $sql = "CALL newUser(?, ?, ?, ?, ?, ?)";
       $stmt = $conn->prepare($sql);
       //passing arguements (s=string, i=integer)
-      $stmt->bind_param("ssssii", $fname, $lname, $user, $hash, $admin, $rtrn);
+      $stmt->bind_param("ssssii", $fname, $lname, $username, $hash, $admin, $rtrn);
 
       //executing
       if ($stmt->execute()) {
@@ -183,13 +184,13 @@
           $log= $log. "Procedure returned $rtrn[msg]";
           if($rtrn['msg']==1){
             //logging new user success
-            alert("Ο χρήστης $user καταχωρήθηκε επιτυχώς.");
-            $log=$log. "| New User: $user | Admin Status: $admin | Cr. By: ".$_SESSION['user'];
+            alert("Ο χρήστης $username καταχωρήθηκε επιτυχώς.");
+            $log=$log. "| New User: $username | Admin Status: $admin | Cr. By: ".$_SESSION['user'];
           } else {
             //logging new user failure
             alert("Δυστυχώς ο χρήστης δεν μπόρεσε να καταχωρηθεί στο σύστημα. Προσπαθήστε ξανά αλλιώς επικοινωήστε με τον υπεύθυνο του συστήματος.");
             $pass=isset($hash);
-            $log=$log. "|info passed: fn:$fname,ln: $lname,un: $user,pass: $pass,iA $admin";
+            $log=$log. "|info passed: fn:$fname,ln: $lname,un: $username,pass(isset): $pass,iA $admin";
           }
 
       } else {
