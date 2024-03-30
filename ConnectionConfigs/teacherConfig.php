@@ -1,9 +1,9 @@
 <?php
   //Server Info
-  $servername="localhost";
-  $username="teacher";
+  $serverName="localhost";
+  $serverUsername="teacher";
   $password="Log_Book_2024_IEK_AIGALEO@teacheruser";
-  $db="log_book";
+  $dbname="log_book";
 
   //connecting to database
   $GLOBALS['conn'] = mysqli_connect($serverName, $serverUsername, $password, $dbname);
