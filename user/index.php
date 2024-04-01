@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Styles/usernavbar.css">
+    <link rel="stylesheet" href="../Styles/TeacherStyleSheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <title>Βιβλίο Ύλης Δ.Ι.Ε.Κ. Αιγάλεω</title>
+</head>
+<body>
+
+    <?php
+        //database connection file
+        include_once '../ConnectionConfigs/teacherConfig.php';
+
+        //starting session
+        session_start();
+
+        //top menu
+        include_once 'navbar.php';
+
+        //handling of intruders
+        //performing log out routine, redirect to login and logging to the DB
+        if(!isset($_SESSION['user']) || $_SESSION['isAdmin']!=0){
+
+            $log="Unauthorized user attempted to acces user index.";
+            if(isset($_SESSION['user'])){
+              $username=$_SESSION['user'];
+              $log.="Username: $uname";
+            }
+            $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
+            $stmt = $conn->prepare($sql);
+            //binding parameters
+            $stmt->bind_param("s",$log);
+            if($stmt->execute()){
+              //meow
+              //log inserted
+            }
+            //closing statment
+            $stmt->close();
+            $conn->close();
+            header("Location: ../logout.php");
+            exit();
+        } else {
+            $username=$_SESSION['user'];
+            include 'mainform.php';
+        }
+
+
+    ?>
+
+
+
+</body>
+</html>
