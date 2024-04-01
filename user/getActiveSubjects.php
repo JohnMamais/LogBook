@@ -1,6 +1,6 @@
 <?php
 
-//booty so big LAAAWD have mercy! 
+//Ilias Motsenigos
 
    include_once '../ConnectionConfigs/teacherConfig.php';
 
