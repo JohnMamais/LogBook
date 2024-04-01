@@ -1,5 +1,5 @@
 <?php
-   include_once '../teacherConfig.php';
+   include_once '../ConnectionConfigs/teacherConfig.php';
 
      $month = "-";
      if(isset($_POST["date"])){

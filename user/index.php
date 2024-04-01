@@ -13,7 +13,7 @@
 
     <?php
         //database connection file
-        include_once '../teacherConfig.php';
+        include_once '../ConnectionConfigs/teacherConfig.php';
 
         //starting session
         session_start();

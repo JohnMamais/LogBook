@@ -19,18 +19,21 @@
       //look at the coresponding loops to understand the logic
 
       //getting count of period id
-      $query = "SELECT COUNT(id) AS count, MIN(id) AS min FROM edperiod;"; // Alias the COUNT(id) as 'count'
+      $query = "SELECT id FROM edperiod;"; // Alias the COUNT(id) as 'count'
       $result = $conn->query($query);
 
       if ($result) {
           $row = $result->fetch_assoc();
-          $edPeriodCount = $row['count']; // Access the result using the alias
-          $edPeriodMin = $row['min'];
+          //$edPeriodCount = $row['count']; // Access the result using the alias
+          $edPeriodids = $row['id'];
+          foreach($ as $id){
+            echo "Ids: ". $id;
+          }
       } else {
           echo "Error: " . $conn->error;
       }
 
-      $query = "SELECT MAX(edPeriodID) AS maxP FROM class;"; 
+      $query = "SELECT MAX(edPeriodID) AS maxP FROM class;";
       $result = $conn->query($query);
 
       if ($result) {
@@ -51,18 +54,24 @@
           echo "Error: " . $conn->error;
       }
 
-      for ($i = $edPeriodMin; $i < $edPeriodMin+$edPeriodCount; $i++) {//first loop runs once for every semester(edperiod)
-          $edPeriodID = $i; //
-          for($j=1;$j<=$specialtyCount;$j++){ //creating a class for every specialty
-            $specialtyID = $j;
-            for($l=0;$l<=1;$l++){
-              if($edPeriodID%2==0){//
-                $semester = $l ? 'B' : 'D';
-              } else {
-                $semester = $l ? 'A' : 'D';
+      if($lastPeriod>0){
+
+      }
+
+      foreach($edPeriodids as $id) {//first loop runs once for every semester(edperiod)
+          if($id>$lastPeriod){
+            $edPeriodID = $id;
+            for($j=1;$j<=$specialtyCount;$j++){ //creating a class for every specialty
+              $specialtyID = $j;
+              for($l=0;$l<=1;$l++){
+                if($edPeriodID%2==0){
+                  $semester = $l ? 'B' : 'D';
+                } else {
+                  $semester = $l ? 'A' : 'D';
+                }
+                $numOfClasses = $faker->numberBetween($min = 1, $max = 5); //creating 1-5 classes for each
+                $classes[] = "($numOfClasses, $specialtyID, $edPeriodID, '$semester')";
               }
-              $numOfClasses = $faker->numberBetween($min = 1, $max = 5); //creating 1-5 classes for each
-              $classes[] = "($numOfClasses, $specialtyID, $edPeriodID, '$semester')";
             }
           }
       }
@@ -80,7 +89,7 @@
     $class_data = generate_class_data($conn);
     $class_query = "INSERT INTO class (numOfClasses, specialtyID, edPeriodID, semester) VALUES " . implode(",", $class_data);
     echo $class_query;
-    execute_query($conn, $class_query);
+    //execute_query($conn, $class_query);
 
   //}
 

@@ -1,5 +1,5 @@
 <?php
-    include_once '../teacherConfig.php';
+    include_once '../ConnectionConfigs/teacherConfig.php';
 
      if(isset($_POST["getNumOfClasses"]) && !empty($_POST["getNumOfClasses"])){
         //getting data from the form
