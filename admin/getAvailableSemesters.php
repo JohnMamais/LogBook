@@ -1,5 +1,7 @@
 <?php
-    //eimai thea
+    //Ilias Motsenigos
+    
+    //limiting the available semesters shown to the user according to the selected educational period
     include_once '../ConnectionConfigs/adminConfig.php';
 
     if(isset($_POST["edPeriod"])){
@@ -10,6 +12,7 @@
      }
 
      function getSemesters($edPeriod){
+        //spring semesters
         if($edPeriod == 'a'){
             echo "<span id='semester_span'>
                     <label for='semester'>Εξάμηνο: </label>
@@ -20,6 +23,8 @@
                     </select>
                 </span>";
         }
+
+        //winter semesters
         if($edPeriod == 'b'){
             echo "<span id='semester_span'>
                     <label for='semester'>Εξάμηνο: </label>
