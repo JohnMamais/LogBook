@@ -1,4 +1,7 @@
 <?php
+
+//booty so big LAAAWD have mercy! 
+
    include_once '../ConnectionConfigs/teacherConfig.php';
 
     if(isset($_POST["get_subjects"])&& !empty($_POST['get_subjects'])){
