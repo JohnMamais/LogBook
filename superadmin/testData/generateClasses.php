@@ -14,54 +14,40 @@
       $faker = Faker\Factory::create(); //init faker
 
       $classes = [];
-
+      $edPeriodIDs = [];
       //getting data from the DB to generate the constraints
       //look at the coresponding loops to understand the logic
 
       //getting count of period id
-      $query = "SELECT id FROM edperiod;"; // Alias the COUNT(id) as 'count'
+      $query = "SELECT edPeriod.id
+                FROM edPeriod
+                LEFT JOIN class ON edperiod.id = class.edPeriodID
+                WHERE class.edPeriodID IS NULL;
+                "; // Alias the COUNT(id) as 'count'
       $result = $conn->query($query);
 
       if ($result) {
-          $row = $result->fetch_assoc();
-          //$edPeriodCount = $row['count']; // Access the result using the alias
-          $edPeriodids = $row['id'];
-          foreach($ as $id){
-            echo "Ids: ". $id;
+          while($row = $result->fetch_assoc()){
+            echo "Ids: ". $row['id'];
+            array_push($edPeriodIDs, $row['id']);
           }
       } else {
           echo "Error: " . $conn->error;
       }
 
-      $query = "SELECT MAX(edPeriodID) AS maxP FROM class;";
+      $query = "SELECT COUNT(specialtyID) AS count FROM  specialty"; // Alias the COUNT(id) as 'count'
       $result = $conn->query($query);
 
       if ($result) {
           $row = $result->fetch_assoc();
-          $lastPeriod = $row['maxP']; // Access the result using the alias
+          $specialtyCount = $row['count'];
       } else {
           echo "Error: " . $conn->error;
       }
 
-      //getting count of specialties
-      $query = "SELECT COUNT(specialtyID) AS count FROM specialty;"; // Alias the COUNT(id) as 'count'
-      $result = $conn->query($query);
-
-      if ($result) {
-          $row = $result->fetch_assoc();
-          $specialtyCount = $row['count']; // Access the result using the alias
-      } else {
-          echo "Error: " . $conn->error;
-      }
-
-      if($lastPeriod>0){
-
-      }
-
-      foreach($edPeriodids as $id) {//first loop runs once for every semester(edperiod)
-          if($id>$lastPeriod){
+      foreach($edPeriodIDs as $id) {//first loop runs once for every semester(edperiod)
             $edPeriodID = $id;
-            for($j=1;$j<=$specialtyCount;$j++){ //creating a class for every specialty
+            for($j=1;$j<$specialtyCount;$j++){ //creating a class for every specialty
               $specialtyID = $j;
               for($l=0;$l<=1;$l++){
                 if($edPeriodID%2==0){
@@ -74,7 +60,6 @@
               }
             }
           }
-      }
       return $classes;
   }
 
@@ -83,15 +68,15 @@
   require_once 'conn.php';//DB connection
 
 
-  //if ($_SERVER["REQUEST_METHOD"] == "POST"){
+  if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Generate test data for class table
     $class_data = generate_class_data($conn);
     $class_query = "INSERT INTO class (numOfClasses, specialtyID, edPeriodID, semester) VALUES " . implode(",", $class_data);
     echo $class_query;
-    //execute_query($conn, $class_query);
+    execute_query($conn, $class_query);
 
-  //}
+  }
 
   // Close connection
   mysqli_close($conn);

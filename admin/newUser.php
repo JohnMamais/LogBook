@@ -160,42 +160,32 @@
       $algo= PASSWORD_ARGON2ID;
       $options = [
           'memory_cost' => 65536, // 64 MB
-          'time_cost'   => 10,     // 4 iterations
-          'threads'     => 2,     // 3 threads
+          'time_cost'   => 11,     // 11 iterations
+          'threads'     => 2,     // 2 threads
       ];
       $hash=password_hash($password, $algo, $options);
 
       //new user stored procedure
       //query preperation
-      $sql = "CALL newUser(?, ?, ?, ?, ?, ?)";
+      $sql = "INSERT INTO user(username, password, fname, lname, isAdmin) VALUES (?,?,?,?,?)";
       $stmt = $conn->prepare($sql);
       //passing arguements (s=string, i=integer)
-      $stmt->bind_param("ssssii", $fname, $lname, $username, $hash, $admin, $rtrn);
+      $stmt->bind_param("ssssi", $username, $hash, $fname, $lname, $admin);
 
       //executing
       if ($stmt->execute()) {
-          $log= "Stored proc.newUser executed | ";
 
-          //getting results (msg:bool 1=success, 0=fail)
-          $rtrn = $stmt->get_result();
-          $rtrn = $rtrn->fetch_assoc();
-
-          //printing results
-          $log= $log. "Procedure returned $rtrn[msg]";
-          if($rtrn['msg']==1){
-            //logging new user success
-            alert("Ο χρήστης $username καταχωρήθηκε επιτυχώς.");
-            $log=$log. "| New User: $username | Admin Status: $admin | Cr. By: ".$_SESSION['user'];
-          } else {
-            //logging new user failure
-            alert("Δυστυχώς ο χρήστης δεν μπόρεσε να καταχωρηθεί στο σύστημα. Προσπαθήστε ξανά αλλιώς επικοινωήστε με τον υπεύθυνο του συστήματος.");
-            $pass=isset($hash);
-            $log=$log. "|info passed: fn:$fname,ln: $lname,un: $username,pass(isset): $pass,iA $admin";
-          }
+        //logging new user success
+        alert("Ο χρήστης $username καταχωρήθηκε επιτυχώς.");
+        $log=$log. "| New User: $username | Admin Status: $admin | Cr. By: ".$_SESSION['user'];
 
       } else {
         //error executing sql statement
         //αν εμφανιστει αυτο σκαει η βαση πριν το stored procedure
+        //logging new user failure
+        alert("Δυστυχώς ο χρήστης δεν μπόρεσε να καταχωρηθεί στο σύστημα. Προσπαθήστε ξανά αλλιώς επικοινωήστε με τον υπεύθυνο του συστήματος.");
+        $pass=isset($hash);
+        $log=$log. "|info passed: fn:$fname,ln: $lname,un: $username,pass(isset): $pass,iA $admin";
         $log = $log. "Error executing sql statement: " . $stmt->error;
       }
 
