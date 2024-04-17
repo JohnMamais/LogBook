@@ -61,6 +61,7 @@
     </span>
 
     </fieldset>
+    <br>
     
     <fieldset id="periodField">
         <legend>Διδακτικές Ώρες:</legend>

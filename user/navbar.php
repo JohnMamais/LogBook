@@ -11,7 +11,7 @@ define('__ROOT__', 'http://localhost/LogBook'); // Assuming 'LogBook' is your pr
   <div >
     <ul>
       <li>Χρήστης: <?php echo $_SESSION['user'];?></li>
-      <li><a class="logout" href="<?php echo __ROOT__ . '/logout.php'; ?>">Log Out</a></li>
+      <li><a id="logout" href="<?php echo __ROOT__ . '/logout.php'; ?>">Log Out</a></li>
     </ul>
   </div>
 </nav>
