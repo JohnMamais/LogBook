@@ -1,6 +1,7 @@
 <?php
   //getting first and last name of user from the database based on their username
   //$username = "john_doe";
+  //include_once '../Configs/Config.php';
   $fname = $lname = $userid = "";
   $nameQuery = "SELECT fname, lname, id FROM USER WHERE username = '$username';";
   $result = $GLOBALS['conn']->query($nameQuery);
@@ -27,7 +28,7 @@
     <?php
             $query = "SELECT specialtyID, name FROM specialty;";
             $result = $conn->query($query);
-            
+
             if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()){
                     echo "<option value='".$row['specialtyID']."'>".$row['name']."</option>";
@@ -62,7 +63,7 @@
 
     </fieldset>
     <br>
-    
+
     <fieldset id="periodField">
         <legend>Διδακτικές Ώρες:</legend>
         <label for="period_0">0η ώρα</label>
@@ -81,7 +82,7 @@
         <input type="checkbox" id="period_6" name="period[]" value="6">&emsp;
     </fieldset>
     <br>
-    <textarea name="entry" id="entry" cols="50" rows="10" maxlength="512"></textarea> 
+    <textarea name="entry" id="entry" cols="50" rows="10" maxlength="512"></textarea>
     <br>
     <p id="teacher-info">Διδάσκων/ουσα: <?php echo "• $fname $lname ($username)";?></p>
     <br>
@@ -101,10 +102,10 @@
     <p>Τμήμα ΤΕΠ • Δ'2 • 2024<br>Ιωάννης Μαμάης • Ηλίας Μοτσενίγος</p>
 </div>
 
-<!--JAVASCRIPT SCRIPTS--> 
+<!--JAVASCRIPT SCRIPTS-->
 
 <script>// getting available semesters
-     $(document).ready(function(){ //όταν είναι ready το αρχείο 
+     $(document).ready(function(){ //όταν είναι ready το αρχείο
         $('#entryDate').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
             $.ajax({//update σελίδας χωρίς reload
                 type: 'POST',
@@ -119,7 +120,7 @@
 </script>
 
 <script> //getting available classes
-     $(document).ready(function(){ //όταν είναι ready το αρχείο 
+     $(document).ready(function(){ //όταν είναι ready το αρχείο
         $('#semester').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
             $.ajax({//update σελίδας χωρίς reload
                 type: 'POST',
@@ -135,7 +136,7 @@
 
 
  <script> // getting available subjects
-    $(document).ready(function(){ //όταν είναι ready το αρχείο 
+    $(document).ready(function(){ //όταν είναι ready το αρχείο
         $('#semester').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
             $.ajax({//update σελίδας χωρίς reload
                 type: 'POST',
@@ -157,7 +158,7 @@ if(isset($_POST['submit'])){
 
         //initializing error variables
         $dateError = $specialtyError = $semesterError = $classError = $subjectError = $periodError = $entryError = "";
-        
+
         //initializing value variables
         $date = $specialty = $semester = $class = $subject = $periods = $entry= $season ="";
 
@@ -173,7 +174,7 @@ if(isset($_POST['submit'])){
             $date = $_POST['entryDate'];
             $year = substr($date, 0, 4);
             $month = substr($date,  5, 2);
-            
+
         }
 
         //specialty
@@ -232,7 +233,7 @@ if(isset($_POST['submit'])){
             }
         }
 
-        //entry 
+        //entry
         if(empty($_POST['entry'])){
             $entryError = "Παρακαλώ συμπληρώστε την ύλη του μαθήματος. ";
             echo "<script>document.getElementById('entry').style.borderColor='#d95f57';</script>";
@@ -250,12 +251,12 @@ if(isset($_POST['submit'])){
 
 
         if(!empty($date) && !empty($specialty) && !empty($semester) && !empty($class) && !empty($subject) && !empty($periods) && !empty($entry)){
-            //adding the entry data to the system's database 
+            //adding the entry data to the system's database
             $sql = "INSERT INTO bookentry (date, specialtyID, semester, class, subjectID, periods, description, username, year, season)
             VALUES ('$date', $specialty, '$semester', $class, $subject, '$periodsString', '$entry', $userid, $year, '$season')";
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Οι εγγραφές προστέθηκαν επιτυχώς!');</script>";
-            } 
+            }
             else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
@@ -263,7 +264,7 @@ if(isset($_POST['submit'])){
         }
         else{
         echo "<script>alert('".$dateError. $specialtyError . $semesterError . $classError . $subjectError . $periodError . $entryError."');</script>";
-        }  
+        }
     }
 }
 ?>

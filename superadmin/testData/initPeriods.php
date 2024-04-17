@@ -21,7 +21,7 @@
     return $ed_periods;
   }
 
-  require_once 'conn.php';//DB connection
+  include_once '../../Configs/Conn.php';
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $min=$_POST['min'];

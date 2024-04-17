@@ -1,6 +1,6 @@
 #Left join excluding inner join
 #selects edPeriodIDs that don't have classes assigned to them
-SELECT edPeriod.id 	
+SELECT edPeriod.id
 FROM edPeriod
 LEFT JOIN class ON edperiod.id = class.edPeriodID
 WHERE class.edPeriodID IS NULL;
@@ -19,6 +19,7 @@ select COUNT(*) from activesubjects;
 
 
 #empty database in order
+delete from user where id>=0;
 delete from activesubjects where specialtyID>=0;
 delete from bookentry where entryid>=0;
 delete from class where id >=0;

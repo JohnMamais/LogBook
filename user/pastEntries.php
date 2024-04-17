@@ -9,7 +9,9 @@
 <body>
     <?php
         //database connection file
-        include_once '../ConnectionConfigs/teacherConfig.php';
+        include_once '../Configs/Conn.php';
+        include_once '../Configs/Config.php';
+
         $currentSemester;
     ?>
     <h1>Προηγούμενες Εγγραφές</h1>

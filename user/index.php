@@ -12,23 +12,17 @@
 <body>
 
     <?php
-        //database connection file
-        include_once '../ConnectionConfigs/teacherConfig.php';
-
-        //starting session
-        session_start();
-
-        //top menu
-        include_once 'navbar.php';
+        include_once '../Configs/Conn.php';
+        include_once '../Configs/Config.php';
 
         //handling of intruders
         //performing log out routine, redirect to login and logging to the DB
-        if(!isset($_SESSION['user']) || $_SESSION['isAdmin']!=0){
+        if(!isset($_SESSION['user']) || ($_SESSION['isAdmin']!=0 && $_SESSION['isAdmin']!=2)){
 
             $log="Unauthorized user attempted to acces user index.";
             if(isset($_SESSION['user'])){
               $username=$_SESSION['user'];
-              $log.="Username: $uname";
+              $log.="Username: $username";
             }
             $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
             $stmt = $conn->prepare($sql);
@@ -41,8 +35,8 @@
             //closing statment
             $stmt->close();
             $conn->close();
-            header("Location: ../logout.php");
-            exit();
+          //  header("Location: ../logout.php");
+          //  exit();
         } else {
             $username=$_SESSION['user'];
             include 'mainform.php';

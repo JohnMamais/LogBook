@@ -25,9 +25,8 @@
     echo "<script>alert('$message');</script>";
   }
 
-  session_start();
-  require_once("../ConnectionConfigs/adminConfig.php");
-  include_once("navbar.php");
+  include_once '../Configs/Conn.php';
+  include_once '../Configs/Config.php';
 
   //handling of intruders
   //performing log out routine, redirect to login and logging to the DB
@@ -157,12 +156,7 @@
       //-1 means it didn't run, 0 is failure, 1 is success
       $rtrn=-1;
 
-      $algo= PASSWORD_ARGON2ID;
-      $options = [
-          'memory_cost' => 65536, // 64 MB
-          'time_cost'   => 11,     // 11 iterations
-          'threads'     => 2,     // 2 threads
-      ];
+      //algo and options are defined in Config.php
       $hash=password_hash($password, $algo, $options);
 
       //new user stored procedure

@@ -14,11 +14,10 @@
 <body>
 
   <?php
-  //PHP Setup
-  //starting session, connecting to DB and including top menu
-    session_start();
-    include_once("../ConnectionConfigs/adminConfig.php");
-    include_once("navbar.php");
+    //PHP Setup
+    //connecting to DB and including top menu
+    include_once '../Configs/Conn.php';
+    include_once '../Configs/Config.php';
 
     //handling of intruders
     //performing log out routine, redirect to login and logging to the DB
@@ -43,7 +42,6 @@
         header("Location: ../logout.php");
         exit();
     }
-
 
     //for logging to the DB
     $log="Adm. Subj. | ";

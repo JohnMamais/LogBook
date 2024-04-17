@@ -29,7 +29,7 @@ function generate_user_data($faker, $count) {
 
 require_once '../../vendor/autoload.php'; // Include the Faker autoloader
 $faker = Faker\Factory::create(); //init faker
-require_once 'conn.php';//DB connection
+include_once '../../Configs/Conn.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
   $count=$_POST['count'];//getting user ammount

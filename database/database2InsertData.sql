@@ -1,9 +1,11 @@
 USE log_book;
 
 INSERT INTO user(username, password, fname, lname, isAdmin) VALUES
-("admin","$argon2id$v=19$m=65536,t=11,p=2$VG53Q0ozN3dteDB5dTNVNg$pUzpUaZiTmgOK4j/Y2qf3Ri3qUl3gzL2fhVdkLY+6qY","Admin", "Doe", 1),
-("teacher", "$argon2id$v=19$m=65536,t=11,p=2$eHhhWC91bmRTT0hzQmdYQQ$LABh0KDiOBL2RRg+y/FpjmCLK+OMDvFw9BRS578K8f0","Teacher","Doe",0),
+#("admin","$argon2id$v=19$m=65536,t=11,p=2$bkJSZUsvRzNDLjJycEpPeg$w3VTHXbHMKcDv2o6Vjpop8OlvWAviD8s1ysNvANyzF0","Admin", "Doe", 1),
+#("teacher", "$argon2id$v=19$m=65536,t=11,p=2$YlZRTEkySDJMQnQ5VjNPUQ$JOsfoHjRu0AXWVWk075hGiocOHzqZ9BRuK1uwmhOrRk","Teacher","Doe",0),
 ("John@Super", "$argon2id$v=19$m=65536,t=11,p=2$WlVPOURWS1hvL053S205ZA$pHxxNcvtCuVnY9cBxYeToYZDqFqL9/NmtLSvlk2m5Jg","SuperUser","Super",2); 
+#adminpass
+#teacherpass
 #super@IEK_LO_G
 
 INSERT INTO specialty(name) VALUES

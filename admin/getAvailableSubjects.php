@@ -1,5 +1,6 @@
 <?php
-    include_once '../ConnectionConfigs/adminConfig.php';
+    include_once '../Configs/Conn.php';
+    include_once '../Configs/Config.php';
 
     if(isset($_POST["get_subjects"])&& !empty($_POST['get_subjects'])){
         $calledFunction = $_POST['get_subjects'];

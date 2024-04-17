@@ -1,6 +1,7 @@
 <?php
 
-  define('__ROOT__', 'http://localhost/LogBook');
+include_once 'Configs/Conn.php';
+  include_once 'Configs/Config.php';
 
   session_start();
 

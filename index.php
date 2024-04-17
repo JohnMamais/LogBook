@@ -21,16 +21,14 @@
   //session configurations
   ini_set('session.cookie_secure', true);
 
-  //start session
-  session_start();
-
   //initializing vars
   $usernameError=$passwordError=$loginError=$username=$password=$log="";
 
   //checking for form submited with post method
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    require_once "ConnectionConfigs/loginConfig.php";
+    include_once 'Configs/Conn.php';
+    include_once 'Configs/Config.php';
 
     //checking for empty vars then putting the tested inputs in a variable
     if(empty($_POST["username"])){
@@ -48,13 +46,15 @@
 
 
     // Check user credentials in the database
-    // Querying the server for the username and fetching id and password
+    // Querying the database for the username and fetching id and password
     $sql = "SELECT id, username, password, isAdmin FROM user WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
+    // Close statement
+    $stmt->close();
 
     // Verify password
     if ($user && password_verify($password, $user["password"])) {
@@ -79,9 +79,6 @@
         $loginError = "Invalid username or password";
         $log=$log." Login Failed| Username attempted: ".$username;
     }
-
-    // Close statement
-    $stmt->close();
 
     //log interaction
     $sql="INSERT INTO serverLog(logDesc) VALUES(?);";

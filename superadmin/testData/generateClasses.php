@@ -65,7 +65,7 @@
 
 
 
-  require_once 'conn.php';//DB connection
+  include_once '../../Configs/Conn.php';
 
 
   if ($_SERVER["REQUEST_METHOD"] == "POST"){

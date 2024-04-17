@@ -1,11 +1,11 @@
 <?php
     echo "<link rel='stylesheet' href='logBookMainStyleSheet.css'>";
-    function formatString($inputString){ //cleaning up strings 
+    function formatString($inputString){ //cleaning up strings
         $inputString = trim($inputString);
         $inputString = stripslashes($inputString);
         $inputString = htmlspecialchars($inputString);
         return $inputString;
-    }  
+    }
 
     echo " <div class='grid-container'>
                 <div class='grid-item'>← Επιστροφή</div>
@@ -35,14 +35,14 @@
             echo "Περιγραφή: $entry<br>";
         }
         else{
-            echo "<p id='error', 
-            style='background-color: tomato; 
-            border-radius: 10px; 
-            padding:10px; 
+            echo "<p id='error',
+            style='background-color: tomato;
+            border-radius: 10px;
+            padding:10px;
             font-family: sans-serif;
             color: white;
             text-align: center;'    >Παρακαλώ συμπληρώστε όλα τα πεδία και προσπαθήστε ξανά.</p>";
         }
     }
-    
+
 ?>
