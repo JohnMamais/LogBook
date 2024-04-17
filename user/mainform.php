@@ -2,13 +2,13 @@
   //getting first and last name of user from the database based on their username
 
   $fname = $lname = $userid = "";
-  $nameQuery = "SELECT fname, lname, id FROM USER WHERE username = '$username';";
+  $userid=$_SESSION['user_id'];
+  $nameQuery = "SELECT fname, lname FROM USER WHERE username = '$username';";
   $result = $GLOBALS['conn']->query($nameQuery);
   if ($result->num_rows>0){
       while($row = $result->fetch_assoc()){
           $fname = $row['fname'];
           $lname = $row['lname'];
-          $userid = $row['id'];
       }
   }
 ?>
