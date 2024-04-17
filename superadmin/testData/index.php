@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html>
-  Hello there!
   <form name="createUsers" method="post" action="createUsers.php" id="userForm">
     Δημιουργία χρηστών:
     <input type="number" name="count"/>
@@ -18,11 +17,11 @@
       <button type="submit">Go</button> <br>
   </form>
   <form name="populateSubjects" method="post" action="generateSubjects.php" id="subjectsForm">
-      Populate Classes:
+      Enable all subjects for period(s):
       <button type="submit">Go</button> <br>
   </form>
   <form name="populateEntries" method="post" action="generateEntries.php" id="entriesForm">
-      Populate Classes:
+      Populate Entries:
       <button type="submit">Go</button> <br>
   </form>
 
