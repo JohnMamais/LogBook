@@ -11,7 +11,7 @@ if($published){
   $serverName="localhost";
   $serverUsername="UWCC";
   $password="Cardiff2021@";
-  $dbname="Log_Book";
+  $dbname="log_book";
 
 } else {
   //Root directory

@@ -19,10 +19,10 @@
       //look at the coresponding loops to understand the logic
 
       //getting count of period id
-      $query = "SELECT edPeriod.id
-                FROM edPeriod
-                LEFT JOIN class ON edperiod.id = class.edPeriodID
-                WHERE class.edPeriodID IS NULL;
+      $query = "SELECT edperiod.id
+                FROM edperiod
+                LEFT JOIN class ON edperiod.id = class.edperiodID
+                WHERE class.edperiodID IS NULL;
                 "; // Alias the COUNT(id) as 'count'
       $result = $conn->query($query);
 
@@ -72,7 +72,7 @@
 
     // Generate test data for class table
     $class_data = generate_class_data($conn);
-    $class_query = "INSERT INTO class (numOfClasses, specialtyID, edPeriodID, semester) VALUES " . implode(",", $class_data);
+    $class_query = "INSERT INTO class (numOfClasses, specialtyID, edperiodID, semester) VALUES " . implode(",", $class_data);
     echo $class_query;
     execute_query($conn, $class_query);
 

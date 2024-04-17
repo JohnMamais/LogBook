@@ -18,7 +18,7 @@
       //getting ids of classes that don't have subjects
       $query = "SELECT class.id AS id
                 FROM class
-                LEFT JOIN activeSubjects ON class.id = activesubjects.classID
+                LEFT JOIN activesubjects ON class.id = activesubjects.classID
                 WHERE activesubjects.classID IS NULL;
                 ";
       $result = $conn->query($query);
@@ -97,7 +97,7 @@
 
     // Generate test data for class table
     $subject_data = generate_class_data($conn);
-    $subjects_query = "INSERT INTO activeSubjects (subjectID, specialtyID, classID) VALUES " . implode(",", $subject_data);
+    $subjects_query = "INSERT INTO activesubjects (subjectID, specialtyID, classID) VALUES " . implode(",", $subject_data);
     echo $subjects_query;
     execute_query($conn, $subjects_query);
 

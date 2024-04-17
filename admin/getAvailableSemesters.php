@@ -1,6 +1,6 @@
 <?php
     include_once '../Configs/Conn.php';
-    include_once '../Configs/Config.php';
+    //include_once '../Configs/Config.php';
 
     if(isset($_POST["edPeriod"])){
         //getting data from the form

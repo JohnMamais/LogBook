@@ -28,7 +28,7 @@
           $uname=$_SESSION['user'];
           $log.="Username: $uname";
         }
-        $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
+        $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
         $stmt = $conn->prepare($sql);
         //binding parameters
         $stmt->bind_param("s",$log);
@@ -259,7 +259,7 @@
 
                         //------- STEP 3 -------
                         foreach($selectedSubjects as $subject){
-                            $query = "INSERT INTO activeSubjects (subjectID, specialtyID, classID) VALUES ($subject, $specialty, $classID);";
+                            $query = "INSERT INTO activesubjects (subjectID, specialtyID, classID) VALUES ($subject, $specialty, $classID);";
                             if ($conn->query($query) === TRUE){
                                 continue;
                             }
@@ -305,7 +305,7 @@
 
                             //------- STEP 3 -------
                             foreach($selectedSubjects as $subject){
-                                $query = "INSERT INTO activeSubjects (subjectID, specialtyID, classID) VALUES ($subject, $specialty, $classID);";
+                                $query = "INSERT INTO activesubjects (subjectID, specialtyID, classID) VALUES ($subject, $specialty, $classID);";
                                 if ($conn->query($query) === TRUE){
                                     continue;
                                 }
@@ -335,7 +335,7 @@
                 $log.= "Empty: ". $yearError. $specialtyError . $semesterError . $edPeriodError . $numOfClassesError . $selectedSubjectsError . " | ";
                 }
 
-            $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
+            $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
             $stmt = $conn->prepare($sql);
             //binding parameters
             $stmt->bind_param("s",$log);

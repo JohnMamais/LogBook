@@ -3,7 +3,7 @@
 //Ilias Motsenigos
 
    include_once '../Configs/Conn.php';
-   include_once '../Configs/Config.php';
+  // include_once '../Configs/Config.php';
 
     if(isset($_POST["get_subjects"])&& !empty($_POST['get_subjects'])){
         $calledFunction = $_POST['get_subjects'];
@@ -27,13 +27,18 @@
         $row = $result->fetch_assoc();
         $edPeriodID = $row['id'];
 
-
+        //Ηλία φτιάξτο
         //getting classID
-        $query = "SELECT id FROM class WHERE specialtyID = $specialty AND edPeriodID = $edPeriodID AND semester = '$semester';";
+        $query = "SELECT id FROM class WHERE specialtyID = $specialty AND edperiodID = $edPeriodID AND semester = '$semester';";
         $result = $GLOBALS['conn']->query($query);
         $row = $result->fetch_assoc();
-        $classID = $row['id'];
+        if($row){
+          $classID = $row['id'];
 
+        } else {
+          $classID = 0;
+        }
+        //μέχρι εδώ
 
         get_subjects($specialty, $classID);
     }

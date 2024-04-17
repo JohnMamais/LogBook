@@ -1,7 +1,6 @@
 <?php
   //getting first and last name of user from the database based on their username
-  //$username = "john_doe";
-  //include_once '../Configs/Config.php';
+
   $fname = $lname = $userid = "";
   $nameQuery = "SELECT fname, lname, id FROM USER WHERE username = '$username';";
   $result = $GLOBALS['conn']->query($nameQuery);

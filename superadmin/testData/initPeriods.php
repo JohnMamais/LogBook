@@ -30,7 +30,7 @@
     echo $min.$max;
     $data = generate_ed_period_data($min, $max);//generate data
 
-    $query="INSERT INTO edPeriod (year, season) VALUES " . implode(",", $data);
+    $query="INSERT INTO edperiod (year, season) VALUES " . implode(",", $data);
     echo $query;
 
     execute_query($conn, $query);

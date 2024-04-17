@@ -1,6 +1,4 @@
 <?php
-   include_once '../Configs/Conn.php';
-   include_once '../Configs/Config.php';
 
      $month = "-";
      if(isset($_POST["date"])){
