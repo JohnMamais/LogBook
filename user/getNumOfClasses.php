@@ -1,6 +1,5 @@
 <?php
     include_once '../Configs/Conn.php';
-    include_once '../Configs/Config.php';
 
      if(isset($_POST["getNumOfClasses"]) && !empty($_POST["getNumOfClasses"])){
         //getting data from the form
