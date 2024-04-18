@@ -44,7 +44,6 @@
         $edPeriodID = $row['id'];
 
         $query = "SELECT numOfClasses FROM class WHERE specialtyID ='".$specialty."' AND edperiodID = '".$edPeriodID."' AND semester = '".$semester."';";
-        echo "<script>console.log('$query');</script>";
         $result = $GLOBALS['conn']->query($query);
 
 
