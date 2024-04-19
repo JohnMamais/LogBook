@@ -37,7 +37,7 @@
         $uname=$_SESSION['user'];
         $log.="Username: $uname";
       }
-      $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
+      $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
       $stmt = $conn->prepare($sql);
       //binding parameters
       $stmt->bind_param("s",$log);
@@ -190,7 +190,7 @@
       $log="FAILED - ". $log;
     }
     //preparing query to insert log data into DB
-    $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
+    $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
     $stmt = $conn->prepare($sql);
     //binding parameters
     $stmt->bind_param("s",$log);

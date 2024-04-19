@@ -10,12 +10,22 @@
 <body>
 
 <?php
+  error_reporting(E_ALL);
+  ini_set('display_errors', 1);
   //function to verify POST data
   function test_input($data) {
       $data = trim($data);
       $data = stripslashes($data);
       $data = htmlspecialchars($data);
       return $data;
+  }
+  function putLog($conn, $log){
+    //log interaction
+    $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $log,);
+    $stmt->execute();
+    $stmt->close();
   }
 
   //session configurations
@@ -65,12 +75,16 @@
       $_SESSION['user'] = $user["username"];
       $_SESSION['isAdmin']=$user["isAdmin"];
 
+      $log= $log."Succ. Login user:".$user["username"]."admin: ".$user["isAdmin"];
+
       // Redirect to a secured page
       if($user["isAdmin"]){
         header("Location: admin/index.php");
+        putlog($conn, $log);
         exit();
       } else if (!$user["isAdmin"]){
         header("Location: user/index.php");
+        putlog($conn, $log);
         exit();
       }
       $log=$log." Successful Login| User: ".$username;
@@ -80,13 +94,7 @@
         $log=$log." Login Failed| Username attempted: ".$username;
     }
 
-    //log interaction
-    $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $log,);
-    $stmt->execute();
-    $stmt->close();
-
+    putlog($conn, $log);
     //close conn
     $conn->close();
 

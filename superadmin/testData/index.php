@@ -34,7 +34,9 @@ if(!isset($_SESSION['user']) || $_SESSION['isAdmin']!=2){
   <form name="createUsers" method="post" action="createUsers.php" id="userForm">
     Δημιουργία χρηστών:
     <input type="number" name="count"/>
-    <button type="submit">Go</button> <br>
+    <button type="submit">Go</button>
+    <p id="user"></p>
+    <br>
   </form>
   <form name="setYears" method="post" action="initPeriods.php" id="yearForm">
     Δημιουργία δεδομένων απο χρονιά:
@@ -42,23 +44,30 @@ if(!isset($_SESSION['user']) || $_SESSION['isAdmin']!=2){
      έως χρονιά:
     <input type="number" name="max"/>
     <button type="submit">Go</button> <br>
+    <p id="periods"></p>
+    <br>
   </form>
   <form name="populateClasses" method="post" action="generateClasses.php" id="classesForm">
       Populate Classes:
-      <button type="submit">Go</button> <br>
+      <button type="submit">Go</button>
+      <p id="classes"></p>
+      <br>
   </form>
   <form name="populateSubjects" method="post" action="generateSubjects.php" id="subjectsForm">
       Enable all subjects for period(s):
-      <button type="submit">Go</button> <br>
+      <button type="submit">Go</button>
+      <p id="subjects"></p>
+      <br>
   </form>
   <form name="populateEntries" method="post" action="generateEntries.php" id="entriesForm">
-      Populate Entries:
+      [WIP]Populate Entries:
       <button type="submit">Go</button> <br>
   </form>
 
 </html>
-
 <script>
+document.getElementById("users").innerHTML="Done";
+
 document.getElementById("userForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent the default form submission
 
@@ -68,7 +77,9 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
     xhr.open("POST", this.action, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            document.getElementById("response").innerHTML = xhr.responseText;
+            document.getElementById("user").innerHTML = "Done";
+            document.getElementById("user").innerHTML = xhr.responseText;
+
         }
     };
     xhr.send(formData);
@@ -84,6 +95,8 @@ document.getElementById("yearForm").addEventListener("submit", function(event) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             document.getElementById("response").innerHTML = xhr.responseText;
+
+
         }
     };
     xhr.send(formData);

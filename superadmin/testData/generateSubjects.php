@@ -100,7 +100,6 @@
     $subjects_query = "INSERT INTO activesubjects (subjectID, specialtyID, classID) VALUES " . implode(",", $subject_data);
     echo $subjects_query;
     execute_query($conn, $subjects_query);
-
   }
 
   // Close connection
