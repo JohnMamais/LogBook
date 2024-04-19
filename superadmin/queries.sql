@@ -11,6 +11,10 @@ FROM class
 LEFT JOIN activeSubjects ON class.id = activesubjects.classID
 WHERE activesubjects.classID IS NULL;
 
+select * from activesubjects
+join class on class.specialtyID=activesubjects.specialtyID 
+AND semester = 'b';
+
 #selects in order of superadmin
 select * from user;
 select * from edPeriod;
@@ -20,7 +24,7 @@ select COUNT(*) from activesubjects;
 
 #empty database in order
 delete from user where id>=0;
-delete from activesubjects where specialtyID>=0;
 delete from bookentry where entryid>=0;
+delete from activesubjects where specialtyID>=0;
 delete from class where id >=0;
 delete from edperiod where id>=0;

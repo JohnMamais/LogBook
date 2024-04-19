@@ -10,10 +10,9 @@
 
   function generate_ed_period_data($min, $max) {
     $ed_periods = [];
-    for ($i=$min; $i <= $max; $i++) {
-        echo $i;
+    for ($i=$min; $i <= $max; $i++) {//data from form
         $year = $i;
-        for($j=0;$j<=1;$j++){
+        for($j=0;$j<=1;$j++){//bool to represent seasons in a school year
             $season= $j ? $season='A' : $season='B';
             $ed_periods[] = "($year, '$season')";
         }

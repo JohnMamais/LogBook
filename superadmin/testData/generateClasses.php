@@ -1,84 +1,81 @@
 <?php
-  // Function to execute a SQL query
-  function execute_query($conn, $query) {
-      if (mysqli_query($conn, $query)) {
-          echo "Query executed successfully";
-      } else {
-          echo "Error executing query: " . mysqli_error($conn);
-      }
-  }
+// Function to execute a SQL query
+function execute_query($conn, $query) {
+    if (mysqli_query($conn, $query)) {
+        echo "Query executed successfully";
+    } else {
+        echo "Error executing query: " . mysqli_error($conn);
+    }
+}
 
-  function generate_class_data($conn) {
+function generate_class_data($conn) {
+    require_once '../../vendor/autoload.php'; // Include the Faker autoloader
+    $faker = Faker\Factory::create(); // Initialize Faker
 
-      require_once '../../vendor/autoload.php'; // Include the Faker autoloader
-      $faker = Faker\Factory::create(); //init faker
+    //Initializing arrays
+    $classes = [];
+    $edPeriodIDs = [];
+    $specialtyIDs = [];
 
-      $classes = [];
-      $edPeriodIDs = [];
-      //getting data from the DB to generate the constraints
-      //look at the coresponding loops to understand the logic
+    // Fetch edperiod IDs and seasons
+    $query = "SELECT edperiod.id, edperiod.season
+              FROM edperiod
+              LEFT JOIN class ON edperiod.id = class.edperiodID
+              WHERE class.edperiodID IS NULL";
+    $result = $conn->query($query);
 
-      //getting count of period id
-      $query = "SELECT edperiod.id
-                FROM edperiod
-                LEFT JOIN class ON edperiod.id = class.edperiodID
-                WHERE class.edperiodID IS NULL;
-                "; // Alias the COUNT(id) as 'count'
-      $result = $conn->query($query);
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            //each ID corresponds to a season
+            $edPeriodIDs[$row['id']] = $row['season'];
+        }
+    } else {
+        echo "Error: " . $conn->error;
+    }
 
-      if ($result) {
-          while($row = $result->fetch_assoc()){
-            echo "Ids: ". $row['id'];
-            array_push($edPeriodIDs, $row['id']);
-          }
-      } else {
-          echo "Error: " . $conn->error;
-      }
+    // Fetch available specialty IDs
+    $query = "SELECT specialtyID AS id FROM specialty";
+    $result = $conn->query($query);
 
-      $query = "SELECT COUNT(specialtyID) AS count FROM  specialty"; // Alias the COUNT(id) as 'count'
-      $result = $conn->query($query);
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            //assigning IDs of available specialties
+            $specialtyIDs[] = $row['id'];
+        }
+    } else {
+        echo "Error: " . $conn->error;
+    }
 
-      if ($result) {
-          $row = $result->fetch_assoc();
-          $specialtyCount = $row['count'];
-      } else {
-          echo "Error: " . $conn->error;
-      }
-
-      foreach($edPeriodIDs as $id) {//first loop runs once for every semester(edperiod)
-            $edPeriodID = $id;
-            for($j=1;$j<$specialtyCount;$j++){ //creating a class for every specialty
-              $specialtyID = $j;
-              for($l=0;$l<=1;$l++){
-                if($edPeriodID%2==0){
-                  $semester = $l ? 'B' : 'D';
-                } else {
-                  $semester = $l ? 'A' : 'D';
-                }
-                $numOfClasses = $faker->numberBetween($min = 1, $max = 5); //creating 1-5 classes for each
+    // Generate class data
+    foreach ($edPeriodIDs as $edPeriodID => $season) {//loop runs once for each season with no classes
+        foreach ($specialtyIDs as $specialtyID) {//this loops through the specialties
+            for ($l = 0; $l <= 1; $l++) {//bool to represent the two semesters in each season(A, B)
+                //Assigning semesters acording to season:
+                //For season A semesters B and D
+                //For season B semester A and C
+                $semester = ($season == 'A') ? ($l ? 'D' : 'B') : ($l ? 'C' : 'A');
+                //random number of classes between 1 and 5
+                $numOfClasses = $faker->numberBetween($min = 1, $max = 5);
+                //creating string and pushing to array
                 $classes[] = "($numOfClasses, $specialtyID, $edPeriodID, '$semester')";
-              }
             }
-          }
-      return $classes;
-  }
+        }
+    }
+    //return classes array of stings
+    return $classes;
+}
 
+include_once '../../Configs/Conn.php';
 
-
-  include_once '../../Configs/Conn.php';
-
-
-  if ($_SERVER["REQUEST_METHOD"] == "POST"){
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Generate test data for class table
     $class_data = generate_class_data($conn);
+    //implode array into a string compatible with SQL
     $class_query = "INSERT INTO class (numOfClasses, specialtyID, edperiodID, semester) VALUES " . implode(",", $class_data);
-    echo $class_query;
+    //execute
     execute_query($conn, $class_query);
+}
 
-  }
-
-  // Close connection
-  mysqli_close($conn);
-
- ?>
+// Close connection
+mysqli_close($conn);
+?>
