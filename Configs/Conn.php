@@ -19,8 +19,8 @@ if($published){
 
   //Server Info
   $serverName="localhost";
-  $serverUsername="user";
-  $password="";
+  $serverUsername="root";
+  $password="*LetM31nH03!";
   $dbname="Log_Book";
 
 }
