@@ -1,3 +1,12 @@
+:root{
+    --light: #e5ffde;
+    --semilight: #bbcbcb;
+    --midtone: #9590a8;
+    --semidark: #634b66;
+    --dark: #18020c;
+}
+
+
 body {
     font-family: sans-serif;
     background-color: rgb(153, 186, 192);
