@@ -5,6 +5,7 @@
     <ul>
       <li><a href="<?php echo __ROOT__ . '/admin/index.php'; ?>">Μαθήματα/Εξάμηνα</a></li>
       <li><a href="<?php echo __ROOT__ . '/admin/newUser.php'; ?>">Εισαγωγή Καινούργιου Χρήστη</a></li>
+      <li><a href="<?php echo __ROOT__ . '/admin/tokens.php'; ?>">Tokens Εγγραφών</a></li>
     </ul>
   </div>
   <div>

@@ -18,11 +18,17 @@
         include_once 'superadminNavbar.php';
         break;
       }
+      case 'guest' : {
+
+        break;
+      }
       default:
             // Handle unexpected values gracefully
             echo "Unexpected value for isAdmin.";
             break;
     }
+  } else {
+    $_SESSION['user_id'] = $_SESSION['user'] = $_SESSION['isAdmin']= "guest";
   }
 
   //password hashing
