@@ -28,22 +28,36 @@
   include_once '../Configs/Conn.php';
   include_once '../Configs/Config.php';
 
+  //the page is accessed via the login menu with a p arguement
+  //if it is set, some fields are hidden
+
+  if (isset($_GET['p'])){
+    $adminPriv = 1;
+    //set admin to 0 by default if the user entered through the login menu
+    $admin = 0;
+  } else {
+    $adminPriv = 0;
+  }
+
   //handling of intruders
   //performing log out routine, redirect to login and logging to the DB
-  if(!isset($_SESSION['user']) && $_SESSION['isAdmin']){
+  if(!isset($_SESSION['user_id']) || $_SESSION['isAdmin']==0 && !$adminPriv){
 
       $log="Unauthorized user attempted to acces user creator.";
       if(isset($_SESSION['user'])){
         $uname=$_SESSION['user'];
         $log.="Username: $uname";
       }
-      $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
+      $sql="INSERT INTO serverlog(logDesc,ip,pageID) VALUES(?);";
       $stmt = $conn->prepare($sql);
+
+      //getting client ip
+      $ip=$_SERVER['REMOTE_ADDR'];
+
       //binding parameters
-      $stmt->bind_param("s",$log);
+      $stmt->bind_param("ssi",$log,$ip,4);
       if($stmt->execute()){
-        //meow
-        //log inserted
+
       }
       //closing statment
       $stmt->close();
@@ -52,25 +66,17 @@
       exit();
   }
 
+
   // Initialize error variables
-  $fNameError = '';
-  $lNameError = '';
-  $uNameError = '';
-  $passError = '';
-  $pass2Error = '';
-  $usernameError = '';
+  $fNameError = $lNameError = $uNameError = $passError = $pass2Error = $usernameError = $tokenError = $emailError ='';
 
   // Initialize POST variables with empty strings
-  $fname = "";
-  $lname = "";
-  $username = "";
-  $password = "";
-  $passwordCheck = "";
+  $fname = $lname = $username = $password = $passwordCheck = $token = $email = "";
 
   //initialize DB log
   $log="";
 
-
+  echo $adminPriv;
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
     //get values
     $fname=test_input($_POST['fname']);
@@ -78,14 +84,14 @@
     $username=test_input($_POST['username']);
     $password=test_input($_POST['password']);
     $passwordCheck=test_input($_POST["pass_confirm"]);//used for double checking
-    $admin=$_POST['isAdmin'];
+    if(isset($_SESSION["isAdmin"]) && ($_SESSION["isAdmin"]==1 || $_SESSION["isAdmin"]==2)){
+      $admin=$_POST['isAdmin'];
+    }
+    $email=test_input($_POST['email']);
+    $token=test_input($_POST["token"]);
 
-    //pre-SQL checks
     // Initialize a flag to track whether to proceed or not
     $proceed = 1;
-
-    //logging error Messages
-    $log=$log."Err.: ";
 
     // Check if any variable from the form is empty
     if (!isset($fname) || empty($fname)) {
@@ -119,6 +125,31 @@
         $log=$log. "pass2|";
     }
 
+    if (!isset($token) || empty($token)) {
+        $tokenError = "Απαραίτητο πεδίο";
+        $proceed = 0;
+        //logging error Messages
+        $log=$log. "tkn|";
+    }
+
+    //check email
+    if (!isset($email) || empty($email)) {
+        $emailError = "Απαραίτητο πεδίο";
+        $proceed = 0;
+        //logging error Messages
+        $log=$log. "email|";
+    } else {
+      //filter email
+      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          $proceed=0;
+          $log=$log. "mailFiltr|";
+      }
+      if (!preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/", $email)) {
+        $proceed=0;
+        $log=$log. "mailRegEx|";
+      }
+    }
+
     // Check if the two passwords match
     if ($password !== $passwordCheck) {
         $passError = 'Οι κωδικοί δεν ταιριάζουν';
@@ -127,44 +158,70 @@
         $log=$log. "passAuth|";
     }
 
-
-
     //preparing query to check for duplicate username
-    $sql = "SELECT username FROM user WHERE username= ?";
-    $stmt = $conn->prepare($sql);
-    //passing arguements
-    $stmt->bind_param("s",$username);
-    if ($stmt->execute()){
+    if($proceed){
+      $sql = "SELECT username as usr FROM user WHERE username= ?";
+      $stmt = $conn->prepare($sql);
+      //passing arguements
+      $stmt->bind_param("s",$username);
 
-      //get results
-      $rtrn = $stmt->get_result();
-      $checkUser = $rtrn->fetch_assoc();
+      if ($stmt->execute()){
 
-      //check
-      if($checkUser){
-        $proceed=0;
-        $usernameError="Υπάρχει ήδη χρήστης με αυτό το username";
-        $log=$log. "DuplUname|";
+        //get results
+        $rtrn = $stmt->get_result();
+        $checkUser = $rtrn->fetch_assoc();
+
+        //check
+        if($checkUser){
+          $proceed=0;
+          $usernameError="Υπάρχει ήδη χρήστης με αυτό το username";
+          $log=$log. "DuplUname|";
+        }
       }
     }
 
+    //check for valid token
+    if($proceed){
+      $sql = "SELECT id as tokenID, endDate as endDate, isActive as isActive FROM registrationtokens WHERE token= ?";
+      $stmt = $conn->prepare($sql);
+      //passing arguements
+      $stmt->bind_param("s",$token);
 
+      if ($stmt->execute()){
+
+        //get results
+        $rtrn = $stmt->get_result();
+        $checkToken = $rtrn->fetch_assoc();
+
+        //check if results were returned
+        if((!$checkToken)){
+          $proceed=0;
+          $usernameError="Μη έγκυρο token";
+          $log=$log. "invldTkn|";
+
+        } else if((!$checkToken['isActive']==1) || ($checkToken['endDate']<date("Y-m-d"))){
+          $proceed=0;
+          $usernameError="Το token δεν ισχύει";
+          $log=$log. "exprdTkn|";
+        }
+      }
+    }
 
     //proceed to SQL
     if($proceed){
-      //initialize rtrn used as flag to check the procedure
-      //-1 means it didn't run, 0 is failure, 1 is success
-      $rtrn=-1;
+
+      //use token's id instead of actual token
+      $token=$checkToken['tokenID'];
 
       //algo and options are defined in Config.php
       $hash=password_hash($password, $algo, $options);
 
       //new user stored procedure
       //query preperation
-      $sql = "INSERT INTO user(username, password, fname, lname, isAdmin) VALUES (?,?,?,?,?)";
+      $sql = "INSERT INTO user(username, password, tokenUsed, email, fname, lname, isAdmin) VALUES (?,?,?,?,?,?,?)";
       $stmt = $conn->prepare($sql);
       //passing arguements (s=string, i=integer)
-      $stmt->bind_param("ssssi", $username, $hash, $fname, $lname, $admin);
+      $stmt->bind_param("ssssssi", $username, $hash, $token, $email, $fname, $lname, $admin);
 
       //executing
       if ($stmt->execute()) {
@@ -200,13 +257,20 @@
     }
     //closing statment
     $stmt->close();
+
+    //closing connection
+    $conn->close();
+
+    //got to login page if the user is not an admin
+    if($_SESSION['isAdmin']='guest'){
+        header('Location: ../');
+        exit;
+    }
+
   }
 
-  //closing connection
-  $conn->close();
-
   ?>
-  <h1>Εισαγωγη Νέου Χρήστη</h1>
+  <h1>Εγγραφή</h1>
   <form name="newUser" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
 
     Όνομα <?php echo "$fNameError";?> <br>
@@ -219,21 +283,34 @@
     Username <?php echo "$uNameError";?> <br>
     <input type="text" name="username" size="20" maxlength="20" /> <br>
 
+    Username <?php echo "$emailError";?> <br>
+    <input type="text" name="email" size="20" maxlength="20" /> <br>
+
     Κωδικός <?php echo "$passError";?> <br>
     <input type="password" name="password" size="20" maxlength="20" /> <br>
     Επαλήθευση Κωδικού <?php echo "$pass2Error";?> <br>
     <input type="password" name="pass_confirm" size="20" maxlength="20" /> <br>
 
+    Token <?php echo "$tokenError";?> <br>
+    <input type="text" name="token" size="20" maxlength="20" /> <br>
+
+    <?php if (isset($_SESSION["isAdmin"]) && ($_SESSION["isAdmin"]==1 || $_SESSION["isAdmin"]==2)): ?>
     <br>
     Admin <br>
     <input type="radio" name="isAdmin" value="0" checked="checked" /> Διδάσκων/ουσα
     <input type="radio" name="isAdmin" value="1" /> Διαχειριστής
     <br><br>
+    <?php endif; ?>
 
     <button type="submit">Καταχώρηση Χρήστη</button>
     &emsp;
     <button type="reset">Επαναφορά Φόρμας</button>
     <?php echo "$usernameError";?>
+
+    <?php if ($_SESSION['isAdmin']=='guest'){
+      echo '<a href="../">πίσω</a>';
+    }
+    ?>
   </form>
 </body>
 </html>

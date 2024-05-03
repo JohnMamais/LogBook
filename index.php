@@ -12,6 +12,7 @@
 <?php
   error_reporting(E_ALL);
   ini_set('display_errors', 1);
+
   //function to verify POST data
   function test_input($data) {
       $data = trim($data);
@@ -121,6 +122,10 @@
       <br>
       <label for="password"> • Password • </label>
       <input type="password" name="password" size="20" maxlength="20" /> <?php if(isset($passwordError)){echo "$passwordError";} ?> <br>
+      <br>
+      <a href="admin/newUser.php?p=6">Εγγραφή</a>
+      <br>
+      <a href="passwordrecovery/index.php">Ξέχασα τον κωδικό μου</a>
       <br>
       <button type="submit"> Log In </button> <?php if(isset($loginError)){echo "$loginError";} ?>
     </form>

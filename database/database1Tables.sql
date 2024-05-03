@@ -8,8 +8,10 @@ CREATE TABLE user(
   password VARCHAR(255) NOT NULL,
   fname VARCHAR(20) NOT NULL,
   lname VARCHAR(20) NOT NULL,
-  email VARCHAR(20),
+  email VARCHAR(20), #user's email
   isAdmin INT DEFAULT 0,
+  isActive INT DEFAULT 1, #enabled/disabled users
+  tokenUsed INT, #token used for singup
   PRIMARY KEY (id),
   CHECK (isAdmin IN(0,1,2))
 );
@@ -66,9 +68,7 @@ CREATE TABLE bookEntry(
   username INT NOT NULL,
   subjectID INT NOT NULL,
   specialtyID INT NOT NULL,
-  #--edPeriodID INT NOT NULL,
   class	INT NOT NULL,
-  #--classID INT NOT NULL,
   year INT NOT NULL,
   season VARCHAR(10) NOT NULL,
   semester CHAR NOT NULL,
@@ -76,13 +76,43 @@ CREATE TABLE bookEntry(
   FOREIGN KEY (username) REFERENCES User(id),
   FOREIGN KEY (subjectID) REFERENCES Subject(subjectID),
   FOREIGN KEY (specialtyID) REFERENCES class(specialtyID)
-  #--FOREIGN KEY (classID) REFERENCES class(id)
 );
 
+CREATE TABLE registrationTokens(
+	id INT AUTO_INCREMENT,
+    startDate DATE NOT NULL, #date of creation or enabling for the token
+    endDate DATE NOT NULL, #expiration date for the token
+    token VARCHAR(20) NOT NULL,
+    maxUses INT NOT NULL, #max users to sign up with this token
+    used INT DEFAULT 0, #count of uses for specific token
+    isActive INT DEFAULT 1, 
+    PRIMARY KEY(ID)
+);
+
+CREATE TABLE pages(
+	id INT AUTO_INCREMENT,
+    pageName VARCHAR(50),
+    alias VARCHAR(15),
+    PRIMARY KEY(id)
+);
 CREATE TABLE serverLog(
   id INT AUTO_INCREMENT,
-  pageID INT,
+  pageID INT, #page from which the log was made
   logDesc VARCHAR(255) NOT NULL,
+  ip VARCHAR(46), #ip of user if applicable
+  uid INT, #user ID
   logTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  FOREIGN KEY (pageID) REFERENCES pages(id)
+);
+
+CREATE TABLE passwordRecovery(
+	id INT AUTO_INCREMENT,
+	uid INT NOT NULL,
+    token VARCHAR(30) NOT NULL,
+    isActive INT DEFAULT 1,
+    requestTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+    expiresAt TIMESTAMP,
+    FOREIGN KEY (uid) REFERENCES user(id),
+    PRIMARY KEY (id)
 );

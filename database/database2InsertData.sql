@@ -1,12 +1,20 @@
 USE log_book;
 
 INSERT INTO user(username, password, fname, lname, isAdmin) VALUES
-#("admin","$argon2id$v=19$m=65536,t=11,p=2$bkJSZUsvRzNDLjJycEpPeg$w3VTHXbHMKcDv2o6Vjpop8OlvWAviD8s1ysNvANyzF0","Admin", "Doe", 1),
-#("teacher", "$argon2id$v=19$m=65536,t=11,p=2$YlZRTEkySDJMQnQ5VjNPUQ$JOsfoHjRu0AXWVWk075hGiocOHzqZ9BRuK1uwmhOrRk","Teacher","Doe",0),
+("admin","$argon2id$v=19$m=65536,t=11,p=2$NHIxcVFXMWRTTVpPeTdGbQ$Yhh3a6S+rqD+HS8U3yOcbW3WpbKOfdJe3WvbO4XMwLg","Admin", "Doe", 1),
+("teacher", "$argon2id$v=19$m=65536,t=11,p=2$RG5YWWJBS3NHcVVQM3hqbA$XBoqO4f1VwdfNYL3ZyjRs5bpoggZy71QLiZuZ5uEcCA","Teacher","Doe",0),
 ("John@Super", "$argon2id$v=19$m=65536,t=11,p=2$WlVPOURWS1hvL053S205ZA$pHxxNcvtCuVnY9cBxYeToYZDqFqL9/NmtLSvlk2m5Jg","SuperUser","Super",2); 
 #adminpass
 #teacherpass
 #super@IEK_LO_G
+
+INSERT INTO pages(pageName, alias) VALUES
+("Log In","Login"),
+("Book Entries","BkEntry"),
+("Educational Period Creation","EdPeriodCr"),
+("User Registration","UsrReg"),
+("User Profile","UsrProf"),
+("Token Creation","CrtTokenPg");
 
 INSERT INTO specialty(name) VALUES
 ("ΣΤΕΛΕΧΟΣ ΨΗΦΙΑΚΟΥ MARKETING ΣΤΟ ΗΛΕΚΤΡΟΝΙΚΟ ΕΜΠΟΡΙΟ"),
