@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/usernavbar.css">
-    <link rel="stylesheet" href="../Styles/TeacherStyleSheet.css">
+    <link rel="stylesheet" href="../Styles/logBookMainStyleSheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
     <title>Βιβλίο Ύλης Δ.Θ.Σ.Α.Ε.Κ. Αιγάλεω</title>
@@ -29,6 +28,18 @@
   to a page that has a form to change the user's password
   */
 ?>
+
+<div id="formBox">
+  <h1>Βιβλίο Ύλης</h1>
+  <form name="Login" method="post" action="getUserEmail.php">
+
+    <label for="username"> • Όνομα Χρήστη • </label>
+    <input type="text" name="username" size="20" maxlength="20" />  <br>
+
+
+
+    <button type="submit" > Επόμενο Βήμα </button>
+  </form>
 
 
 </body>

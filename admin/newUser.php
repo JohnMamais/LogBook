@@ -7,7 +7,6 @@
   <title>Δ.Θ.Σ.Α.Ε.Κ. Αιγάλεω: Διαχείρηση</title>
 
   <link rel="stylesheet" href="../Styles/logBookMainStyleSheet.css">
-  <link rel="stylesheet" href="../Styles/loginStyleSheet.css">
 
 </head>
 <body>
@@ -76,7 +75,6 @@
   //initialize DB log
   $log="";
 
-  echo $adminPriv;
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
     //get values
     $fname=test_input($_POST['fname']);
@@ -283,7 +281,7 @@
     Username <?php echo "$uNameError";?> <br>
     <input type="text" name="username" size="20" maxlength="20" /> <br>
 
-    Username <?php echo "$emailError";?> <br>
+    E-mail <?php echo "$emailError";?> <br>
     <input type="text" name="email" size="20" maxlength="20" /> <br>
 
     Κωδικός <?php echo "$passError";?> <br>

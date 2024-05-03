@@ -129,7 +129,7 @@
       <br>
       <button type="submit"> Log In </button> <?php if(isset($loginError)){echo "$loginError";} ?>
     </form>
-</div>
+  </div>
 </div>
 </body>
 </html>
