@@ -61,8 +61,8 @@
     <span id="spanEmail"></span>
     τότε πατήστε υποβολή.
 
-    <input type="number" name="id" id="txtId" class="#" readonly>
-    <input type="text" name="email" id="txtEmail" class="#" readonly>
+    <input type="number" name="id" id="txtId" class="hidden" readonly>
+    <input type="text" name="email" id="txtEmail" class="hidden" readonly>
 
     <button type="submit" id="btnSubmit">Υποβολή</button>
     <button type="button" id="btnBack">Επιστροφή</button>
