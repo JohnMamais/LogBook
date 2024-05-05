@@ -26,6 +26,7 @@ select * from class;
 select COUNT(*) from activesubjects;
 select * from serverlog;
 select * from registrationTokens;
+select * from passwordRecovery;
 
 #empty database in order
 delete from user where id>=0;

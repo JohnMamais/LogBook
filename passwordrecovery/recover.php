@@ -28,8 +28,32 @@
 
   */
 
-?>
+ if(isset($_GET['token']) && isset($_GET['p'])){
+   $uid=$_GET['p'];
+   $token=$_GET['token'];
 
+   $sql="
+   SELECT COUNT(isActive) as isActive
+   FROM passwordrecovery
+   WHERE isActive=1 AND token=? AND uid=?;
+   ";
+
+   $stmt = $conn->prepare($sql);
+   $stmt->bind_param("si", $token, $uid);
+
+   if($stmt->execute()){
+     $stmt->bind_result($isActive);
+     $stmt->fetch();
+     if($isActive){
+       echo "the provided token is active";
+     } else {
+       echo "the provided token is not active";
+     }
+   }
+   $stmt->close();
+ }
+
+?>
 
 </body>
 </html>

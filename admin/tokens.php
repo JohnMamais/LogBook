@@ -107,11 +107,11 @@
       $stmt->bind_param("sssi",$startDate, $endDate, $token, $maxUsers);
 
       //execute INSERT
-      if($stmt->execute()){
-        //succes close statement
-        $stmt->close();
-
+      if(!$stmt->execute()){
+        $log.="RegToken Creation failed";
       }
+      //success close statement
+      $stmt->close();
     }
 
       //restart the event to automatically check if the tokens are active
