@@ -1,10 +1,70 @@
 <?php
+
+//PHP mailer library
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once '../vendor/autoload.php'; // Include composer
+
 /*
 This php script generates a unique token to recover the users password
 it is then added to the database which handles the insertion date and expiration date
 
 */
-function mailToken(){
+function mailToken($email, $link, $published){
+
+  // Create a new PHPMailer instance
+  $mail = new PHPMailer(true);
+
+  if(!$published){
+    return array('status' => 'success', 'link' => $link);
+  }
+
+  try {
+      // SMTP configuration
+      $mail->isSMTP(); // Use SMTP
+      $mail->Host = 'smtp.example.com'; // Your SMTP server (e.g., smtp.gmail.com)
+      $mail->SMTPAuth = true; // Enable SMTP authentication
+      $mail->Username = 'your_email@example.com'; // Your SMTP username
+      $mail->Password = 'your_password'; // Your SMTP password
+      $mail->SMTPSecure = 'tls'; // Encryption type ('ssl', 'tls')
+      $mail->Port = 587; // SMTP port (TLS usually uses 587)
+
+      // Set sender and recipient
+      $mail->setFrom('your_email@example.com'); // Sender's email and name
+      $mail->addAddress($email); // Recipient's email and name
+
+      // Email content
+      $mail->isHTML(true); // Set email format to HTML
+      $mail->Subject = 'Ανάκτηση Λογαριασμού - Δ.Θ.Σ.Α.Ε.Κ. Αιγάλεω'; // Email subject
+      $mail->Body = "
+      <body>
+
+        <h1>Αίτημα Επαναφοράς Κωδικού</h1>
+
+        <p>Γεια σας,</p>
+        <p>Λάβαμε ένα αίτημα για επαναφορά του κωδικού για τον λογαριασμό σας. Για να συνεχίσετε με την επαναφορά του κωδικού σας, παρακαλούμε κάντε κλικ στον παρακάτω σύνδεσμο:</p>
+        <p><a href=".'"'.$link.'"'.">Επαναφορά Κωδικού</a></p>
+        <p>Εάν δεν ζητήσατε εσείς την επαναφορά του κωδικού, παρακαλούμε αγνοήστε αυτό το email ή επικοινωνήστε με την υποστήριξη αν έχετε οποιεσδήποτε απορίες.</p>
+        <p>Για λόγους ασφαλείας, ο παραπάνω σύνδεσμος θα λήξει σε 1 ώρα.</p>
+
+      </body>
+      "; // HTML body
+      $mail->AltBody = "
+      Λάβαμε ένα αίτημα για επαναφορά του κωδικού για τον λογαριασμό σας. Για να συνεχίσετε με την επαναφορά του κωδικού σας, παρακαλούμε κάντε κλικ στον παρακάτω σύνδεσμο:\n
+      $link \n
+      Εάν δεν ζητήσατε εσείς την επαναφορά του κωδικού, παρακαλούμε αγνοήστε αυτό το email ή επικοινωνήστε με την υποστήριξη αν έχετε οποιεσδήποτε απορίες.\n
+      Για λόγους ασφαλείας, ο παραπάνω σύνδεσμος θα λήξει σε 1 ώρα. \n
+      "; // Plain text body (for non-HTML clients)
+
+      // Send the email
+      $mail->send();// Attempt to send the email
+
+      return array('status' => 'error', 'success' => 'Email sent');
+
+  } catch (Exception $e) {
+      return array('status' => 'error', 'message' => 'Email could not be sent. PHPMailer Error: ' . $mail->ErrorInfo);
+  }
 
 }
 function generateUniqueToken($conn) {
@@ -72,13 +132,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       //create a link to the recovery directory with the token and the userID passed as arguements
       $recoveryLink= __ROOT__."/passwordrecovery/recover.php?token=".$token."&p=".$uid;
 
-      mailToken($email, $token);
+      $response = mailToken($email, $recoveryLink, $published);
 
-      if($published=true){
-        $response = array('status' => 'success', 'link' => $recoveryLink);
-      } else {
-        $response = array('status' => 'success', 'link' => 'sent');
-      }
     } else {
       $response = array('status' => 'error', 'message' => 'mysqli error');
     }
