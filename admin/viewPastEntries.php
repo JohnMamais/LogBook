@@ -92,11 +92,13 @@
         </select>
 
         <br><br>
-        <!--displaying results using ajax-->
-        <div></div>
+        
         <button type="submit">Εκτύπωση σε PDF</button>
         <button type="reset">Απαλοιφή</button>
     </form>
+
+    <!--Log Book entries returned-->
+    <div id="returnedEntries"></div>
 
     <!--JAVASCRIPT AJAX SCRIPTS-->
 
@@ -126,6 +128,38 @@
                     data: {edPeriod: $('#edPeriod').val(), specialty: $('#specialty').val(), semester: $('#semester').val()},
                     success: function (getNumOfClasses){
                      $('#class').html(getNumOfClasses);
+                    }
+                })
+            })
+        })
+    </script>
+
+    <!-- getting available subjects -->
+    <script>
+        $(document).ready(function(){
+            $('#semester').change(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: 'getAvailableSubjects_viaEdPeriod.php',
+                    data: {edPeriod: $('#edPeriod').val(), specialty: $('#specialty').val(), semester: $('#semester').val()},
+                    success: function (getAvailableSubjects){
+                     $('#subject').html(getAvailableSubjects);
+                    }
+                })
+            })
+        })
+    </script>
+
+    <!-- fetching log book entries -->
+    <script>
+        $(document).ready(function(){
+            $('#subject').change(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: 'getLogBookEntries.php',
+                    data: {edPeriod: $('#edPeriod').val(), specialty: $('#specialty').val(), semester: $('#semester').val(), class: $('#class').val(), subject: $('#subject').val()},
+                    success: function (getEntries){
+                     $('#returnedEntries').html(getEntries);
                     }
                 })
             })
