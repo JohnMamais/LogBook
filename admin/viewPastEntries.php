@@ -119,7 +119,7 @@
     <!-- getting number of classes for selected entity -->
     <script>
         $(document).ready(function(){
-            $('#edPeriod').change(function(){
+            $('#semester').change(function(){
                 $.ajax({
                     type: 'POST',
                     url: 'getNumOfClasses_viaEdPeriod.php',
