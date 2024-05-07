@@ -89,7 +89,7 @@ DELIMITER ;
 DELIMITER //
 
 CREATE TRIGGER recoveryTokenExpiration
-AFTER INSERT ON passwordRecovery
+BEFORE INSERT ON passwordRecovery
 FOR EACH ROW
 BEGIN
     SET NEW.expiresAt = DATE_ADD(NOW(), INTERVAL 1 HOUR);

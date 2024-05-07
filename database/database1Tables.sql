@@ -109,7 +109,7 @@ CREATE TABLE serverLog(
 CREATE TABLE passwordRecovery(
 	id INT AUTO_INCREMENT,
 	uid INT NOT NULL,
-    token VARCHAR(30) NOT NULL,
+    token VARCHAR(42) NOT NULL,
     isActive INT DEFAULT 1,
     requestTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
     expiresAt TIMESTAMP,
