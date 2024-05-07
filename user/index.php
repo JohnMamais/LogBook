@@ -29,7 +29,6 @@
             //binding parameters
             $stmt->bind_param("s",$log);
             if($stmt->execute()){
-              //meow
               //log inserted
             }
             //closing statment

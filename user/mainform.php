@@ -89,19 +89,12 @@
         <button type="submit" value="submit" id="submit" name="submit">Υποβολή</button> &emsp; <button type="reset">Απαλοιφή</button>
     </div>
 </form>
-<!-- log out
-<form action="logoutscript.php" method="post">
-    <div style="text-align:center;">
-        <button type="submit" value="submit" id="logout " name="submit">Αποσύνδεση</button>
-    </div>
-</form>
--->
 
 <div id="myFooter">
     <p>Τμήμα ΤΕΠ • Δ'2 • 2024<br>Ιωάννης Μαμάης • Ηλίας Μοτσενίγος</p>
 </div>
 
-<!--JAVASCRIPT SCRIPTS-->
+<!--JAVASCRIPT AJAX SCRIPTS-->
 
 <script>// getting available semesters
      $(document).ready(function(){ //όταν είναι ready το αρχείο
