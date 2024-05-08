@@ -44,12 +44,14 @@
     //checking for empty vars then putting the tested inputs in a variable
     if(empty($_POST["username"])){
       $usernameError="* Απαραίτητο Πεδίο";
+      echo "<script>document.getElementById('username').style.backgroundColor='#d95f57';</script>";
       $log=$log." Empty username.";
     } else {
       $username = test_input($_POST["username"]);
     }
     if(empty($_POST["password"])){
       $passwordError="* Απαραίτητο Πεδίο";
+      echo "<script>document.getElementById('password').style.borderColor='tomato';</script>";
       $log=$log." Empty password.";
     } else {
       $password = test_input($_POST["password"]);
@@ -91,7 +93,7 @@
       $log=$log." Successful Login| User: ".$username;
     } else {
         // Invalid credentials
-        $loginError = "Invalid username or password";
+        $loginError = "Λάθος username ή κωδικός πρόσβασης!";
         $log=$log." Login Failed| Username attempted: ".$username;
     }
 
@@ -118,18 +120,30 @@
     <h1>Βιβλίο Ύλης</h1>
     <form name="Login" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
       <label for="username"> • Username • </label>
-      <input type="text" name="username" size="20" maxlength="20" /> <?php if(isset($usernameError)){echo "$usernameError";} ?> <br>
+      <input type="text" name="username" size="20" maxlength="20" id="username"/> <?php if(isset($usernameError)){echo "$usernameError";} ?> <br>
       <br>
       <label for="password"> • Password • </label>
-      <input type="password" name="password" size="20" maxlength="20" /> <?php if(isset($passwordError)){echo "$passwordError";} ?> <br>
+      <input type="password" name="password" size="20" maxlength="20" id="password"/> <?php if(isset($passwordError)){echo "$passwordError";} ?> <br>
       <br>
-      <a href="admin/newUser.php?p=6">Εγγραφή</a>
       <br>
-      <a href="passwordrecovery/index.php">Ξέχασα τον κωδικό μου</a>
-      <br>
-      <button type="submit"> Log In </button> <?php if(isset($loginError)){echo "$loginError";} ?>
+      <button type="submit"> Είσοδος </button> <br> <?php if(isset($loginError)){echo "$loginError";} ?>
     </form>
+    <div id="buttonBox">
+      <a href="admin/newUser.php?p=6" class="btn">Εγγραφή Νέου Χρήστη</a>
+      <a href="passwordrecovery/index.php" class="btn">Επαναφορά Κωδικού</a>
+    </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if ("<?php echo !empty($usernameError); ?>") {
+      document.getElementById('username').style.borderColor = '#d95f57';
+    }
+    if ("<?php echo !empty($passwordError); ?>") {
+      document.getElementById('password').style.borderColor = '#d95f57';
+    }
+  });
+</script>
 </body>
 </html>

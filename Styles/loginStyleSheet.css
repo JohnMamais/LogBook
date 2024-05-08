@@ -1,6 +1,6 @@
 :root{
   --light: #e5ffde;
-  --semilight: #bbcbcb;
+  --semilight: #aababa;
   --midtone: #9590a8;
   --semidark: #634b66;
   --dark: #18020c;
@@ -45,7 +45,7 @@ form {
 
 input {
   border: 3px solid white;
-  margin-bottom: 10px; /* Add margin between input fields */
+  margin-bottom: 10px; 
   display: block; /* Make inputs take full width */
   margin: 0 auto; /* Center the input horizontally */
 }
@@ -59,7 +59,7 @@ h1 {
   color: var(--semidark);
   margin-bottom: 20px;
   margin-top: 20%;
-  animation: fadeIn 2s forwards;
+  animation: fadeIn 4s forwards;
   opacity: 0;
 }
 
@@ -98,7 +98,7 @@ button:active{
   flex-grow: 1;
   align-items: center; 
   justify-content: center;
-  
+  /*display: flex;*/
 }
 
 #logo{
@@ -114,6 +114,35 @@ button:active{
   margin-left: 10%;
   margin-right: 10%;
 }
+
+#buttonBox {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.btn {
+  background-color: var(--semilight);
+  padding: 10px 20px; 
+  border-radius: 20px;
+  color: white;
+  text-decoration: none;
+  margin: 10px; 
+  margin-top: 5%;
+  animation: riseUp 3s forwards;
+}
+
+.btn:hover {
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+.btn:active{
+  background-color: white;
+  color: var(--dark);
+}
+
+
 
 @keyframes riseUp {
   from {
@@ -145,3 +174,4 @@ button:active{
     opacity: 1;
   }
 }
+
