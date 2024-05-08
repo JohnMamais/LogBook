@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+    Author: Ilias Motsenigos
+    Date: 1/5/2024
+    Last Updated: 7/5/2024
+    Description: This page allows the school's admins to fetch all the log book entries that have been created through this system.
+                By selecting the educational period, specialty, semester, class and subject they want to check the approptiate results
+                are displayed in a table. The menus are updated with information from the database dynamically using AJAX to update
+                the fields in real time based on previous selections. Additionally the admin has the option to export the results in 
+                a PDF file using the appropriate button (TO BE ADDED).
+
+
+
+-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

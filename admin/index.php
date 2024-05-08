@@ -139,7 +139,26 @@
     });
     </script>
 
-<!-- Getting the data from the form -->
+<script>
+$(document).ready(function() {
+    $(document).on('change', '#checkAllA', function() {
+        $('.CheckboxA').prop('checked', $(this).prop('checked'));
+    });
+    $(document).on('change', '#checkAllB', function() {
+        $('.CheckboxB').prop('checked', $(this).prop('checked'));
+    });
+    $(document).on('change', '#checkAllC', function() {
+        $('.CheckboxC').prop('checked', $(this).prop('checked'));
+    });
+    $(document).on('change', '#checkAllD', function() {
+        $('.CheckboxD').prop('checked', $(this).prop('checked'));
+    });
+});
+
+
+</script>
+
+<!-- Getting the data from the form PHP HANDLING -->
 <?php
     if(isset($_POST['submit'])){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -267,9 +286,8 @@
                                 $log.= "Error: " . $query . "<br>" . $conn->error." | ";
                                 break;
                             }
-
-                            echo "<script>alert('Το τμήμα δημιουργήθηκε και τα μαθήματα προστέθηκαν επιτυχώς!');</script>";
                         }
+                        echo "<script>alert('Το τμήμα δημιουργήθηκε και τα μαθήματα προστέθηκαν επιτυχώς!');</script>";
                     }
                     //error in creating class
                     else{
@@ -313,9 +331,8 @@
                                     $log.= "Error: " . $query . $conn->error . " | ";
                                     break;
                                 }
-
-                                echo "<script>alert('Το τμήμα δημιουργήθηκε και τα μαθήματα προστέθηκαν επιτυχώς!');</script>";
                             }
+                            echo "<script>alert('Το τμήμα δημιουργήθηκε και τα μαθήματα προστέθηκαν επιτυχώς!');</script>";
                         }
                         //error in creating class
                         else{

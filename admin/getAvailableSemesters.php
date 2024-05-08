@@ -1,6 +1,15 @@
 <?php
+    /*
+    Author: Ilias Motsenigos
+    Date: 7/5/2024
+    Last Updated: 7/5/2024
+    Description: This php file is complementary to index.php and it dynamically updates its fields through AJAX. 
+                By receiving the selected season (edPeriod) from the parent file and populates the drop down menu 
+                (<select id='semester'>) in the main form of the page with appropriate options: "a" and "c" for 
+                winter seasons (edPeriod = 'b') and "b" and "d" for spring seasons (edPeriod = 'a'). 
+    */
+    
     include_once '../Configs/Conn.php';
-    //include_once '../Configs/Config.php';
 
     if(isset($_POST["edPeriod"])){
         //getting data from the form

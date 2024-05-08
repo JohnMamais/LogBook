@@ -6,7 +6,6 @@
         $calledFunction = $_POST['get_subjects'];
         $specialty = $_POST['specialty'];
 
-        echo "<script>console.log('bike stin if tou arxeiou');</script>";
         get_subjects($specialty);
     }
 
@@ -20,22 +19,29 @@
 
                 $semester = $row['semester'];
                 if($semester == "A" && $semester_count == 0){
-                    echo "<br>Εξάμηνο Α: <br>";
+                    echo "<label for='checkAllA'>Α' Εξάμηνο: </label>";
+                    echo "<input type='checkbox' class='check-all' id='checkAllA'> <br><br>"; // Check All for semester A
                     $semester_count = $semester_count+1;
                 }
                 if($semester == "B" && $semester_count == 1){
-                    echo "<br>Εξάμηνο Β: <br>";
+                    echo "<br>";
+                    echo "<label for='checkAllB'>Β' Εξάμηνο: </label>";
+                    echo "<input type='checkbox' class='check-all' id='checkAllB'><br><br>"; // Check All for semester B
                     $semester_count+=1;
                 }
                 if($semester == "C" && $semester_count == 2){
-                    echo "<br>Εξάμηνο Γ: <br>";
+                    echo "<br>";
+                    echo "<label for='checkAllC'>Γ' Εξάμηνο: </label>";
+                    echo "<input type='checkbox' class='check-all' id='checkAllC'><br><br>"; // Check All for semester C
                     $semester_count+=1;
                 }
                 if($semester == "D" && $semester_count == 3){
-                    echo "<br>Εξάμηνο Δ: <br>";
+                    echo "<br>";
+                    echo "<label for='checkAllD'>Δ' Εξάμηνο: </label>";
+                    echo "<input type='checkbox' class='check-all' id='checkAllD'><br><br>"; // Check All for semester D
                     $semester_count+=1;
                 }
-                echo "<input type='checkbox' class='myCheckbox' id= 'selectedSubjects' name='selectedSubjects[]' value='". $row['subjectID']. "'> " ;
+                echo "<input type='checkbox' class='Checkbox".$semester."' id= 'selectedSubjects".$row['subjectID']."' name='selectedSubjects[]' value='". $row['subjectID']. "'> " ;
                 echo $row['name'];
                 echo "<br>";
             }
