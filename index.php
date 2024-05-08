@@ -135,6 +135,7 @@
   </div>
 </div>
 
+<!-- script for adding red borders to empty input fields-->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     if ("<?php echo !empty($usernameError); ?>") {
