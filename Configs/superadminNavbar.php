@@ -5,10 +5,12 @@
     <ul>
       <li>Καθηγητές </li>
       <li><a href="<?php echo __ROOT__ . '/user/index.php'; ?>">Εισαγωγή Εγγραφών</a></li>
+      <li><a href="<?php echo __ROOT__ . '/user/pastEntries.php'; ?>">Προηγούμενες Εγγραφές</a></li>
       <li>Διαχειριστές </li>
       <li><a href="<?php echo __ROOT__ . '/admin/index.php'; ?>">Μαθήματα/Εξάμηνα</a></li>
-      <li><a href="<?php echo __ROOT__ . '/admin/newUser.php'; ?>">Εισαγωγή Καινούργιου Χρήστη</a></li>
-      <li><a href="<?php echo __ROOT__ . '/superadmin/index.php'; ?>">Super Admin</a></li>
+      <li><a href="<?php echo __ROOT__ . '/common/newUser.php'; ?>">Εισαγωγή Καινούργιου Χρήστη</a></li>
+      <li><a href="<?php echo __ROOT__ . '/admin/tokens.php'; ?>">Tokens Εγγραφών</a></li>
+      <li>Super Admin</li>
       <li><a href="<?php echo __ROOT__ . '/superadmin/SQL/index.php'; ?>">SQL</a></li>
       <li><a href="<?php echo __ROOT__ . '/superadmin/testData/index.php'; ?>">Δημιουργία Δοκιμαστικών Δεδομένων</a></li>
       <li><a href="<?php echo __ROOT__ . '/superadmin/HashSpeedTest.php'; ?>">Hash Cost</a></li>

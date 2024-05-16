@@ -16,7 +16,7 @@ BEGIN
     -- Handler for cursor ending
     DECLARE CONTINUE HANDLER FOR NOT FOUND
     BEGIN
-		
+
 		SET done = 1;
 	END;
     -- Open the cursor
@@ -52,35 +52,44 @@ DELIMITER ;
 DELIMITER //
 
 CREATE TRIGGER updateTokenUses
-AFTER INSERT ON user
+BEFORE INSERT ON user
 FOR EACH ROW
 BEGIN
     DECLARE tokenIsActive INT;
     DECLARE maxUsers INT;
     DECLARE currentUsers INT;
+
+    SELECT isActive, maxUses, used
+    INTO tokenIsActive, maxUsers, currentUsers
+    FROM registrationTokens
+    WHERE registrationTokens.id = NEW.tokenUsed;
+
+    -- Update the token's `used` count if it's active and within bounds
+    IF tokenIsActive = 1 AND currentUsers < maxUsers THEN
+        UPDATE registrationTokens
+        SET used = used + 1
+        WHERE id = NEW.tokenUsed;
+    END IF;
+
+    -- Retrieve the updated `used` count to check if the token should be deactivated
+    SELECT used INTO currentUsers FROM registrationTokens WHERE id = NEW.tokenUsed;
+
+    -- Deactivate the token if it's reached or exceeded the `maxUses`
+    IF currentUsers >= maxUsers THEN
+        UPDATE registrationTokens
+        SET isActive = 0
+        WHERE id = NEW.tokenUsed;
+    END IF;
+
+    -- Log if a user was registered beyond token bounds
+    IF currentUsers > maxUsers THEN
+        INSERT INTO serverLog(pageID, logDesc, uid)
+        VALUES (4, "CRITICAL: User registered out of token Active Bounds!!", NEW.id);
+    END IF;
     
-	SELECT isActive, maxUses, used
-		INTO tokenIsActive , maxUsers , currentUsers 
-		FROM registrationTokens
-		WHERE registrationTokens.id = NEW.tokenUsed;
+    -- Set the sign up date for the user
+    SET NEW.signupDate = NOW();
     
-    #check if the token provided is active and procced to change the said tokens count
-	IF tokenIsActive=1 AND maxUsers>currentUsers THEN
-		UPDATE registrationTokens 
-			SET used=used+1 
-            WHERE id=NEW.tokenUsed;
-	END IF; 
-    
-    #check if the token can still be used after the insertion
-    IF currentUsers>=maxUsers THEN 
-		UPDATE registrationTokens 
-			SET isActive=0 
-			WHERE id=NEW.tokenUsed;
-	END IF;
-    IF currentUsers>maxUsers THEN
-		INSERT INTO serverLog(pageID, logDesc, uid) VALUES
-        (4,"CRITICAL: User registered out of token Active Bounds!!", NEW.id);
-	END IF;
 END; //
 
 DELIMITER ;
@@ -104,11 +113,11 @@ CREATE EVENT checkRecoveryTokenExpire
 ON SCHEDULE EVERY 30 MINUTE
 DO
 BEGIN
-	
+
     -- Update tokens that have expired by setting them to inactive
-    UPDATE passwordRecovery 
+    UPDATE passwordRecovery
     SET isActive = 0
-    WHERE isActive = 1 
+    WHERE isActive = 1
       AND expiresAt < NOW();
 
 END;

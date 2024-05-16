@@ -129,7 +129,7 @@
       <button type="submit"> Είσοδος </button> <br> <?php if(isset($loginError)){echo "$loginError";} ?>
     </form>
     <div id="buttonBox">
-      <a href="admin/newUser.php?p=6" class="btn">Εγγραφή Νέου Χρήστη</a>
+      <a href="common/newUser.php?p=6" class="btn">Εγγραφή Νέου Χρήστη</a>
       <a href="passwordrecovery/index.php" class="btn">Επαναφορά Κωδικού</a>
     </div>
   </div>

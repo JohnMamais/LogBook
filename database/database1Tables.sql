@@ -12,6 +12,7 @@ CREATE TABLE user(
   isAdmin INT DEFAULT 0,
   isActive INT DEFAULT 1, #enabled/disabled users
   tokenUsed INT, #token used for singup
+  signupDate DATE,
   PRIMARY KEY (id),
   CHECK (isAdmin IN(0,1,2))
 );
@@ -63,7 +64,7 @@ CREATE TABLE activeSubjects(
 CREATE TABLE bookEntry(
   entryID INT AUTO_INCREMENT,
   date DATE NOT NULL,
-  description VARCHAR(256) NOT NULL,
+  description VARCHAR(65535) NOT NULL,
   periods VARCHAR(10) NOT NULL,
   username INT NOT NULL,
   subjectID INT NOT NULL,

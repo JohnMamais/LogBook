@@ -10,9 +10,8 @@ BEGIN
 	FROM 
 		information_schema.EVENTS
 	WHERE 
-		EVENT_SCHEMA = DATABASE()  -- Replace with your database name
-		AND EVENT_NAME = 'checkTokenExpire';  
-        # Replace with the event name
+		EVENT_SCHEMA = DATABASE()
+		AND EVENT_NAME LIKE 'checkTokenExpire';  
 	
     IF eventStatus LIKE 'DISABLED' THEN
 		ALTER EVENT checkTokenExpire ENABLE;
