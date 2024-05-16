@@ -12,87 +12,100 @@
       }
   }
 ?>
- <h1>• Ηλεκτρονικό Βιβλίο Ύλης •</h1>
+<div id="pageTitle">
+    <h1>• Ηλεκτρονικό Βιβλίο Ύλης •</h1>
+</div>
 
 <!--main form-->
-<form  method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+<div class="flexbox" id="mainpage">
 
-<fieldset id="mainInfo">
-    <label for="entryDate">• Ημερομηνία</label>
-    <input type="date" name="entryDate" id="entryDate">
+    <div id="entryInfo">
+        <form  method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+        <div id="mainInfo">
+            <fieldset id="mainInfoFieldset">
+                <label for="entryDate">• Ημερομηνία</label>
+                <input type="date" name="entryDate" id="entryDate">
+                <br>
 
-    <label for="specialty">• Eιδικότητα: </label>
-    <select name="specialty" id="specialty">
-    <option value="">Επιλέξτε Ειδικότητα</option>
-    <?php
-            $query = "SELECT specialtyID, name FROM specialty;";
-            $result = $conn->query($query);
+                <label for="specialty">• Eιδικότητα: </label>
+                <select name="specialty" id="specialty">
+                <option value="">Επιλέξτε Ειδικότητα</option>
+                <?php
+                        $query = "SELECT specialtyID, name FROM specialty;";
+                        $result = $conn->query($query);
 
-            if($result->num_rows > 0){
-                while($row = $result->fetch_assoc()){
-                    echo "<option value='".$row['specialtyID']."'>".$row['name']."</option>";
-                }
-            }
-            else{
-                echo '<option value="">Δεν βρέθηκαν ειδικότητες.</option>';
-            }
-        ?>
-    </select>
+                        if($result->num_rows > 0){
+                            while($row = $result->fetch_assoc()){
+                                echo "<option value='".$row['specialtyID']."'>".$row['name']."</option>";
+                            }
+                        }
+                        else{
+                            echo '<option value="">Δεν βρέθηκαν ειδικότητες.</option>';
+                        }
+                    ?>
+                </select>
 
-    <label for="semester">• Εξάμηνο: </label>
-    <span id=semester_span>
-        <select name="semester" id="semester">
-            <option value="">Επιλέξτε Εξάμηνο</option>
-        </select>
-    </span>
+                <label for="semester">• Εξάμηνο: </label>
+                <span id=semester_span>
+                    <select name="semester" id="semester">
+                        <option value="">Επιλέξτε Εξάμηνο</option>
+                    </select>
+                </span>
+                <br>
+                <label for="class">• Τμήμα: </label>
+                    <span id="class_span">
+                    <select name="class" id="class">
+                    <option value="">Επιλέξτε Τμήμα</option>
+                    </select>
+                </span>
 
-    <label for="class">• Τμήμα: </label>
-        <span id="class_span">
-        <select name="class" id="class">
-        <option value="">Επιλέξτε Τμήμα</option>
-        </select>
-    </span>
+                <label for="subject">• Μάθημα: </label>
+                <span id="subject_span">
+                    <select  name="subject" id="subject">
+                        <option value="">Επιλέξτε Μάθημα</option>
+                    </select>
+                </span>
 
-    <label for="subject">• Μάθημα: </label>
-    <span id="subject_span">
-        <select  name="subject" id="subject">
-            <option value="">Επιλέξτε Μάθημα</option>
-        </select>
-    </span>
-
-    </fieldset>
-    <br>
-
-    <fieldset id="periodField">
-        <legend>Διδακτικές Ώρες:</legend>
-        <label for="period_0">0η ώρα</label>
-        <input type="checkbox" id="period_0" name="period[]" value="0">&emsp;
-        <label for="period_1">1η ώρα</label>
-        <input type="checkbox" id="period_1" name="period[]" value="1">&emsp;
-        <label for="period_2">2η ώρα</label>
-        <input type="checkbox" id="period_2" name="period[]" value="2">&emsp;
-        <label for="period_3">3η ώρα</label>
-        <input type="checkbox" id="period_3" name="period[]" value="3">&emsp;
-        <label for="period_4">4η ώρα</label>
-        <input type="checkbox" id="period_4" name="period[]" value="4">&emsp;
-        <label for="period_5">5η ώρα</label>
-        <input type="checkbox" id="period_5" name="period[]" value="5">&emsp;
-        <label for="period_6">6η ώρα</label>
-        <input type="checkbox" id="period_6" name="period[]" value="6">&emsp;
-    </fieldset>
-    <br>
-    <textarea name="entry" id="entry" cols="50" rows="10" maxlength="512"></textarea>
-    <br>
-    <p id="teacher-info">Διδάσκων/ουσα: <?php echo "• $fname $lname ($username)";?></p>
-    <br>
-    <div style="text-align:center;">
-        <button type="submit" value="submit" id="submit" name="submit">Υποβολή</button> &emsp; <button type="reset">Απαλοιφή</button>
+                </fieldset>
+            </div>
+            <br>
+            
+            <div id="secondaryInfoContainer">
+            <fieldset id="periodField">
+                <legend>Διδακτικές Ώρες:</legend>
+                <label for="period_0">0η ώρα</label>
+                <input type="checkbox" id="period_0" name="period[]" value="0"><br>
+                <label for="period_1">1η ώρα</label>
+                <input type="checkbox" id="period_1" name="period[]" value="1">&emsp;
+                <label for="period_2">2η ώρα</label>
+                <input type="checkbox" id="period_2" name="period[]" value="2">&emsp;
+                <label for="period_3">3η ώρα</label>
+                <input type="checkbox" id="period_3" name="period[]" value="3"><br>
+                <label for="period_4">4η ώρα</label>
+                <input type="checkbox" id="period_4" name="period[]" value="4">&emsp;
+                <label for="period_5">5η ώρα</label>
+                <input type="checkbox" id="period_5" name="period[]" value="5">&emsp;
+                <label for="period_6">6η ώρα</label>
+                <input type="checkbox" id="period_6" name="period[]" value="6">
+            </fieldset>
+            <br>
+            <textarea name="entry" id="entry" cols="50" rows="10" maxlength="512"></textarea>
+            <br>
+            <div>
+            <p id="teacher-info">Διδάσκων/ουσα: <?php echo "• $fname $lname ($username)";?></p>
+            <br>
+            <div style="text-align:center;">
+                <button type="submit" value="submit" id="submit" name="submit">Υποβολή</button> &emsp; <button type="reset">Απαλοιφή</button>
+            </div>
+        </form>
+        </div>
     </div>
-</form>
 
-<div id="myFooter">
-    <p>Τμήμα ΤΕΠ • Δ'2 • 2024<br>Ιωάννης Μαμάης • Ηλίας Μοτσενίγος</p>
-</div>
+    <div id="pastEntries">
+        <p>
+            Επιλέξτε μάθημα για να εμφανιστούν πρόσφατες εγγραφές.
+        </p>
+    </div>
 
 <!--JAVASCRIPT AJAX SCRIPTS-->
 
