@@ -1,7 +1,7 @@
 <?php
 
 require_once '../Configs/Conn.php';
-require_once '../Configs/Config.php';
+require_once '../Configs/vars.php';
 
 // Function to sanitize and validate input data
 function test_input($data) {
@@ -50,20 +50,11 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
 
         $hash=password_hash($password, $algo, $options);
 
-        $conn->begin_transaction();
-
           if(changePassword($conn, $hash, $uid)){
-
-
               $response = array('status' => 'success' , 'message' => 'Password changed successfully');
-            } else {
-              $conn->rollback();
-              $response = array('status' => 'error' , 'message' => 'ABORT: could not disable token');
-            }
           } else {
             $response = array('status' => 'error' , 'message' => 'could not update password');
           }
-
       } else {
         $response = array('status' => 'error' , 'message' => 'Passwords not matching');
       }
@@ -75,9 +66,10 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
   }
 
   echo json_encode($response); // Send the response back as JSON
+  $conn->close();
 
 } else {
-  $conn->close();
   echo json_encode(array('status' => 'error', 'message' => 'Invalid request method'));
+  $conn->close();
 }
  ?>

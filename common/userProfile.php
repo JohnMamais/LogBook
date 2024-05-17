@@ -24,6 +24,7 @@
            border: 2px solid green;
            box-shadow: 0 0 10px green;
        }
+
    </style>
 
 </head>
@@ -89,19 +90,20 @@
   <tr>
     <td rowspan="2">Email</td>
 
-    <td id="email"><?php if(!empty($email)){echo $email;} ?></td>
+    <td><span id="userEmail"><?php if(!empty($email)){echo $email;} ?></span></td>
   </tr>
   <tr>
     <td>
       Αλλαγή email <br>
       <form name="emailForm" action="#" method="post">
+        <input type="number" name="uid" id="uid" value="<?php if(isset($uid)){echo $uid;} ?>" class="hidden" readonly>
         <input type="number" name="uid" value="<?php if(isset($uid)){echo $uid;} ?>" class="hidden" readonly>
         Νέο email:
-        <input type="text" name="email" id="email"><br>
+        <input type="email" name="email" id="email"><br>
         Επιβεβαίωση email:
-        <input type="text" name="emailVerify" id="emailVerify" oninput="onSecondEmail()"><br>
+        <input type="email" name="emailVerify" id="emailVerify" oninput="onSecondEmail()"><br>
 
-        <button type="submit" name="btnEmail">Αλλαγή</button>
+        <button type="submit" name="btnEmail" id="btnEmail">Αλλαγή</button>
         <span id="emailMessage"></span>
       </form>
     </td>

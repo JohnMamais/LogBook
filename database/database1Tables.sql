@@ -64,7 +64,7 @@ CREATE TABLE activeSubjects(
 CREATE TABLE bookEntry(
   entryID INT AUTO_INCREMENT,
   date DATE NOT NULL,
-  description VARCHAR(65535) NOT NULL,
+  description VARCHAR(6500) NOT NULL,
   periods VARCHAR(10) NOT NULL,
   username INT NOT NULL,
   subjectID INT NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE registrationTokens(
     token VARCHAR(20) NOT NULL,
     maxUses INT NOT NULL, #max users to sign up with this token
     used INT DEFAULT 0, #count of uses for specific token
-    isActive INT DEFAULT 1, 
+    isActive INT DEFAULT 1,
     PRIMARY KEY(ID)
 );
 

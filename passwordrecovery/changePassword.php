@@ -1,7 +1,7 @@
 <?php
 
 require_once '../Configs/Conn.php';
-require_once '../Configs/Config.php';
+require_once '../Configs/vars.php';
 
 // Function to sanitize and validate input data
 function test_input($data) {

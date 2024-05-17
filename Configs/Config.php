@@ -31,13 +31,4 @@
     $_SESSION['user_id'] = $_SESSION['user'] = $_SESSION['isAdmin']= "guest";
   }
 
-  //password hashing
-  $algo= PASSWORD_ARGON2ID;
-  $options = [
-      'memory_cost' => 65536, // 64 MB
-      'time_cost'   => 11,     // 11 iterations
-      'threads'     => 4,     // 2 threads
-  ];
-
-
  ?>

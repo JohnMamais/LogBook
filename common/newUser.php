@@ -26,6 +26,7 @@
 
   include_once '../Configs/Conn.php';
   include_once '../Configs/Config.php';
+  require_once '../Configs/vars.php';
 
   //the page is accessed via the login menu with a p arguement
   //if it is set, some fields are hidden
