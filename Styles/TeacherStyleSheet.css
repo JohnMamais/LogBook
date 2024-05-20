@@ -6,7 +6,6 @@ body {
     background-size: 100%;
     background-attachment: fixed;
     margin: 0;
-
 }
 
 .flexbox{
@@ -91,6 +90,7 @@ textarea {
 
 textarea:hover{
     background-color:rgb(209, 221, 223);
+    resize: none;
 }
 
 button {
