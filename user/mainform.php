@@ -1,4 +1,13 @@
 <?php
+   /*
+    Author: Ilias Motsenigos
+    Date: 12/12/2023
+    Last Updated: 7/5/2024
+    Description: 
+    */
+  
+  
+  
   //getting first and last name of user from the database based on their username
 
   $fname = $lname = $userid = "";
@@ -72,7 +81,7 @@
             
             <div id="secondaryInfoContainer">
             <fieldset id="periodField">
-                <legend>Διδακτικές Ώρες:</legend>
+                <legend>• Διδακτικές Ώρες •</legend>
                 <label for="period_0">0η ώρα</label>
                 <input type="checkbox" id="period_0" name="period[]" value="0"><br>
                 <label for="period_1">1η ώρα</label>
@@ -110,9 +119,9 @@
 <!--JAVASCRIPT AJAX SCRIPTS-->
 
 <script>// getting available semesters
-     $(document).ready(function(){ //όταν είναι ready το αρχείο
-        $('#entryDate').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
-            $.ajax({//update σελίδας χωρίς reload
+     $(document).ready(function(){ 
+        $('#entryDate').change(function(){
+            $.ajax({
                 type: 'POST',
                 url: 'getSeasons.php',
                 data: {getDate: 'getDate', date: $('#entryDate').val()},
@@ -125,9 +134,9 @@
 </script>
 
 <script> //getting available classes
-     $(document).ready(function(){ //όταν είναι ready το αρχείο
-        $('#semester').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
-            $.ajax({//update σελίδας χωρίς reload
+     $(document).ready(function(){ 
+        $('#semester').change(function(){
+            $.ajax({
                 type: 'POST',
                 url: 'getNumOfClasses.php',
                 data: {getNumOfClasses: 'getNumOfClasses', semester: $('#semester').val(), specialty: $('#specialty').val(), date: $('#entryDate').val()},
@@ -141,14 +150,29 @@
 
 
  <script> // getting available subjects
-    $(document).ready(function(){ //όταν είναι ready το αρχείο
-        $('#semester').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
-            $.ajax({//update σελίδας χωρίς reload
+    $(document).ready(function(){ 
+        $('#semester').change(function(){
+            $.ajax({
                 type: 'POST',
                 url: 'getActiveSubjects.php',
                 data: {get_subjects: 'get_subjects', specialty: $('#specialty').val(), date: $('#entryDate').val(), semester: $('#semester').val()},
                 success: function (get_subjects){
                         $('#subject_span').html(get_subjects);
+                }
+            })
+        });
+    });
+</script>
+
+<script> // fetching recent entries for the selected class and subject
+    $(document).ready(function(){ 
+        $('#subject').change(function(){
+            $.ajax({
+                type: 'POST',
+                url: 'getRecentEntries.php',
+                data: {specialty: $('#specialty').val(), date: $('#entryDate').val(), semester: $('#semester').val(), class: $('#class').val(), subject: $('#subject').val()},
+                success: function (getRecentEntries){
+                        $('#pastEntries').html(getRecentEntries);
                 }
             })
         });
