@@ -3,6 +3,10 @@
 //Author: Ilias Motsenigos
 //Last Updated: 7/5/2024
 
+//handling of unauthorized users
+$_PERMISSIONS = array('teacher' => 1, 'admin' => 0, 'guest' => 0, 'super' => 1);
+include_once '../common/checkAuthorization.php';
+
    include_once '../Configs/Conn.php';
 
     if(isset($_POST["get_subjects"])&& !empty($_POST['get_subjects'])){

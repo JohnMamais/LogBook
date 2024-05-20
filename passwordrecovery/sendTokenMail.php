@@ -1,5 +1,9 @@
 <?php
 
+//handling of unauthorized users
+$_PERMISSIONS = array('teacher' => 0, 'admin' => 0, 'guest' => 1, 'super' => 1);
+include_once '../common/checkAuthorization.php';
+
 //PHP mailer library
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

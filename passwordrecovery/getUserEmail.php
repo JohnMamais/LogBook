@@ -1,6 +1,10 @@
 <?php
 header('Content-Type: application/json'); // Set the content type to JSON
 
+//handling of unauthorized users
+$_PERMISSIONS = array('teacher' => 0, 'admin' => 0, 'guest' => 1, 'super' => 1);
+include_once '../common/checkAuthorization.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the username from the POST request
     $username = isset($_POST['username']) ? $_POST['username'] : null;

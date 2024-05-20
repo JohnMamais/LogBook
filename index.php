@@ -18,14 +18,6 @@
       $data = htmlspecialchars($data);
       return $data;
   }
-  function putLog($conn, $log){
-    //log interaction
-    $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $log,);
-    $stmt->execute();
-    $stmt->close();
-  }
 
   //session configurations
   ini_set('session.cookie_secure', true);
@@ -59,7 +51,7 @@
 
     // Check user credentials in the database
     // Querying the database for the username and fetching id and password
-    $sql = "SELECT id, username, password, isAdmin FROM user WHERE username = ?";
+    $sql = "SELECT id, username, password, isAdmin, isActive FROM user WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -68,35 +60,34 @@
     // Close statement
     $stmt->close();
 
-    // Verify password
-    if ($user && password_verify($password, $user["password"])) {
+    if($user){ //user found
+      // Check if user is active and verify password
+      if ($user['isActive'] && password_verify($password, $user["password"])) {
 
-      // Set session variables
-      //static $SESSION;
-      $_SESSION['user_id'] = $user["id"];
-      $_SESSION['user'] = $user["username"];
-      $_SESSION['isAdmin']=$user["isAdmin"];
+        // Set session variables
+        //static $SESSION;
+        $_SESSION['user_id'] = $user["id"];
+        $_SESSION['user'] = $user["username"];
+        $_SESSION['isAdmin']=$user["isAdmin"];
 
-      $log= $log."Succ. Login user:".$user["username"]."admin: ".$user["isAdmin"];
-
-      // Redirect to a secured page
-      if($user["isAdmin"]){
-        header("Location: admin/index.php");
-        putlog($conn, $log);
-        exit();
-      } else if (!$user["isAdmin"]){
-        header("Location: user/index.php");
-        putlog($conn, $log);
-        exit();
-      }
-      $log=$log." Successful Login| User: ".$username;
-    } else {
+        // Redirect to a secured page
+        if($user["isAdmin"]){
+          //close conn
+          $conn->close();
+          header("Location: admin/index.php");
+          exit();
+        } else if (!$user["isAdmin"]){
+          //close conn
+          $conn->close();
+          header("Location: user/index.php");
+          exit();
+        }
+      } else {
         // Invalid credentials
         $loginError = "Λάθος username ή κωδικός πρόσβασης!";
-        $log=$log." Login Failed| Username attempted: ".$username;
+      }
     }
 
-    putlog($conn, $log);
     //close conn
     $conn->close();
 

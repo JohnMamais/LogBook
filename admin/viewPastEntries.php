@@ -7,7 +7,7 @@
     Description: This page allows the school's admins to fetch all the log book entries that have been created through this system.
                 By selecting the educational period, specialty, semester, class and subject they want to check the approptiate results
                 are displayed in a table. The menus are updated with information from the database dynamically using AJAX to update
-                the fields in real time based on previous selections. Additionally the admin has the option to export the results in 
+                the fields in real time based on previous selections. Additionally the admin has the option to export the results in
                 a PDF file using the appropriate button (TO BE ADDED).
 
 
@@ -26,6 +26,11 @@
     include_once '../Configs/Conn.php';
     //including header menu
     include_once '../Configs/Config.php';
+
+    //handling of unauthorized users
+    $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
+    include_once '../common/checkAuthorization.php';
+    
     ?>
     <h1>Εκτύπωση Εγγραφών από το Βιβλίο Ύλης</h1>
 
@@ -36,7 +41,7 @@
         <label for="edPeriod">Ακαδημαϊκή Περίοδος: </label>
         <select name="edPeriod" id="edPeriod">
             <option>Επιλέξτε Ακαδημαϊκή Περίοδο</option>
-            <?php 
+            <?php
                 //fetching data from database for edPeriod
                 $query = "SELECT id, year, season FROM edPeriod;";
                 $result = $conn->query($query);
@@ -67,7 +72,7 @@
         <label for="specialty">Ειδικότητα: </label>
         <select name="specialty" id="specialty">
             <option value="">Επιλέξτε Ειδικότητα</option>
-            <?php 
+            <?php
                 //fetching data from database for specialties
                 $query = "SELECT specialtyID, name FROM specialty;";
                 $result = $conn->query($query);
@@ -105,7 +110,7 @@
         </select>
 
         <br><br>
-        
+
         <button type="submit">Εκτύπωση σε PDF</button>
         <button type="reset">Απαλοιφή</button>
     </form>
@@ -117,7 +122,7 @@
 
     <!-- getting available semesters -->
     <script>
-        $(document).ready(function(){ 
+        $(document).ready(function(){
             $('#edPeriod').change(function(){
                 $.ajax({
                     type: 'POST',

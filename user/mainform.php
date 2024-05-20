@@ -3,13 +3,15 @@
     Author: Ilias Motsenigos
     Date: 12/12/2023
     Last Updated: 7/5/2024
-    Description: 
+    Description:
     */
-  
-  
-  
-  //getting first and last name of user from the database based on their username
 
+
+  //handling of unauthorized users
+  $_PERMISSIONS = array('teacher' => 1, 'admin' => 0, 'guest' => 0, 'super' => 1);
+  include_once '../common/checkAuthorization.php';
+
+  //getting first and last name of user from the database based on their username
   $fname = $lname = $userid = "";
   $userid=$_SESSION['user_id'];
   $nameQuery = "SELECT fname, lname FROM USER WHERE username = '$username';";
@@ -78,7 +80,7 @@
                 </fieldset>
             </div>
             <br>
-            
+
             <div id="secondaryInfoContainer">
             <fieldset id="periodField">
                 <legend>• Διδακτικές Ώρες •</legend>
@@ -119,7 +121,7 @@
 <!--JAVASCRIPT AJAX SCRIPTS-->
 
 <script>// getting available semesters
-     $(document).ready(function(){ 
+     $(document).ready(function(){
         $('#entryDate').change(function(){
             $.ajax({
                 type: 'POST',
@@ -134,7 +136,7 @@
 </script>
 
 <script> //getting available classes
-     $(document).ready(function(){ 
+     $(document).ready(function(){
         $('#semester').change(function(){
             $.ajax({
                 type: 'POST',
@@ -150,7 +152,7 @@
 
 
  <script> // getting available subjects
-    $(document).ready(function(){ 
+    $(document).ready(function(){
         $('#semester').change(function(){
             $.ajax({
                 type: 'POST',
@@ -165,7 +167,7 @@
 </script>
 
 <script> // fetching recent entries for the selected class and subject
-    $(document).ready(function(){ 
+    $(document).ready(function(){
         $('#subject').change(function(){
             $.ajax({
                 type: 'POST',

@@ -3,13 +3,17 @@
     Author: Ilias Motsenigos
     Date: 7/5/2024
     Last Updated: 7/5/2024
-    Description: This php file is complementary to viewPastEntries.php and it dynamically updates its fields through AJAX. 
-                By receiving all of the imput data from the main form of the parent file it runs a query to the application's 
-                database to fetch previous log book entries matching the data provided and then updates the appropriate 
+    Description: This php file is complementary to viewPastEntries.php and it dynamically updates its fields through AJAX.
+                By receiving all of the imput data from the main form of the parent file it runs a query to the application's
+                database to fetch previous log book entries matching the data provided and then updates the appropriate
                 element of the page (<div id="returnedEntries">).
     */
     include_once '../Configs/Conn.php';
 
+    //handling of unauthorized users
+    $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
+    include_once '../common/checkAuthorization.php';
+    
     if(isset($_POST["subject"])&& !empty($_POST['subject'])&& !empty($_POST['edPeriod'])&& !empty($_POST['semester'])&& !empty($_POST['class'])&& !empty($_POST['specialty'])){
 
         //fetching data from main form
@@ -42,7 +46,7 @@
 
         $query = "SELECT bookentry.date, bookentry.description, bookentry.periods, user.fname, user.lname FROM bookentry
                 JOIN user ON user.id = bookentry.username
-                WHERE year = $year AND season = '$season' AND specialtyID = $specialty AND semester = '$semester' 
+                WHERE year = $year AND season = '$season' AND specialtyID = $specialty AND semester = '$semester'
                 AND subjectID = $subject AND class = $class;";
 
         $result = $GLOBALS['conn']->query($query);

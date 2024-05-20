@@ -1,4 +1,9 @@
 <?php
+
+//handling of unauthorized users
+$_PERMISSIONS = array('teacher' => 1, 'admin' => 0, 'guest' => 0, 'super' => 1);
+include_once '../common/checkAuthorization.php';
+
     echo "<link rel='stylesheet' href='logBookMainStyleSheet.css'>";
     function formatString($inputString){ //cleaning up strings
         $inputString = trim($inputString);

@@ -1,5 +1,9 @@
 <?php
 
+    //handling of unauthorized users
+    $_PERMISSIONS = array('teacher' => 1, 'admin' => 0, 'guest' => 0, 'super' => 1);
+    include_once '../common/checkAuthorization.php';
+
      $month = "-";
      if(isset($_POST["date"])){
         //getting data from the form

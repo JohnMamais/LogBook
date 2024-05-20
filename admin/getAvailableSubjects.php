@@ -1,6 +1,9 @@
 <?php
     include_once '../Configs/Conn.php';
-    //include_once '../Configs/Config.php';
+
+    //handling of unauthorized users
+    $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
+    include_once '../common/checkAuthorization.php';
 
     if(isset($_POST["get_subjects"])&& !empty($_POST['get_subjects'])){
         $calledFunction = $_POST['get_subjects'];

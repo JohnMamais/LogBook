@@ -1,7 +1,12 @@
 <?php
 
 require_once '../Configs/Conn.php';
-require_once '../Configs/vars.php';
+require_once '../common/vars.php';
+
+//handling of unauthorized users
+$_PERMISSIONS = array('teacher' => 1, 'admin' => 1, 'guest' => 0, 'super' => 1);
+include_once '../common/checkAuthorization.php';
+
 
 // Function to sanitize and validate input data
 function test_input($data) {

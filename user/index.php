@@ -15,32 +15,13 @@
         include_once '../Configs/Conn.php';
         include_once '../Configs/Config.php';
 
-        //handling of intruders
-        //performing log out routine, redirect to login and logging to the DB
-        if(!isset($_SESSION['user']) || ($_SESSION['isAdmin']!=0 && $_SESSION['isAdmin']!=2)){
+        //handling of unauthorized users
+        $_PERMISSIONS = array('teacher' => 1, 'admin' => 0, 'guest' => 0, 'super' => 1);
+        include_once '../common/checkAuthorization.php';
 
-            $log="Unauthorized user attempted to acces user index.";
-            if(isset($_SESSION['user'])){
-              $username=$_SESSION['user'];
-              $log.="Username: $username";
-            }
-            $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
-            $stmt = $conn->prepare($sql);
-            //binding parameters
-            $stmt->bind_param("s",$log);
-            if($stmt->execute()){
-              //log inserted
-            }
-            //closing statment
-            $stmt->close();
-            $conn->close();
-          //  header("Location: ../logout.php");
-          //  exit();
-        } else {
-            $username=$_SESSION['user'];
-            include 'mainform.php';
-        }
 
+        $username=$_SESSION['user'];
+        include 'mainform.php';
 
     ?>
 

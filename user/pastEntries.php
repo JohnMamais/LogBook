@@ -8,6 +8,10 @@
 </head>
 <body>
     <?php
+      //handling of unauthorized users
+      $_PERMISSIONS = array('teacher' => 1, 'admin' => 0, 'guest' => 0, 'super' => 1);
+      include_once '../common/checkAuthorization.php';
+
         //database connection file
         include_once '../Configs/Conn.php';
         include_once '../Configs/Config.php';

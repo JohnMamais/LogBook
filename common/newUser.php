@@ -29,7 +29,8 @@
 
   include_once '../Configs/Conn.php';
   include_once '../Configs/Config.php';
-  require_once '../Configs/vars.php';
+  require_once '../common/vars.php';
+  require_once '../common/commonFunctions.php';
 
   //the page is accessed via the login menu with a p arguement
   //if it is set, some fields are hidden
@@ -41,34 +42,6 @@
   } else {
     $adminPriv = 0;
   }
-
-  //handling of intruders
-  //performing log out routine, redirect to login and logging to the DB
-  if(!isset($_SESSION['user_id']) || $_SESSION['isAdmin']==0 && !$adminPriv){
-
-      $log="Unauthorized user attempted to acces user creator.";
-      if(isset($_SESSION['user'])){
-        $uname=$_SESSION['user'];
-        $log.="Username: $uname";
-      }
-      $sql="INSERT INTO serverlog(logDesc,ip,pageID) VALUES(?);";
-      $stmt = $conn->prepare($sql);
-
-      //getting client ip
-      $ip=$_SERVER['REMOTE_ADDR'];
-
-      //binding parameters
-      $stmt->bind_param("ssi",$log,$ip,4);
-      if($stmt->execute()){
-
-      }
-      //closing statment
-      $stmt->close();
-      $conn->close();
-      header("Location: ../logout.php");
-      exit();
-  }
-
 
   // Initialize error variables
   $fNameError = $lNameError = $uNameError = $passError = $pass2Error = $usernameError = $tokenError = $emailError ='';
@@ -248,17 +221,9 @@
     } else {
       $log="FAILED - ". $log;
     }
-    //preparing query to insert log data into DB
-    $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
-    $stmt = $conn->prepare($sql);
-    //binding parameters
-    $stmt->bind_param("s",$log);
-    if($stmt->execute()){
-      //meow
-      //log inserted
-    }
-    //closing statment
-    $stmt->close();
+
+    //Logging to database
+    insertLog($conn, $log);
 
     //closing connection
     $conn->close();

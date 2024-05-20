@@ -1,6 +1,10 @@
 <?php
     include_once '../Configs/Conn.php';
 
+    //handling of unauthorized users
+    $_PERMISSIONS = array('teacher' => 1, 'admin' => 0, 'guest' => 0, 'super' => 1);
+    include_once '../common/checkAuthorization.php';
+    
      if(isset($_POST["getNumOfClasses"]) && !empty($_POST["getNumOfClasses"])){
         //getting data from the form
         $calledFunction = $_POST['getNumOfClasses'];

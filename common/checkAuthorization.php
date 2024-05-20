@@ -57,10 +57,6 @@ foreach ($_PERMISSIONS as $user => $allowed) {
 
 
 if(!$flag){
-    //if the user is not allowed to view the page kick them out of the site
-    $log="Unauthorized user attempted to access.";
-
-    insertLog($conn, $log);
 
     // Close the connection if it is open
     if (isset($conn) && $conn instanceof mysqli) {

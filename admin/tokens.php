@@ -21,6 +21,11 @@
 <?php
   include_once '../Configs/Conn.php';
   include_once '../Configs/Config.php';
+  include_once '../common/commonFunctions.php'
+
+  //handling of unauthorized users
+  $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
+  include_once '../common/checkAuthorization.php';
 
   require_once '../vendor/autoload.php'; // Include the Faker autoloader
   $faker = Faker\Factory::create(); //init faker
@@ -121,17 +126,9 @@
 
       //Log interaction
       //preparing query to insert log data into DB
-      $log="User ".$_SESSION['user']." created token: ".$token.".";
-      $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
-      $stmt = $conn->prepare($sql);
-      //binding parameters
-      $stmt->bind_param("s",$log);
-      if($stmt->execute()){
-        //meow
-        //log inserted
-      }
-      //closing statment
-      $stmt->close();
+      $log="Created token: ".$token.".";
+
+      insertLog($conn, $log);
 
     }
 

@@ -20,36 +20,12 @@
     //connecting to DB and including top menu
     include_once '../Configs/Conn.php';
     include_once '../Configs/Config.php';
+    include_once '../common/commonFunctions.php';
 
+    //handling of unauthorized users
     $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
     include_once '../common/checkAuthorization.php';
 
-    //handling of intruders
-    //performing log out routine, redirect to login and logging to the DB
-    if(!isset($_SESSION['user']) || !$_SESSION['isAdmin']){
-
-        $log="Unauthorized user attempted to acces admin index.";
-        if(isset($_SESSION['user'])){
-          $uname=$_SESSION['user'];
-          $log.="Username: $uname";
-        }
-        $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
-        $stmt = $conn->prepare($sql);
-        //binding parameters
-        $stmt->bind_param("s",$log);
-        if($stmt->execute()){
-          //meow
-          //log inserted
-        }
-        //closing statment
-        $stmt->close();
-        $conn->close();
-        header("Location: ../logout.php");
-        exit();
-    }
-
-    //for logging to the DB
-    $log="Adm. Subj. | ";
   ?>
     <h1>Δημιουργία Τμημάτων</h1>
 
@@ -357,16 +333,7 @@ $(document).ready(function() {
                 $log.= "Empty: ". $yearError. $specialtyError . $semesterError . $edPeriodError . $numOfClassesError . $selectedSubjectsError . " | ";
                 }
 
-            $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
-            $stmt = $conn->prepare($sql);
-            //binding parameters
-            $stmt->bind_param("s",$log);
-            if($stmt->execute()){
-              //meow
-              //log inserted
-            }
-            //closing statment
-            $stmt->close();
+            insertLog($conn, $log);
         }
     }
 

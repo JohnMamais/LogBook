@@ -1,7 +1,4 @@
 <?php
-// Constants for session keys
-define('SESSION_USER_ID', 'user_id');
-define('GUEST_USER_ID', 'guest');
 
 function getClientIp(): string {
     $ipAddress = '';

@@ -3,6 +3,10 @@
 
   include_once '../Configs/Conn.php';
 
+  //handling of unauthorized users
+  $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
+  include_once '../common/checkAuthorization.php';
+  
   $sql="
   SELECT  token AS token, endDate AS expire
   FROM registrationTokens
