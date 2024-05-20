@@ -90,21 +90,14 @@ CREATE TABLE registrationTokens(
     PRIMARY KEY(ID)
 );
 
-CREATE TABLE pages(
-	id INT AUTO_INCREMENT,
-    pageName VARCHAR(50),
-    alias VARCHAR(15),
-    PRIMARY KEY(id)
-);
 CREATE TABLE serverLog(
   id INT AUTO_INCREMENT,
-  pageID INT, #page from which the log was made
+  pageDir VARCHAR(100), #page from which the log was made
   logDesc VARCHAR(255) NOT NULL,
   ip VARCHAR(46), #ip of user if applicable
   uid INT, #user ID
   logTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY(id),
-  FOREIGN KEY (pageID) REFERENCES pages(id)
+  PRIMARY KEY(id)
 );
 
 CREATE TABLE passwordRecovery(
@@ -115,5 +108,18 @@ CREATE TABLE passwordRecovery(
     requestTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
     expiresAt TIMESTAMP,
     FOREIGN KEY (uid) REFERENCES user(id),
+    PRIMARY KEY (id)
+    
+);
+#This is a table to implement a penalty system for users that try to access pages they're not supposed to and prevent multiple attacks
+CREATE TABLE ipTimeout(
+	id INT AUTO_INCREMENT,
+    ip VARCHAR(46),
+    uid INT,
+    currentMisdemeanors INT,
+    timeoutCount INT DEFAULT 0,
+    timeout INT DEFAULT 0,
+    timeoutUntil TIMESTAMP,
+    registered TIMESTAMP DEFAULT NOW(),
     PRIMARY KEY (id)
 );

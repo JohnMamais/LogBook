@@ -8,14 +8,6 @@ INSERT INTO user(username, password, fname, lname, isAdmin, email) VALUES
 #teacherpass
 #super@IEK_LO_G
 
-INSERT INTO pages(pageName, alias) VALUES
-("Log In","Login"),
-("Book Entries","BkEntry"),
-("Educational Period Creation","EdPeriodCr"),
-("User Registration","UsrReg"),
-("User Profile","UsrProf"),
-("Token Creation","CrtTokenPg");
-
 INSERT INTO specialty(name) VALUES
 ("ΣΤΕΛΕΧΟΣ ΨΗΦΙΑΚΟΥ MARKETING ΣΤΟ ΗΛΕΚΤΡΟΝΙΚΟ ΕΜΠΟΡΙΟ"),
 ("ΤΕΧΝΙΚΟΙ ΕΦΑΡΜΟΓΩΝ ΠΛΗΡΟΦΟΡΙΚΗΣ"),
