@@ -12,6 +12,9 @@
 <body>
   <?php
 
+  $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 1, 'super' => 1);
+  include_once 'checkAuthorization.php';
+
   // Function to sanitize and validate input data
   function test_input($data) {
       $data = trim($data);
@@ -26,6 +29,7 @@
 
   include_once '../Configs/Conn.php';
   include_once '../Configs/Config.php';
+  require_once '../Configs/vars.php';
 
   //the page is accessed via the login menu with a p arguement
   //if it is set, some fields are hidden

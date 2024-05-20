@@ -10,8 +10,6 @@
 <body>
 
 <?php
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
 
   //function to verify POST data
   function test_input($data) {
@@ -39,7 +37,8 @@
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     include_once 'Configs/Conn.php';
-    include_once 'Configs/Config.php';
+    session_start();
+    //include_once 'Configs/Config.php';
 
     //checking for empty vars then putting the tested inputs in a variable
     if(empty($_POST["username"])){

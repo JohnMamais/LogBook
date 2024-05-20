@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?php echo __ROOT__ . '/Styles/usernavbar.css'; ?>">
+<link rel="stylesheet" href="<?php echo __ROOT__ . '/Styles/navbar.css'; ?>">
 
 <nav class="top-menu">
   <div>

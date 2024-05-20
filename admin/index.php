@@ -14,10 +14,15 @@
 <body>
 
   <?php
+
+
     //PHP Setup
     //connecting to DB and including top menu
     include_once '../Configs/Conn.php';
     include_once '../Configs/Config.php';
+
+    $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
+    include_once '../common/checkAuthorization.php';
 
     //handling of intruders
     //performing log out routine, redirect to login and logging to the DB

@@ -9,6 +9,7 @@
     </ul>
   </div>
   <div>
+    <li><a href="<?php echo __ROOT__ . '/common/userProfile.php'; ?>" >Χρήστης: <?php echo $_SESSION['user'];?> </a></li>
     <a class="logout" href="<?php echo __ROOT__ . '/logout.php'; ?>">Log Out</a>
   </div>
 </nav>

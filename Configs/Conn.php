@@ -30,4 +30,5 @@ $GLOBALS['conn'] = mysqli_connect($serverName, $serverUsername, $password, $dbna
 if(!$conn){
     die("Connection to database failed.". mysqli_connect_error());
 }
+
  ?>

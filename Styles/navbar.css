@@ -4,11 +4,18 @@
 
 }
 /* Styling the top menu */
+li {
+  color: white;
+}
+
 .top-menu {
   background-color: rgb(109, 147, 156);
   display:grid;
-  grid-template-columns: 14fr 1fr;
+  grid-template-columns: 1fr 1fr;
   align-items:center; /* Vertically center items */
+  margin-bottom: 10px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
 }
 
 .top-menu ul {
@@ -30,21 +37,20 @@
 }
 
 .top-menu ul li a:hover {
-  background-color: #555;
+  background-color: rgba(153, 186, 192, 0.8);
 }
 
-a.logout {
+#logout {
   display: inline-block;
   padding: 10px 10px;
   color: #fff; /* Text color */
   text-decoration: none; /* Remove underline */
   border: 1px solid transparent; /* Optional: Add border */
   border-radius: 5px; /* Optional: Add border radius for rounded corners */
-  font-size: 12px; /* Optional: Adjust font size */
+  /*font-size: 12px;  Optional: Adjust font size */
   cursor: pointer; /* Show pointer cursor on hover */
 }
 
-a.logout:hover {
-  background-color: #555;
-  
+#logout:hover {
+  background-color: #d95f57;
 }
