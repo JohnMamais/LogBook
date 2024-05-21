@@ -21,7 +21,7 @@
 <?php
   include_once '../Configs/Conn.php';
   include_once '../Configs/Config.php';
-  include_once '../common/commonFunctions.php'
+  include_once '../common/commonFunctions.php';
 
   //handling of unauthorized users
   $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
