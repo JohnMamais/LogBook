@@ -123,6 +123,29 @@ select {
     margin-bottom: 1%; 
 }
 
+th{
+    border: 3px solid white;
+    padding: 2px;
+    margin-bottom: 10px;
+}
+
+td{
+    background-color: white;
+    padding: 2px;
+    color: #18020c;
+}
+
+.leftEdge{
+    border-radius: 10px 0px 0px 10px;
+}
+
+.rightEdge{
+    border-radius: 0px 10px 10px 0px;
+}
+
+.logRow:hover{
+    background-color: rgb(191, 211, 210);
+}
 
 #periodField{
     border: 5px solid white;

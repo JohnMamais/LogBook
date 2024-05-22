@@ -14,6 +14,7 @@
     $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
     include_once '../common/checkAuthorization.php';
     
+
     if(isset($_POST["subject"])&& !empty($_POST['subject'])&& !empty($_POST['edPeriod'])&& !empty($_POST['semester'])&& !empty($_POST['class'])&& !empty($_POST['specialty'])){
 
         //fetching data from main form
@@ -30,7 +31,7 @@
 
         //fetching year and season from edPeriod
         $year = $season = '';
-        $query = "SELECT year, season FROM edPeriod WHERE id = $edPeriod";
+        $query = "SELECT year, season FROM edperiod WHERE id = $edPeriod";
         $result = $GLOBALS['conn']->query($query);
         if ($result->num_rows>0){
             while($row = $result->fetch_assoc()){

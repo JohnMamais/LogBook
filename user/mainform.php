@@ -168,20 +168,32 @@
 
 <script> // fetching recent entries for the selected class and subject
     $(document).ready(function(){
-        $('#subject').change(function(){
+        $(document).on('change', '#subject', function(){
             $.ajax({
                 type: 'POST',
                 url: 'getRecentEntries.php',
-                data: {specialty: $('#specialty').val(), date: $('#entryDate').val(), semester: $('#semester').val(), class: $('#class').val(), subject: $('#subject').val()},
-                success: function (getRecentEntries){
-                        $('#pastEntries').html(getRecentEntries);
+                data: {
+                    specialty: $('#specialty').val(),
+                    date: $('#entryDate').val(),
+                    semester: $('#semester').val(),
+                    class: $('#class').val(),
+                    subject: $('#subject').val()
+                },
+                success: function(response){
+                    console.log("AJAX request successful");
+                    $('#pastEntries').html(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    console.error('AJAX Error: ' + textStatus + ': ' + errorThrown);
+                    $('#pastEntries').html('Error occurred while fetching entries.');
                 }
-            })
+            });
         });
     });
+
 </script>
 
-
+<!--------------------------------------------------->
 <!-- form data processing-->
 <?php
 if(isset($_POST['submit'])){
