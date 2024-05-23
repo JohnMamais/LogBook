@@ -9,8 +9,8 @@
   
   $sql="
   SELECT  token AS token, endDate AS expire
-  FROM registrationTokens
-  WHERE id=(SELECT MAX(id) FROM registrationTokens WHERE isActive=1);
+  FROM registrationtokens
+  WHERE id=(SELECT MAX(id) FROM registrationtokens WHERE isActive=1);
   ";
   $stmt = $conn->prepare($sql);
 

@@ -16,7 +16,7 @@ if(!isset($_SESSION['user']) || $_SESSION['isAdmin']!=2){
       $uname=$_SESSION['user'];
       $log.="Username: $uname";
     }
-    $sql="INSERT INTO serverLog(logDesc) VALUES(?);";
+    $sql="INSERT INTO serverlog(logDesc) VALUES(?);";
     $stmt = $conn->prepare($sql);
     //binding parameters
     $stmt->bind_param("s",$log);

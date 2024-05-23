@@ -104,7 +104,7 @@
     if($proceed){
       //format SQL query for the
 
-      $sql="INSERT INTO registrationTokens(startDate, endDate, token, maxUses) VALUES (?,?,?,?);";
+      $sql="INSERT INTO registrationtokens(startDate, endDate, token, maxUses) VALUES (?,?,?,?);";
 
       //preparing query to insert token into DB
       $stmt = $conn->prepare($sql);

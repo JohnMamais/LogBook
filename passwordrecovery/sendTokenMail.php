@@ -84,7 +84,7 @@ function generateUniqueToken($conn) {
 
 
     // Query to check if the token already exists in the database
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM passwordRecovery WHERE token = ? and isActive = 1;");
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM passwordrecovery WHERE token = ? and isActive = 1;");
     $stmt->bind_param("s", $token);
 
     // Loop until a unique token is found
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $token=generateUniqueToken($conn);
 
     $sql="
-    INSERT INTO passwordRecovery(uid, token)
+    INSERT INTO passwordrecovery(uid, token)
     VALUES (?, ?);";
 
     $stmt = $conn->prepare($sql);
