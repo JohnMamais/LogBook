@@ -4,12 +4,15 @@
   <div>
     <ul>
       <li><a href="<?php echo __ROOT__ . '/admin/index.php'; ?>">Μαθήματα/Εξάμηνα</a></li>
+      <li><a href="<?php echo __ROOT__ . '/admin/viewPastEntries.php'; ?>">Προηγούμενες Εγγραφές</a></li>
       <li><a href="<?php echo __ROOT__ . '/common/newUser.php'; ?>">Εισαγωγή Καινούργιου Χρήστη</a></li>
       <li><a href="<?php echo __ROOT__ . '/admin/tokens.php'; ?>">Tokens Εγγραφών</a></li>
     </ul>
   </div>
   <div>
-    <li><a href="<?php echo __ROOT__ . '/common/userProfile.php'; ?>" >Χρήστης: <?php echo $_SESSION['user'];?> </a></li>
-    <a class="logout" href="<?php echo __ROOT__ . '/logout.php'; ?>">Log Out</a>
+  <ul>
+    <li><a id="userProfile" href="<?php echo __ROOT__ . '/common/userProfile.php'; ?>" >Χρήστης: <?php echo $_SESSION['user'];?> </a></li>
+    <li><a id="logout" href="<?php echo __ROOT__ . '/logout.php'; ?>">Log Out</a></li>
+  </ul>
   </div>
 </nav>

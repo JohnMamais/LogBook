@@ -54,3 +54,8 @@ li {
 #logout:hover {
   background-color: #d95f57;
 }
+
+#userProfile:hover {
+  text-decoration: underline;
+  background-color: rgb(109, 147, 156);
+}
