@@ -51,7 +51,7 @@
 
 
         if ($result && $result->num_rows > 0){
-            echo "<option value=''>Επιλέξτε Tμήμα</option>";
+            echo "<option value=''disabled selected>Επιλέξτε Tμήμα</option>";
             while($row = $result->fetch_assoc()){
                 $numOfClasses = $row['numOfClasses'];
                 for($i = 1; $i <= $numOfClasses; $i++){
