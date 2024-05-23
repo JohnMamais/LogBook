@@ -40,7 +40,7 @@
 
                 <label for="specialty">• Eιδικότητα: </label>
                 <select name="specialty" id="specialty">
-                <option value="" disabled selected>Επιλέξτε Ειδικότητα</option>
+                <option value="">Επιλέξτε Ειδικότητα</option>
                 <?php
                         $query = "SELECT specialtyID, name FROM specialty;";
                         $result = $conn->query($query);
@@ -59,21 +59,21 @@
                 <label for="semester">• Εξάμηνο: </label>
                 <span id=semester_span>
                     <select name="semester" id="semester">
-                        <option value="" disabled selected>Επιλέξτε Εξάμηνο</option>
+                        <option value="">Επιλέξτε Εξάμηνο</option>
                     </select>
                 </span>
                 <br>
                 <label for="class">• Τμήμα: </label>
                     <span id="class_span">
                     <select name="class" id="class">
-                    <option value="" disabled selected>Επιλέξτε Τμήμα</option>
+                    <option value="">Επιλέξτε Τμήμα</option>
                     </select>
                 </span>
 
                 <label for="subject">• Μάθημα: </label>
                 <span id="subject_span">
                     <select  name="subject" id="subject">
-                        <option value="" disabled selected>Επιλέξτε Μάθημα</option>
+                        <option value="">Επιλέξτε Μάθημα</option>
                     </select>
                 </span>
 
@@ -129,9 +129,6 @@
                 data: {getDate: 'getDate', date: $('#entryDate').val()},
                 success: function (getSeasons){
                      $('#semester').html(getSeasons);
-                     //resetting dependent fields 
-                     $('#class').html('<option value="">Επιλέξτε Τμήμα</option>');
-                    $('#subject').html('<option value="">Επιλέξτε Μάθημα</option>');
                 }
             })
         });

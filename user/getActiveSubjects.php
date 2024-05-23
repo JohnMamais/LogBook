@@ -51,7 +51,7 @@ include_once '../common/checkAuthorization.php';
         $result = $GLOBALS['conn']->query($query);
         if ($result->num_rows>0){
             echo "<select id='subject' name='subject' length='20'>";
-            echo "<option value='' disabled selected>Επιλέξτε Mάθημα</option>";
+            echo "<option value=''>Επιλέξτε Mάθημα</option>";
         while($row = $result->fetch_assoc()){
 
             echo "<option value='".$row['subjectID']."'>".$row['name']."</option>";

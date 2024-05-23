@@ -23,14 +23,14 @@
 
         if(strpos($winterMonths, $month)){
             echo "<select id='semester' name='semester'>";
-            echo "<option value='' disabled selected>Επιλέξτε Eξάμηνο</option>";
+            echo "<option value=''>Επιλέξτε Eξάμηνο</option>";
             echo "<option value='a'>Α</option>";
             echo "<option value='c'>Γ</option>";
             echo "</select>";
         }
         elseif(strpos($springMonths, $month)){
             echo "<select id='semester' name='semester'>";
-            echo "<option value=''disabled selected>Επιλέξτε Eξάμηνο</option>";
+            echo "<option value=''>Επιλέξτε Eξάμηνο</option>";
             echo "<option value='b'>Β</option>";
             echo "<option value='d'>Δ</option>";
             echo "</select>";
@@ -38,7 +38,7 @@
         //Both fall and spring semesters can run during February
         elseif(strpos("--02-", $month)){
             echo "<select id='semester' name='semester'>";
-            echo "<option value=''disabled selected>Επιλέξτε Eξάμηνο</option>";
+            echo "<option value=''>Επιλέξτε Eξάμηνο</option>";
             echo "<option value='a'>Α</option>";
             echo "<option value='c'>Γ</option>";
             echo "<option value='b'>Β</option>";
