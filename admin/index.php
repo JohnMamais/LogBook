@@ -335,7 +335,9 @@
                 $log.= "Empty: ". $yearError. $specialtyError . $semesterError . $edPeriodError . $numOfClassesError . $selectedSubjectsError . " | ";
                 }
 
-            insertLog($conn, $log);
+            if(isset($log)){
+              insertLog($conn, $log);
+            }
         }
     }
 

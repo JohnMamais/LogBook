@@ -27,7 +27,7 @@
     //including header menu
     include_once '../Configs/Config.php';
     //mpdf for exporting data to PDF
-    require_once __DIR__ . '/../vendor/autoload.php';
+    require_once '../vendor/autoload.php'; // Include composer
 
     //handling of unauthorized users
     $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
