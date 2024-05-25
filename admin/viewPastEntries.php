@@ -43,7 +43,7 @@
             <option value='' selected disabled>Επιλέξτε Ακαδημαϊκή Περίοδο</option>
             <?php
                 //fetching data from database for edPeriod
-                $query = "SELECT id, year, season FROM edPeriod;";
+                $query = "SELECT id, year, season FROM edperiod;";
                 $result = $conn->query($query);
 
                 if($result->num_rows > 0){

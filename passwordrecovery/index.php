@@ -31,7 +31,7 @@
   be used for the recovery process.
 
   A random alphanumeric string  is created and stored in the database
-  passwordRecovery table with the user's ID.
+  passwordrecovery table with the user's ID.
   A link is then created to logbook/passwordrecovery/recovery.php with the
   string passed as an arguement.
 

@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
 
             //disable token
             $sql="
-            UPDATE passwordRecovery
+            UPDATE passwordrecovery
             SET isActive=0
             WHERE uid=? AND isActive=1;
             ";
