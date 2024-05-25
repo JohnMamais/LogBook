@@ -27,7 +27,7 @@
             echo "<span id='semester_span'>
                     <label for='semester'>Εξάμηνο: </label>
                     <select name='semester' id='semester' class='dropdown'>
-                        <option value=''>Επιλέξτε Εξάμηνο</option>
+                        <option value='' selected disabled>Επιλέξτε Εξάμηνο</option>
                         <option value='b'>Β`</option>
                         <option value='d'>Δ`</option>
                     </select>
@@ -37,7 +37,7 @@
             echo "<span id='semester_span'>
                     <label for='semester'>Εξάμηνο: </label>
                     <select name='semester' id='semester' class='dropdown'>
-                        <option value=''>Επιλέξτε Εξάμηνο</option>
+                        <option value='' selected disabled>Επιλέξτε Εξάμηνο</option>
                         <option value='a'>A`</option>
                         <option value='c'>Γ`</option>
                     </select>
@@ -47,7 +47,7 @@
             echo "<span id='semester_span'>
                     <label for='semester'>Εξάμηνο: </label>
                     <select name='semester'id='semester' class='dropdown'>
-                        <option value=''>Επιλέξτε Εξάμηνο</option>
+                        <option value='' selected disabled>Επιλέξτε Εξάμηνο</option>
                     </select>
                 </span>";
         }

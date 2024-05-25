@@ -30,7 +30,7 @@
         $result = $GLOBALS['conn']->query($query);
         if ($result && $result->num_rows > 0){
             echo "<select name='semester' id='semester'>";
-            echo "<option value=''>Επιλέξτε Εξάμηνο</option>";
+            echo "<option value=''selected disabled>Επιλέξτε Εξάμηνο</option>";
             while($row = $result->fetch_assoc()){
                 $season = $row['season'];
             }

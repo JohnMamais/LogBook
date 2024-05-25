@@ -35,12 +35,12 @@
     <h1>Εκτύπωση Εγγραφών από το Βιβλίο Ύλης</h1>
 
     <!--main form for user input-->
-    <form name="pastEntriesForm" method="post" action="">
+    <form name="pastEntriesForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 
         <!-- edPeriod -->
         <label for="edPeriod">Ακαδημαϊκή Περίοδος: </label>
         <select name="edPeriod" id="edPeriod">
-            <option>Επιλέξτε Ακαδημαϊκή Περίοδο</option>
+            <option value='' selected disabled>Επιλέξτε Ακαδημαϊκή Περίοδο</option>
             <?php
                 //fetching data from database for edPeriod
                 $query = "SELECT id, year, season FROM edPeriod;";
@@ -71,7 +71,7 @@
         <!-- specialty -->
         <label for="specialty">Ειδικότητα: </label>
         <select name="specialty" id="specialty">
-            <option value="">Επιλέξτε Ειδικότητα</option>
+            <option value="" selected disabled>Επιλέξτε Ειδικότητα</option>
             <?php
                 //fetching data from database for specialties
                 $query = "SELECT specialtyID, name FROM specialty;";
@@ -92,7 +92,7 @@
         <!-- semester -->
         <label for="semester">Εξάμηνο: </label>
         <select name="semester" id="semester">
-            <option value="">Επιλέξτε Εξάμηνο</option>
+            <option value="" selected disabled>Επιλέξτε Εξάμηνο</option>
         </select>
         <br>
 
@@ -106,19 +106,19 @@
         <!-- subject -->
         <label for="subject">Μάθημα: </label>
         <select name="subject" id="subject">
-            <option value="">Επιλέξτε Μάθημα</option>
+            <option value="" selected disabled>Επιλέξτε Μάθημα</option>
         </select>
 
         <br><br>
 
-        <button type="submit">Εκτύπωση σε PDF</button>
+        <button type="submit" name="submit" value='submit'>Εκτύπωση σε PDF</button>
         <button type="reset">Απαλοιφή</button>
     </form>
 
     <!--Log Book entries returned-->
     <div id="returnedEntries"></div>
 
-    <!--JAVASCRIPT AJAX SCRIPTS-->
+    <!--------------------------------------JAVASCRIPT AJAX SCRIPTS------------------------------------->
 
     <!-- getting available semesters -->
     <script>
@@ -130,6 +130,9 @@
                     data: {edPeriod: $('#edPeriod').val()},
                     success: function (getSemesters){
                         $('#semester').html(getSemesters);
+                        //resetting dependent fields
+                        $('#class').html('<option value="" disabled selected>Επιλέξτε Τμήμα</option>');
+                        $('#subject').html('<option value="" disabled selected>Επιλέξτε Μάθημα</option>');
                     }
                 })
             });
@@ -146,6 +149,8 @@
                     data: {edPeriod: $('#edPeriod').val(), specialty: $('#specialty').val(), semester: $('#semester').val()},
                     success: function (getNumOfClasses){
                      $('#class').html(getNumOfClasses);
+                    //resetting dependent fields
+                    $('#subject').html('<option value="" disabled selected>Επιλέξτε Μάθημα</option>');
                     }
                 })
             })
@@ -184,4 +189,88 @@
         })
     </script>
 </body>
+
+<!-------------------------------  Form Handling  --------------------------------------------->
+<?php
+    if(isset($_POST['submit'])){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            
+            //initializig data variables
+            $edPeriod = $specialty = $semester = $class = $subject = $year = $season = "";
+            
+            //initializing error variables that will hold error messages in case of empty fields
+            $edPeriodError = $specialtyError = $semesterError = $classError = $subjectError = "";
+
+            //checking input for all data and passing them into php variables if filled
+            //edPeriod
+            if(empty($_POST['edPeriod'])){
+                $edPeriodError = "Παρακαλώ επιλέξτε ακαδημαϊκή περίοδο.";
+                echo "<script>document.getElementById('edPeriod').style.borderColor='#d95f57';
+            </script>";
+            }
+            else{
+                $edPeriod = $_POST['edPeriod'];
+
+                //fetching year and season from edPeriod
+                $year = $season = '';
+                $query = "SELECT year, season FROM edperiod WHERE id = $edPeriod";
+                $result = $GLOBALS['conn']->query($query);
+                if ($result->num_rows>0){
+                    while($row = $result->fetch_assoc()){
+                        $year = $row['year'];
+                        $season = $row['season'];
+                    }
+                }
+                else{
+                    $year = $season = 0;
+                }
+            }
+
+            //specialty
+            if(empty($_POST['specialty'])){
+                $specialtyError = "Παρακαλώ επιλέξτε ειδικότητα. ";
+                echo "<script>document.getElementById('specialty').style.borderColor='#d95f57';</script>";
+            }
+            else{
+                $specialty = $_POST['specialty'];
+            }
+
+            //semester
+            if(empty($_POST['semester'])){
+                $semesterError = "Παρακαλώ επιλέξτε εξάμηνο. ";
+                echo "<script>document.getElementById('semester').style.borderColor='#d95f57';</script>";
+            }
+            else{
+                $semester = $_POST['semester'];
+            }
+
+             //class
+            if(empty($_POST['class'])){
+                $classError = "Παρακαλώ επιλέξτε τμήμα. ";
+                echo "<script>document.getElementById('class').style.borderColor='#d95f57';</script>";
+            }
+            else{
+                $class = $_POST['class'];
+            }
+
+            //subject
+            if(empty($_POST['subject'])){
+                $subjectError = "Παρακαλώ επιλέξτε μάθημα. ";
+                echo "<script>document.getElementById('subject').style.borderColor='#d95f57';</script>";
+            }
+            else{
+                $subject = $_POST['subject'];
+            }
+
+            //pdf
+            if(!empty($edPeriod) && !empty($specialty) && !empty($semester) && !empty($class) && !empty($subject)){
+
+            }
+            else{
+                echo "<script>alert('".$edPeriodError. $specialtyError . $semesterError . $classError . $subjectError."');</script>";
+            }
+        }
+    }
+?>
+
 </html>

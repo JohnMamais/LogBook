@@ -39,7 +39,7 @@
         <!-- select educational period -->
         <label for="edPeriod">Περίοδος: </label>
         <select name ="edPeriod" id="edPeriod" class="dropdown">
-            <option value="">Επιλέξτε Περίοδο</option>
+            <option value="" selected disabled>Επιλέξτε Περίοδο</option>
             <option value="a">Α' (Εαρινή) </option>
             <option value="b">Β' (Χειμερινή) </option>
         </select>
@@ -47,7 +47,7 @@
         <!-- select specialty -->
         <label for="specialty">• Eιδικότητα: </label>
         <select name="specialty" id="specialty" class="dropdown">
-            <option value="">Επιλέξτε Ειδικότητα</option>
+            <option value="" selected disabled>Επιλέξτε Ειδικότητα</option>
             <?php
                     $query = "SELECT specialtyID, name FROM specialty;";
                     $result = $conn->query($query);
@@ -67,7 +67,7 @@
         <span id="semester_span">
             <label for="semester">Εξάμηνο: </label>
             <select name="semester" id="semester" class="dropdown">
-            <option value=''>Επιλέξτε Εξάμηνο</option>
+            <option value=''selected disabled>Επιλέξτε Εξάμηνο</option>
             </select>
         </span>
 
@@ -105,9 +105,9 @@
 
     <!-- restricting available semesters -->
     <script>
-        $(document).ready(function(){ //όταν είναι ready το αρχείο
-            $('#edPeriod').change(function(){//.change() ενεργοποιείται όταν αλλάζει το στοιχείο
-            $.ajax({//update σελίδας χωρίς reload
+        $(document).ready(function(){
+            $('#edPeriod').change(function(){
+            $.ajax({
                 type: 'POST',
                 url: 'getAvailableSemesters.php',
                 data: {edPeriod: $('#edPeriod').val()},
@@ -120,24 +120,26 @@
     });
     </script>
 
-<script>
-$(document).ready(function() {
-    $(document).on('change', '#checkAllA', function() {
-        $('.CheckboxA').prop('checked', $(this).prop('checked'));
-    });
-    $(document).on('change', '#checkAllB', function() {
-        $('.CheckboxB').prop('checked', $(this).prop('checked'));
-    });
-    $(document).on('change', '#checkAllC', function() {
-        $('.CheckboxC').prop('checked', $(this).prop('checked'));
-    });
-    $(document).on('change', '#checkAllD', function() {
-        $('.CheckboxD').prop('checked', $(this).prop('checked'));
-    });
-});
 
+    <!-- check all -->
+    <script>
 
-</script>
+    $(document).ready(function() {
+        $(document).on('change', '#checkAllA', function() {
+            $('.CheckboxA').prop('checked', $(this).prop('checked'));
+        });
+        $(document).on('change', '#checkAllB', function() {
+            $('.CheckboxB').prop('checked', $(this).prop('checked'));
+        });
+        $(document).on('change', '#checkAllC', function() {
+            $('.CheckboxC').prop('checked', $(this).prop('checked'));
+        });
+        $(document).on('change', '#checkAllD', function() {
+            $('.CheckboxD').prop('checked', $(this).prop('checked'));
+        });
+    });
+
+    </script>
 
 <!-- Getting the data from the form PHP HANDLING -->
 <?php
