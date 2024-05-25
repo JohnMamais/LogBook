@@ -26,6 +26,8 @@
     include_once '../Configs/Conn.php';
     //including header menu
     include_once '../Configs/Config.php';
+    //mpdf for exporting data to PDF
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     //handling of unauthorized users
     $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
@@ -264,6 +266,62 @@
 
             //pdf
             if(!empty($edPeriod) && !empty($specialty) && !empty($semester) && !empty($class) && !empty($subject)){
+
+                //fetching year and season from edPeriod
+                $year = $season = '';
+                $query = "SELECT year, season FROM edperiod WHERE id = $edPeriod";
+                $result = $GLOBALS['conn']->query($query);
+                if ($result->num_rows>0){
+                    while($row = $result->fetch_assoc()){
+                        $year = $row['year'];
+                        $season = $row['season'];
+                    }
+                }
+                else{
+                    $year = $season = 0;
+                }
+
+
+                //fetching output data for printing from the database
+
+                $query = "SELECT bookentry.date, bookentry.description, bookentry.periods, user.fname, user.lname FROM bookentry
+                JOIN user ON user.id = bookentry.username
+                WHERE year = $year AND season = '$season' AND specialtyID = $specialty AND semester = '$semester'
+                AND subjectID = $subject AND class = $class;";
+
+                $result = $GLOBALS['conn']->query($query);
+
+                // Generate HTML content
+                $htmlContent = '<html><body>';
+                $htmlContent .= '<h1>Book Entries</h1>';
+                $htmlContent .= '<table border="1" cellpadding="10">';
+                $htmlContent .= '<thead><tr><th>Date</th><th>Description</th><th>Periods</th><th>First Name</th><th>Last Name</th></tr></thead>';
+                $htmlContent .= '<tbody>';
+
+                while ($row = $result->fetch_assoc()) {
+                    $htmlContent .= '<tr>';
+                    $htmlContent .= '<td>' . $row['date'] . '</td>';
+                    $htmlContent .= '<td>' . $row['description'] . '</td>';
+                    $htmlContent .= '<td>' . $row['periods'] . '</td>';
+                    $htmlContent .= '<td>' . $row['fname'] . '</td>';
+                    $htmlContent .= '<td>' . $row['lname'] . '</td>';
+                    $htmlContent .= '</tr>';
+                }
+
+                $htmlContent .= '</tbody></table>';
+                $htmlContent .= '</body></html>';
+
+                // Create an instance of mPDF
+                $mpdf = new \Mpdf\Mpdf();
+
+                // Write HTML content to the PDF
+                $mpdf->WriteHTML($htmlContent);
+
+                // Output the PDF as a file
+                $mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
+
+                // Optionally, you can directly output the PDF to the browser
+                // $mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::INLINE);
 
             }
             else{
