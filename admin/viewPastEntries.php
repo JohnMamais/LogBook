@@ -22,6 +22,8 @@
 <body>
 
     <?php
+    // Start output buffering to prevent export to pdf errors
+    ob_start();
     //connecting to database
     include_once '../Configs/Conn.php';
     //including header menu
@@ -264,7 +266,7 @@
                 $subject = $_POST['subject'];
             }
 
-            //pdf
+            //pdf creation and output
             if(!empty($edPeriod) && !empty($specialty) && !empty($semester) && !empty($class) && !empty($subject)){
 
                 //fetching year and season from edPeriod
@@ -284,6 +286,7 @@
 
                 //fetching output data for printing from the database
 
+                $subject_name = $specialty_name = "";
                 $query = "SELECT bookentry.date, bookentry.description, bookentry.periods, user.fname, user.lname FROM bookentry
                 JOIN user ON user.id = bookentry.username
                 WHERE year = $year AND season = '$season' AND specialtyID = $specialty AND semester = '$semester'
@@ -291,11 +294,13 @@
 
                 $result = $GLOBALS['conn']->query($query);
 
-                // Generate HTML content
+                //pdf content in HTML
                 $htmlContent = '<html><body>';
-                $htmlContent .= '<h1>Book Entries</h1>';
+                $htmlContent .= '<h1>Θ.Σ.Α.Ε.Κ. Αιγάλεω - Εγγραφές Βιβλίου Ύλης</h1>';
+                $htmlContent .= '<h2>Ειδικότητα - Τμήμα '. $class .'</h2>';
+                $htmlContent .= '<h2>Μάθημα</h2>';
                 $htmlContent .= '<table border="1" cellpadding="10">';
-                $htmlContent .= '<thead><tr><th>Date</th><th>Description</th><th>Periods</th><th>First Name</th><th>Last Name</th></tr></thead>';
+                $htmlContent .= '<thead><tr><th>Ημερομηνία</th><th>Περιγραφή</th><th>Ώρες</th><th>Όνομα</th><th>Επώνυμο</th></tr></thead>';
                 $htmlContent .= '<tbody>';
 
                 while ($row = $result->fetch_assoc()) {
@@ -311,17 +316,19 @@
                 $htmlContent .= '</tbody></table>';
                 $htmlContent .= '</body></html>';
 
-                // Create an instance of mPDF
-                $mpdf = new mPDF();
+                //closing the buffer
+                ob_end_clean();
 
-                // Write HTML content to the PDF
+                // Create an instance of mPDF and pass the content
+                $mpdf = new \Mpdf\Mpdf();
                 $mpdf->WriteHTML($htmlContent);
-
                 // Output the PDF as a file
                 $mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
-
-                // Optionally, you can directly output the PDF to the browser
-                // $mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::INLINE);
+                
+                header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
+                header('Location: open_PDF.php');//redirecting to a different php file that will allow 
+                 
+                 exit;
 
             }
             else{
