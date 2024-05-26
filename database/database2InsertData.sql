@@ -3,7 +3,8 @@ USE log_book;
 INSERT INTO user(username, password, fname, lname, isAdmin, email) VALUES
 ("admin","$argon2id$v=19$m=65536,t=11,p=2$NHIxcVFXMWRTTVpPeTdGbQ$Yhh3a6S+rqD+HS8U3yOcbW3WpbKOfdJe3WvbO4XMwLg","Admin", "Doe", 1, null),
 ("teacher", "$argon2id$v=19$m=65536,t=11,p=2$RG5YWWJBS3NHcVVQM3hqbA$XBoqO4f1VwdfNYL3ZyjRs5bpoggZy71QLiZuZ5uEcCA","Teacher","Doe",0, "teacher@example.com"),
-("John@Super", "$argon2id$v=19$m=65536,t=11,p=2$WlVPOURWS1hvL053S205ZA$pHxxNcvtCuVnY9cBxYeToYZDqFqL9/NmtLSvlk2m5Jg","SuperUser","Super",2, null); 
+("John@Super", "$argon2id$v=19$m=65536,t=11,p=2$WlVPOURWS1hvL053S205ZA$pHxxNcvtCuVnY9cBxYeToYZDqFqL9/NmtLSvlk2m5Jg","John","Super",2, null),
+("Ilias@Super", "$argon2id$v=19$m=65536,t=11,p=2$WlVPOURWS1hvL053S205ZA$pHxxNcvtCuVnY9cBxYeToYZDqFqL9/NmtLSvlk2m5Jg","Ilias","Super",2, null);
 #adminpass
 #teacherpass
 #super@IEK_LO_G

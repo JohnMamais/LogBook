@@ -1,4 +1,4 @@
-CREATE DEFINER=`user`@`localhost` PROCEDURE `startTokenEvent`()
+CREATE PROCEDURE `startTokenEvent`()
 BEGIN
 	DECLARE eventStatus VARCHAR(10);
 	
