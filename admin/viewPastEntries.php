@@ -27,7 +27,7 @@
     //including header menu
     include_once '../Configs/Config.php';
     //mpdf for exporting data to PDF
-    require_once __DIR__ . '/../vendor/autoload.php';
+    require '../vendor/autoload.php';
 
     //handling of unauthorized users
     $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
@@ -312,7 +312,7 @@
                 $htmlContent .= '</body></html>';
 
                 // Create an instance of mPDF
-                $mpdf = new \Mpdf\Mpdf();
+                $mpdf = new mPDF();
 
                 // Write HTML content to the PDF
                 $mpdf->WriteHTML($htmlContent);
