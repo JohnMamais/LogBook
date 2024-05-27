@@ -319,8 +319,16 @@
                 //closing the buffer
                 ob_end_clean();
 
-                // Create an instance of mPDF and pass the content
-                $mpdf = new \Mpdf\Mpdf();
+                // Specify a custom temporary directory
+                $tempDir = __DIR__ . '/tmp';
+
+                $mpdfConfig = [
+                    'tempDir' => $tempDir,
+                ];
+
+                // Create an instance of the mPDF class with the custom configuration
+                $mpdf = new \Mpdf\Mpdf($mpdfConfig);
+
                 $mpdf->WriteHTML($htmlContent);
                 // Output the PDF as a file
                 // Send the generated PDF to the browser for download
