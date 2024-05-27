@@ -333,7 +333,7 @@
                 // Output the PDF as a file
                 // Send the generated PDF to the browser for download
                 // The "D" parameter forces the browser to download the file
-                $mpdf->Output('PDF', \Mpdf\Output\Destination::DOWNLOAD);
+                $mpdf->Output('logBookEntries.pdf', \Mpdf\Output\Destination::DOWNLOAD);
                 //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
 
                 header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
