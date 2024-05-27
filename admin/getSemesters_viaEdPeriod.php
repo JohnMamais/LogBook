@@ -46,7 +46,7 @@
         }
         //in case of 0 returned results
         else{
-            echo "<option value=''> Δεν βρέθηκαν τμήματα </option>";
+            echo "<option value=''> Δεν βρέθηκαν εξάμηνα</option>";
         }
 
 
