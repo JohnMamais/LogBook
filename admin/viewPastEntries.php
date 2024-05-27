@@ -34,7 +34,7 @@
     //handling of unauthorized users
     $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
     include_once '../common/checkAuthorization.php';
-    
+
     ?>
     <h1>Εκτύπωση Εγγραφών από το Βιβλίο Ύλης</h1>
 
@@ -122,7 +122,7 @@
     <!--Log Book entries returned-->
     <div id="returnedEntries"></div>
 
-    <!--------------------------------------JAVASCRIPT AJAX SCRIPTS------------------------------------->
+    <!----------------------------------JAVASCRIPT AJAX SCRIPTS------------------------------------->
 
     <!-- getting available semesters -->
     <script>
@@ -198,10 +198,10 @@
 <?php
     if(isset($_POST['submit'])){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            
+
             //initializig data variables
             $edPeriod = $specialty = $semester = $class = $subject = $year = $season = "";
-            
+
             //initializing error variables that will hold error messages in case of empty fields
             $edPeriodError = $specialtyError = $semesterError = $classError = $subjectError = "";
 
@@ -325,12 +325,12 @@
                 // Output the PDF as a file
                 // Send the generated PDF to the browser for download
                 // The "D" parameter forces the browser to download the file
-                $mpdf->Output($filename, \Mpdf\Output\Destination::DOWNLOAD);
+                $mpdf->Output('PDF', \Mpdf\Output\Destination::DOWNLOAD);
                 //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
 
                 header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
-                header('Location: open_PDF.php');//redirecting to a different php file that will allow 
-                 
+                header('Location: open_PDF.php');//redirecting to a different php file that will allow
+
                  exit;
 
             }
