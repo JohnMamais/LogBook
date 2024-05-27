@@ -65,4 +65,9 @@ function insertLog(mysqli $connection, string $logDescription): bool {
         return false;
     }
 }
+
+//function to port the js alert function to php
+function alert($msg){
+  echo "<script>alert(' ".$msg." ');</script>";
+}
 ?>

@@ -28,6 +28,8 @@
     include_once '../Configs/Conn.php';
     //including header menu
     include_once '../Configs/Config.php';
+    //including common functions
+    include_once '../common/commonFunctions.php';
     //mpdf for exporting data to PDF
     require '../vendor/autoload.php';
 
@@ -200,7 +202,7 @@
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             //initializig data variables
-            $edPeriod = $specialty = $semester = $class = $subject = $year = $season = "";
+            $filename=$edPeriod = $specialty = $semester = $class = $subject = $year = $season = "";
 
             //initializing error variables that will hold error messages in case of empty fields
             $edPeriodError = $specialtyError = $semesterError = $classError = $subjectError = "";
@@ -283,10 +285,8 @@
                     $year = $season = 0;
                 }
 
-
                 //fetching output data for printing from the database
 
-                $subject_name = $specialty_name = "";
                 $query = "SELECT bookentry.date, bookentry.description, bookentry.periods, user.fname, user.lname FROM bookentry
                 JOIN user ON user.id = bookentry.username
                 WHERE year = $year AND season = '$season' AND specialtyID = $specialty AND semester = '$semester'
@@ -294,7 +294,10 @@
 
                 $result = $GLOBALS['conn']->query($query);
 
-                //pdf content in HTML
+
+
+
+                //pdf Header content in HTML
                 $htmlContent = '<html><body>';
                 $htmlContent .= '<h1>Θ.Σ.Α.Ε.Κ. Αιγάλεω - Εγγραφές Βιβλίου Ύλης</h1>';
                 $htmlContent .= '<h2>Ειδικότητα - Τμήμα '. $class .'</h2>';
@@ -319,27 +322,37 @@
                 //closing the buffer
                 ob_end_clean();
 
-                // Specify a custom temporary directory
+                //set up file name
+                //use ids instead of
+                $filename="$specialty $subject-$year$season";
+
+                // Specify a custom temporary directory for mpdf
                 $tempDir = __DIR__ . '/tmp';
 
                 $mpdfConfig = [
                     'tempDir' => $tempDir,
                 ];
+                try {
+                  // Create an instance of the mPDF class with the custom configuration
+                  $mpdf = new \Mpdf\Mpdf($mpdfConfig);
 
-                // Create an instance of the mPDF class with the custom configuration
-                $mpdf = new \Mpdf\Mpdf($mpdfConfig);
+                  $mpdf->WriteHTML($htmlContent);
+                  // Output the PDF as a file
+                  // Send the generated PDF to the browser for download
+                  // The "D" parameter forces the browser to download the file
+                  $mpdf->Output("$filename.pdf", \Mpdf\Output\Destination::DOWNLOAD);
+                  //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
 
-                $mpdf->WriteHTML($htmlContent);
-                // Output the PDF as a file
-                // Send the generated PDF to the browser for download
-                // The "D" parameter forces the browser to download the file
-                $mpdf->Output('logBookEntries.pdf', \Mpdf\Output\Destination::DOWNLOAD);
-                //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
+                  //header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
+                  //header('Location: open_PDF.php');//redirecting to a different php file that will allow
 
-                header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
-                header('Location: open_PDF.php');//redirecting to a different php file that will allow
+                  //exit;
 
-                 exit;
+                } catch (\Exception $e) {
+                  alert("Δυστυχώς η διαδικασία απέτυχε. Προσπαθήστε ξανά ή επικοινωνήστε με τον διαχειριστή συστήματος.");
+                  insertLog($conn, );
+                }
+
 
             }
             else{
