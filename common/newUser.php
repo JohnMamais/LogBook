@@ -23,10 +23,6 @@
       return $data;
   }
 
-  function alert($message){
-    echo "<script>alert('$message');</script>";
-  }
-
   include_once '../Configs/Conn.php';
   include_once '../Configs/Config.php';
   require_once '../common/vars.php';
