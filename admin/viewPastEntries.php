@@ -322,14 +322,15 @@
                 // Create an instance of mPDF and pass the content
                 $mpdf = new \Mpdf\Mpdf();
                 $mpdf->WriteHTML($htmlContent);
+                $filename = 'book_entries.pdf';
                 // Output the PDF as a file
                 // Send the generated PDF to the browser for download
                 // The "D" parameter forces the browser to download the file
                 $mpdf->Output($filename, \Mpdf\Output\Destination::DOWNLOAD);
                 //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
 
-                header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
-                header('Location: open_PDF.php');//redirecting to a different php file that will allow 
+               // header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
+                //header('Location: open_PDF.php');//redirecting to a different php file that will allow 
                  
                  exit;
 
