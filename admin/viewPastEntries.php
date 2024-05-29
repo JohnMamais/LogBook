@@ -28,13 +28,15 @@
     include_once '../Configs/Conn.php';
     //including header menu
     include_once '../Configs/Config.php';
+    //including common functions
+    include_once '../common/commonFunctions.php';
     //mpdf for exporting data to PDF
     require '../vendor/autoload.php';
 
     //handling of unauthorized users
     $_PERMISSIONS = array('teacher' => 0, 'admin' => 1, 'guest' => 0, 'super' => 1);
     include_once '../common/checkAuthorization.php';
-    
+
     ?>
     <h1>Εκτύπωση Εγγραφών από το Βιβλίο Ύλης</h1>
 
@@ -122,7 +124,7 @@
     <!--Log Book entries returned-->
     <div id="returnedEntries"></div>
 
-    <!--------------------------------------JAVASCRIPT AJAX SCRIPTS------------------------------------->
+    <!----------------------------------JAVASCRIPT AJAX SCRIPTS------------------------------------->
 
     <!-- getting available semesters -->
     <script>
@@ -198,10 +200,10 @@
 <?php
     if(isset($_POST['submit'])){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            
+
             //initializig data variables
-            $edPeriod = $specialty = $semester = $class = $subject = $year = $season = "";
-            
+            $filename=$edPeriod = $specialty = $semester = $class = $subject = $year = $season = "";
+
             //initializing error variables that will hold error messages in case of empty fields
             $edPeriodError = $specialtyError = $semesterError = $classError = $subjectError = "";
 
@@ -283,10 +285,8 @@
                     $year = $season = 0;
                 }
 
-
                 //fetching output data for printing from the database
 
-                $subject_name = $specialty_name = "";
                 $query = "SELECT bookentry.date, bookentry.description, bookentry.periods, user.fname, user.lname FROM bookentry
                 JOIN user ON user.id = bookentry.username
                 WHERE year = $year AND season = '$season' AND specialtyID = $specialty AND semester = '$semester'
@@ -294,7 +294,10 @@
 
                 $result = $GLOBALS['conn']->query($query);
 
-                //pdf content in HTML
+
+
+
+                //pdf Header content in HTML
                 $htmlContent = '<html><body>';
                 $htmlContent .= '<h1>Θ.Σ.Α.Ε.Κ. Αιγάλεω - Εγγραφές Βιβλίου Ύλης</h1>';
                 $htmlContent .= '<h2>Ειδικότητα - Τμήμα '. $class .'</h2>';
@@ -319,20 +322,37 @@
                 //closing the buffer
                 ob_end_clean();
 
-                // Create an instance of mPDF and pass the content
-                $mpdf = new \Mpdf\Mpdf();
-                $mpdf->WriteHTML($htmlContent);
-                $filename = 'book_entries.pdf';
-                // Output the PDF as a file
-                // Send the generated PDF to the browser for download
-                // The "D" parameter forces the browser to download the file
-                $mpdf->Output($filename, \Mpdf\Output\Destination::DOWNLOAD);
-                //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
+                //set up file name
+                //use ids instead of
+                $filename="$specialty $subject-$year$season";
 
-               // header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
-                //header('Location: open_PDF.php');//redirecting to a different php file that will allow 
-                 
-                 exit;
+                // Specify a custom temporary directory for mpdf
+                $tempDir = __DIR__ . '/tmp';
+
+                $mpdfConfig = [
+                    'tempDir' => $tempDir,
+                ];
+                try {
+                  // Create an instance of the mPDF class with the custom configuration
+                  $mpdf = new \Mpdf\Mpdf($mpdfConfig);
+
+                  $mpdf->WriteHTML($htmlContent);
+                  // Output the PDF as a file
+                  // Send the generated PDF to the browser for download
+                  // The "D" parameter forces the browser to download the file
+                  $mpdf->Output("$filename.pdf", \Mpdf\Output\Destination::DOWNLOAD);
+                  //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
+
+                  //header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
+                  //header('Location: open_PDF.php');//redirecting to a different php file that will allow
+
+                  //exit;
+
+                } catch (\Exception $e) {
+                  alert("Δυστυχώς η διαδικασία απέτυχε. Προσπαθήστε ξανά ή επικοινωνήστε με τον διαχειριστή συστήματος.");
+                  insertLog($conn, );
+                }
+
 
             }
             else{

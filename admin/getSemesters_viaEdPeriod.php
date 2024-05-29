@@ -26,7 +26,7 @@
     function getSemesters($edPeriod){
     //fetching the type of edPeriod (season) from the database
         $season;
-        $query = "SELECT season FROM edPeriod WHERE id = $edPeriod;";
+        $query = "SELECT season FROM edperiod WHERE id = $edPeriod;";
         $result = $GLOBALS['conn']->query($query);
         if ($result && $result->num_rows > 0){
             echo "<select name='semester' id='semester'>";
@@ -46,7 +46,7 @@
         }
         //in case of 0 returned results
         else{
-            echo "<option value=''> Δεν βρέθηκαν τμήματα </option>";
+            echo "<option value=''> Δεν βρέθηκαν εξάμηνα</option>";
         }
 
 
