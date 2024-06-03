@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Δ.Θ.Σ.Α.Ε.Κ. Αιγάλεω: Διαχείρηση</title>
 
-    <link rel="stylesheet" href="../Styles/adminStyleSheet.css">
-    <link rel="stylesheet" href="../Styles/mainStyleSheet.css">
+    <!--<link rel="stylesheet" href="../Styles/adminStyleSheet.css">
+    <link rel="stylesheet" href="../Styles/mainStyleSheet.css">-->
+    <link rel="stylesheet" href="../Styles/semesterCreationStyleSheet.css">
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
@@ -29,61 +31,74 @@
   ?>
     <h1>Δημιουργία Τμημάτων</h1>
 
-    <!-- main form -->
-    <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+    
+        <!-- main form -->
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+        <div id="mainPage" class="flexbox">
+            <div id=leftMenu>
 
-        <!-- select year -->
-        <label for="year">Έτος: </label>
-        <input type="number" min="2000" max="2099" step="1" name="year" id="year" class="dropdown">
+                <div id="selections">
+                    <!-- select year -->
+                    <label for="year">• Έτος: </label>
+                    <input type="number" min="2000" max="2099" step="1" name="year" id="year" class="dropdown">
 
-        <!-- select educational period -->
-        <label for="edPeriod">Περίοδος: </label>
-        <select name ="edPeriod" id="edPeriod" class="dropdown">
-            <option value="" selected disabled>Επιλέξτε Περίοδο</option>
-            <option value="a">Α' (Εαρινή) </option>
-            <option value="b">Β' (Χειμερινή) </option>
-        </select>
+                    <!-- select educational period -->
+                    <label for="edPeriod">• Περίοδος: </label>
+                    <select name ="edPeriod" id="edPeriod" class="dropdown">
+                        <option value="" selected disabled>Επιλέξτε Περίοδο</option>
+                        <option value="a">Α' (Εαρινή) </option>
+                        <option value="b">Β' (Χειμερινή) </option>
+                    </select>
 
-        <!-- select specialty -->
-        <label for="specialty">• Eιδικότητα: </label>
-        <select name="specialty" id="specialty" class="dropdown">
-            <option value="" selected disabled>Επιλέξτε Ειδικότητα</option>
-            <?php
-                    $query = "SELECT specialtyID, name FROM specialty;";
-                    $result = $conn->query($query);
+                    <!-- select specialty -->
+                    <label for="specialty">• Eιδικότητα: </label>
+                    <select name="specialty" id="specialty" class="dropdown">
+                        <option value="" selected disabled>Επιλέξτε Ειδικότητα</option>
+                        <?php
+                                $query = "SELECT specialtyID, name FROM specialty;";
+                                $result = $conn->query($query);
 
-                    if($result->num_rows > 0){
-                        while($row = $result->fetch_assoc()){
-                            echo "<option value='".$row['specialtyID']."'>".$row['name']."</option>";
-                        }
-                    }
-                    else{
-                        echo '<option value="">Δεν βρέθηκαν μαθήματα</option>';
-                    }
-                ?>
-        </select>
+                                if($result->num_rows > 0){
+                                    while($row = $result->fetch_assoc()){
+                                        echo "<option value='".$row['specialtyID']."'>".$row['name']."</option>";
+                                    }
+                                }
+                                else{
+                                    echo '<option value="">Δεν βρέθηκαν μαθήματα</option>';
+                                }
+                            ?>
+                    </select>
 
-        <!-- select semester -->
-        <span id="semester_span">
-            <label for="semester">Εξάμηνο: </label>
-            <select name="semester" id="semester" class="dropdown">
-            <option value=''selected disabled>Επιλέξτε Εξάμηνο</option>
-            </select>
-        </span>
+                    <!-- select semester -->
+                    <span id="semester_span">
+                        <label for="semester">• Εξάμηνο: </label>
+                        <select name="semester" id="semester" class="dropdown">
+                        <option value=''selected disabled>Επιλέξτε Εξάμηνο</option>
+                        </select>
+                    </span>
 
-        <!-- set number of classes -->
-        <label for="numOfClasses">Αριθμός Τμημάτων:</label>
-        <input type="number" min="1" max="5" step="1" id="numOfClasses" name="numOfClasses" class="dropdown">
+                    <!-- set number of classes -->
+                    <label for="numOfClasses">• Αριθμός Τμημάτων:</label>
+                    <input type="number" min="1" max="5" step="1" id="numOfClasses" name="numOfClasses" class="dropdown">
 
-        <!-- insert active subjects -->
-        <div id="available_subjects_div">
-        </div>
+                </div>
+                 
+                <br><br>
 
-        <br><br>
-        <div style="text-align: center;">
-            <button type="submit" value="submit" name="submit">Δημιουργία Τμήματος</button>&emsp; <button type="reset">Απαλοιφή</button>
-        </div>
-    </form>
+                <div id="buttonDiv">
+                    <button type="submit" value="submit" name="submit">Δημιουργία Τμήματος</button> 
+                    <button type="reset">Απαλοιφή</button>
+                </div>
+
+            </div>
+
+             <!-- insert active subjects -->
+            <div id="available_subjects_div">
+                <p>• Διαθέσιμα Μαθήματα<br><br>Παρακαλώ συμπληρώστε στα στοιχεία αριστερά για να εμφανιστούν τα διαθέσιμα μαθήματα.</p>
+            </div>
+          </div>  
+        </form>
+   
 
     <!-- AJAX for dynamic fields of the form -->
 

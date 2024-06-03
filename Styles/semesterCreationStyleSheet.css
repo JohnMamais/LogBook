@@ -1,0 +1,90 @@
+:root{
+    --light: #e5ffde;
+    --semilight: rgb(109, 147, 156);
+    --midtone: #96b4b2;
+    --semidark: #634b66;
+    --dark: #18020c;
+  }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--midtone);
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    background-color: var(--semilight);
+    padding: 10px;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    border-radius: 10px;
+}
+
+#mainPage {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    flex-direction: row;
+}
+
+#leftMenu {
+    padding: 20px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+#available_subjects_div {
+    padding: 20px;
+    margin-left: 20px;
+    width: 70%;
+    border: 5px solid white;
+    border-radius: 20px;
+}
+
+#selections {
+    display: flex;
+    flex-direction: column;
+}
+
+#selections label,
+#selections input,
+#selections select {
+    margin-bottom: 10px;
+}
+
+#selections input,
+#selections select {
+    padding: 5px;
+    border: 3px solid white;
+    border-radius: 10px;
+}
+
+#buttonDiv {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#buttonDiv button {
+    padding: 10px;
+    border: 3px solid var(--semidark);
+    border-radius: 10px;
+    background-color: var(--semidark);
+    color: white;
+    cursor: pointer;
+}
+
+#buttonDiv button:hover {
+    border: 3px solid white;
+    background-color: var(--semilight);
+}
+
+.dropdown {
+    width: 100%;
+}
