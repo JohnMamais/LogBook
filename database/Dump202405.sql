@@ -420,22 +420,22 @@ DELIMITER ;;
 
     SELECT isActive, maxUses, used
     INTO tokenIsActive, maxUsers, currentUsers
-    FROM registrationTokens
-    WHERE registrationTokens.id = NEW.tokenUsed;
+    FROM registrationtokens
+    WHERE registrationtokens.id = NEW.tokenUsed;
 
     -- Update the token's `used` count if it's active and within bounds
     IF tokenIsActive = 1 AND currentUsers < maxUsers THEN
-        UPDATE registrationTokens
+        UPDATE registrationtokens
         SET used = used + 1
         WHERE id = NEW.tokenUsed;
     END IF;
 
     -- Retrieve the updated `used` count to check if the token should be deactivated
-    SELECT used INTO currentUsers FROM registrationTokens WHERE id = NEW.tokenUsed;
+    SELECT used INTO currentUsers FROM registrationtokens WHERE id = NEW.tokenUsed;
 
     -- Deactivate the token if it's reached or exceeded the `maxUses`
     IF currentUsers >= maxUsers THEN
-        UPDATE registrationTokens
+        UPDATE registrationtokens
         SET isActive = 0
         WHERE id = NEW.tokenUsed;
     END IF;
@@ -475,7 +475,7 @@ DELIMITER ;;
 /*!50106 CREATE*/ /*!50117 DEFINER=`UWCC`@`localhost`*/ /*!50106 EVENT `checkRecoveryTokenExpire` ON SCHEDULE EVERY 30 MINUTE STARTS '2024-05-24 01:29:05' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
 
     -- Update tokens that have expired by setting them to inactive
-    UPDATE passwordRecovery
+    UPDATE passwordrecovery
     SET isActive = 0
     WHERE isActive = 1
       AND expiresAt < NOW();
@@ -505,7 +505,7 @@ DELIMITER ;;
 
     -- Cursor to select tokens that might need updating
     DECLARE token_cursor CURSOR FOR
-    SELECT id, endDate FROM registrationTokens WHERE isActive = 1;
+    SELECT id, endDate FROM registrationtokens WHERE isActive = 1;
 
     -- Handler for cursor ending
     DECLARE CONTINUE HANDLER FOR NOT FOUND
@@ -529,7 +529,7 @@ DELIMITER ;;
         -- Check if the token has expired
         IF tokenDate < NOW() THEN
             -- Update the token to be inactive
-            UPDATE registrationTokens SET isActive = 0 WHERE id = tokenID;
+            UPDATE registrationtokens SET isActive = 0 WHERE id = tokenID;
         END IF;
 
     END LOOP;
