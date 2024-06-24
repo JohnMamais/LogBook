@@ -45,7 +45,7 @@
         //closing statment
         $stmt->close();
         $conn->close();
-        header("Location: __ROOT__/logout.php");
+        header("Location: ../../logout.php");
         exit();
     } else {
 

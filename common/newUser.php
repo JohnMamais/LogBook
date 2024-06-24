@@ -225,7 +225,7 @@
     $conn->close();
 
     //got to login page if the user is not an admin
-    if($_SESSION['isAdmin']='guest'){
+    if($_SESSION['isAdmin']=='guest'){
         header('Location: ../');
         exit;
     }
