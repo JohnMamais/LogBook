@@ -31,7 +31,7 @@
   //the page is accessed via the login menu with a p arguement
   //if it is set, some fields are hidden
 
-  if (isset($_GET['p'])){
+  if (isset($_GET['p']) || $_SESSION['isAdmin']=='guest'){
     $adminPriv = 1;
     //set admin to 0 by default if the user entered through the login menu
     $admin = 0;
@@ -55,7 +55,7 @@
     $username=test_input($_POST['username']);
     $password=test_input($_POST['password']);
     $passwordCheck=test_input($_POST["pass_confirm"]);//used for double checking
-    if(isset($_SESSION["isAdmin"]) && ($_SESSION["isAdmin"]==1 || $_SESSION["isAdmin"]==2)){
+    if($_SESSION["isAdmin"]==1 || $_SESSION["isAdmin"]==2){
       $admin=$_POST['isAdmin'];
     }
     $email=test_input($_POST['email']);

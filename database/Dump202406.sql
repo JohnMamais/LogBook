@@ -54,7 +54,7 @@ DROP TABLE IF EXISTS `adminuserinfo`;
 /*!50001 DROP VIEW IF EXISTS `adminuserinfo`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `adminuserinfo` AS SELECT 
+/*!50001 CREATE VIEW `adminuserinfo` AS SELECT
  1 AS `id`,
  1 AS `username`,
  1 AS `fullName`,
@@ -164,7 +164,7 @@ DROP TABLE IF EXISTS `fulluserview`;
 /*!50001 DROP VIEW IF EXISTS `fulluserview`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `fulluserview` AS SELECT 
+/*!50001 CREATE VIEW `fulluserview` AS SELECT
  1 AS `id`,
  1 AS `username`,
  1 AS `fullName`,
@@ -363,7 +363,7 @@ DROP TABLE IF EXISTS `teacheruserinfo`;
 /*!50001 DROP VIEW IF EXISTS `teacheruserinfo`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `teacheruserinfo` AS SELECT 
+/*!50001 CREATE VIEW `teacheruserinfo` AS SELECT
  1 AS `id`,
  1 AS `username`,
  1 AS `fullName`,
@@ -445,10 +445,10 @@ DELIMITER ;;
         INSERT INTO serverLog(pageID, logDesc, uid)
         VALUES (4, "CRITICAL: User registered out of token Active Bounds!!", NEW.id);
     END IF;
-    
+
     -- Set the sign up date for the user
     SET NEW.signupDate = NOW();
-    
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -564,11 +564,11 @@ BEGIN
 
 	DECLARE eventStatus VARCHAR(10);
 
-	
+
 
     #select current status of event
 
-    SELECT 
+    SELECT
 
 		STATUS
 
@@ -576,17 +576,17 @@ BEGIN
 
 		eventStatus
 
-	FROM 
+	FROM
 
 		information_schema.EVENTS
 
-	WHERE 
+	WHERE
 
 		EVENT_SCHEMA = DATABASE()
 
-		AND EVENT_NAME LIKE 'checkTokenExpire';  
+		AND EVENT_NAME LIKE 'checkTokenExpire';
 
-	
+
 
     IF eventStatus LIKE 'DISABLED' THEN
 
