@@ -247,7 +247,7 @@
     <input type="text" name="username" size="20" maxlength="20" /> <br>
 
     E-mail <?php echo "$emailError";?> <br>
-    <input type="text" name="email" size="20" maxlength="20" /> <br>
+    <input type="text" name="email" size="20" maxlength="50" /> <br>
 
     Κωδικός <?php echo "$passError";?> <br>
     <input type="password" name="password" size="20" maxlength="20" /> <br>
