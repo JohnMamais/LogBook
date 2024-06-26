@@ -16,30 +16,33 @@ it is then added to the database which handles the insertion date and expiration
 
 */
 function mailToken($email, $link, $published){
-
-  // Create a new PHPMailer instance
-  $mail = new PHPMailer(true);
-
+/*
   if(!$published){
     return array('status' => 'success', 'link' => $link);
   }
-
+*/
   try {
+      // Create a new PHPMailer instance
+      $mail = new PHPMailer(true);
       // SMTP configuration
       $mail->isSMTP(); // Use SMTP
-      $mail->Host = 'smtp.example.com'; // Your SMTP server (e.g., smtp.gmail.com)
+      $mail->Host = 'live.smtp.mailtrap.io'; // Your SMTP server (e.g., smtp.gmail.com)
       $mail->SMTPAuth = true; // Enable SMTP authentication
-      $mail->Username = 'your_email@example.com'; // Your SMTP username
-      $mail->Password = 'your_password'; // Your SMTP password
-      $mail->SMTPSecure = 'tls'; // Encryption type ('ssl', 'tls')
       $mail->Port = 587; // SMTP port (TLS usually uses 587)
+      $mail->Username = 'api'; // Your SMTP username
+      $mail->Password = 'c9db225a5ad649e88231a9d085f4c0b4'; // Your SMTP password
+      //$mail->SMTPSecure = 'tls'; // Enable TLS encryption
+
+      // Set the character set to UTF-8
+      $mail->CharSet = 'UTF-8';
 
       // Set sender and recipient
-      $mail->setFrom('your_email@example.com'); // Sender's email and name
+      $mail->setFrom('mailme@demomailtrap.com', 'From Name');
       $mail->addAddress($email); // Recipient's email and name
 
       // Email content
-      $mail->isHTML(true); // Set email format to HTML
+      $headers['Content-type'] = 'text/html; charset=iso-8859-1';
+      $mail->isHTML(false); // Set email format to HTML
       $mail->Subject = 'Ανάκτηση Λογαριασμού - Δ.Θ.Σ.Α.Ε.Κ. Αιγάλεω'; // Email subject
       $mail->Body = "
       <body>
@@ -53,7 +56,7 @@ function mailToken($email, $link, $published){
         <p>Για λόγους ασφαλείας, ο παραπάνω σύνδεσμος θα λήξει σε 1 ώρα.</p>
 
       </body>
-      "; // HTML body
+      "; // HTML body */
       $mail->AltBody = "
       Λάβαμε ένα αίτημα για επαναφορά του κωδικού για τον λογαριασμό σας. Για να συνεχίσετε με την επαναφορά του κωδικού σας, παρακαλούμε κάντε κλικ στον παρακάτω σύνδεσμο:\n
       $link \n
@@ -64,7 +67,7 @@ function mailToken($email, $link, $published){
       // Send the email
       $mail->send();// Attempt to send the email
 
-      return array('status' => 'error', 'success' => 'Email sent');
+      return array('status' => 'success', 'message' => 'Email sent');
 
   } catch (Exception $e) {
       return array('status' => 'error', 'message' => 'Email could not be sent. PHPMailer Error: ' . $mail->ErrorInfo);
