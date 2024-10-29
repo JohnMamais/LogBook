@@ -23,6 +23,11 @@
 <body>
 
     <?php
+    ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
     // Start output buffering to prevent export to pdf errors
     ob_start();
     //connecting to database
@@ -132,10 +137,10 @@
         </div>
     </div>
 
-        
-    
 
-    
+
+
+
 
     <!----------------------------------JAVASCRIPT AJAX SCRIPTS------------------------------------->
 
@@ -302,8 +307,8 @@
 
                 $query = "SELECT bookentry.date, bookentry.description, bookentry.periods, user.fname, user.lname FROM bookentry
                 JOIN user ON user.id = bookentry.username
-                WHERE year = $year AND season = '$season' AND specialtyID = $specialty AND semester = '$semester'
-                AND subjectID = $subject AND class = $class;";
+                WHERE year = $year AND season = '$season' AND specialtyid = $specialty AND semester = '$semester'
+                AND subjectid = $subject AND class = $class;";
 
                 $result = $GLOBALS['conn']->query($query);
 
@@ -311,7 +316,11 @@
 
 
                 //pdf Header content in HTML
-                $htmlContent = '<html><body>';
+                $htmlContent = '<html lang="gr"><head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Εγγραφές Βιβλίων Ύλης</title>
+                    </head><body>';
                 $htmlContent .= '<h1>Θ.Σ.Α.Ε.Κ. Αιγάλεω - Εγγραφές Βιβλίου Ύλης</h1>';
                 $htmlContent .= '<h2>Ειδικότητα - Τμήμα '. $class .'</h2>';
                 $htmlContent .= '<h2>Μάθημα</h2>';
@@ -332,21 +341,53 @@
                 $htmlContent .= '</tbody></table>';
                 $htmlContent .= '</body></html>';
 
+                // Specify a custom temporary directory for mpdf
+               $tempDir = __DIR__ . '/tmp/mpdf';
+
+               $mpdfConfig = [
+                   'tempDir' => $tempDir,
+               ];
+
                 //closing the buffer
                 ob_end_clean();
 
-                //set up file name
-                //use ids instead of
-                $filename="$specialty_$subject-$year$season";
 
+               try {
+
+
+                 // Create an instance of the mPDF class with the custom configuration
+                $mpdf = new \Mpdf\Mpdf($mpdfConfig);
+
+
+                 $mpdf->WriteHTML($htmlContent);
+
+                 //closing the buffer
+                 ob_end_clean();
+
+                 // Output the PDF as a file
+                 // Send the generated PDF to the browser for download
+                 // The "D" parameter forces the browser to download the file
+                 //$mpdf->Output("$filename.pdf", \Mpdf\Output\Destination::DOWNLOAD);
+                 //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
+                 $mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+
+                 //header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
+                 //header('Location: open_PDF.php');//redirecting to a different php file that will allow
+
+                 //exit;
+
+               }
+               /*
                 // Specify a custom temporary directory for mpdf
-                $tempDir = __DIR__ . '/tmp';
+                $tempDir = '/var/www/html/logbook/admin/tmp';
 
                 $mpdfConfig = [
                     'tempDir' => $tempDir,
                 ];
                 try {
                   // Create an instance of the mPDF class with the custom configuration
+                 //$mpdf = new \Mpdf\Mpdf($mpdfConfig);
+
                  $mpdf = new \Mpdf\Mpdf($mpdfConfig);
 
                   $mpdf->WriteHTML($htmlContent);
@@ -361,10 +402,37 @@
 
                   //exit;
 
-                } catch (\Exception $e) {
+                }*/ catch (\Exception $e) {
                   alert("Δυστυχώς η διαδικασία απέτυχε. Προσπαθήστε ξανά ή επικοινωνήστε με τον διαχειριστή συστήματος.");
-                  insertLog($conn, );
+                  insertLog($conn, $e);
+                  echo $e->getMessage();
                 }
+
+
+                //gpt
+                /*
+                try {
+                    // Ensure this directory exists and is writable
+                    $mpdfConfig = [
+                        'tempDir' => '/var/www/html/logbook/admin/tmp/mpdf', // Replace with a writable directory
+                    ];
+
+                    // Create an instance of the mPDF class with the custom configuration
+                    $mpdf = new \Mpdf\Mpdf($mpdfConfig);
+
+                    // Write the HTML content to the PDF
+                    $mpdf->WriteHTML($htmlContent);
+
+                    // Output the PDF for download
+                    $mpdf->Output("$filename.pdf", \Mpdf\Output\Destination::DOWNLOAD);
+
+                } catch (\Mpdf\MpdfException $e) {
+                    // Handle MPDF-specific exceptions
+                    alert("Δυστυχώς η διαδικασία απέτυχε. Προσπαθήστε ξανά ή επικοινωνήστε με τον διαχειριστή συστήματος.");
+                    insertLog($conn, $e->getMessage());  // Log the error
+                    echo "Error: " . $e->getMessage();   // Output the error message for debugging
+                }
+                */
 
 
             }

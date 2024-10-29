@@ -31,6 +31,12 @@
 <body>
 
 <?php
+/* uncomment to debug
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+*/
+
   include_once '../Configs/Conn.php';
   include_once '../Configs/Config.php';
 
@@ -45,7 +51,7 @@
   //Get username, fullname, email and sign up date for user
   $sql="
   SELECT *
-  FROM fullUserView
+  FROM fulluserview
   WHERE id=?;
   ";
 

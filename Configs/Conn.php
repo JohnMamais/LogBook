@@ -21,7 +21,7 @@ if($published){
   $serverName="localhost";
   $serverUsername="user";
   $password="";
-  $dbname="Log_Book";
+  $dbname="log_book";
 
 }
 
