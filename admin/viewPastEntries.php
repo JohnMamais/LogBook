@@ -8,7 +8,7 @@
                 By selecting the educational period, specialty, semester, class and subject they want to check the approptiate results
                 are displayed in a table. The menus are updated with information from the database dynamically using AJAX to update
                 the fields in real time based on previous selections. Additionally the admin has the option to export the results in
-                a PDF file using the appropriate button (TO BE ADDED).
+                a PDF file using the appropriate button.
 
 
 
@@ -303,6 +303,21 @@ error_reporting(E_ALL);
                     $year = $season = 0;
                 }
 
+                //getting specialty name for pdf export
+                $query = "SELECT name FROM specialty WHERE specialtyID = $specialty;"
+                $result = $GLOBALS['conn']->query($query);
+                while ($row = $result->fetch_assoc()){
+                    $specialtyName = $row['name'];
+                }
+
+                //getting subject name for pfd export
+                $query = "SELECT name FROM subjects WHERE subjectID = $subject;"
+                $result = $GLOBALS['conn']->query($query);
+                while ($row = $result->fetch_assoc()){
+                    $subjectName = $row['name'];
+                }
+
+
                 //fetching output data for printing from the database
 
                 $query = "SELECT bookentry.date, bookentry.description, bookentry.periods, user.fname, user.lname FROM bookentry
@@ -322,8 +337,8 @@ error_reporting(E_ALL);
                     <title>Εγγραφές Βιβλίων Ύλης</title>
                     </head><body>';
                 $htmlContent .= '<h1>Θ.Σ.Α.Ε.Κ. Αιγάλεω - Εγγραφές Βιβλίου Ύλης</h1>';
-                $htmlContent .= '<h2>Ειδικότητα - Τμήμα '. $class .'</h2>';
-                $htmlContent .= '<h2>Μάθημα</h2>';
+                $htmlContent .= '<h2>Ειδικότητα: '. $specialtyName .' - Τμήμα '. $class .'</h2>';
+                $htmlContent .= '<h2>Μάθημα: '. $subjectName.'</h2>';
                 $htmlContent .= '<table border="1" cellpadding="10">';
                 $htmlContent .= '<thead><tr><th>Ημερομηνία</th><th>Περιγραφή</th><th>Ώρες</th><th>Όνομα</th><th>Επώνυμο</th></tr></thead>';
                 $htmlContent .= '<tbody>';
@@ -377,62 +392,12 @@ error_reporting(E_ALL);
                  //exit;
 
                }
-               /*
-                // Specify a custom temporary directory for mpdf
-                $tempDir = '/var/www/html/logbook/admin/tmp';
-
-                $mpdfConfig = [
-                    'tempDir' => $tempDir,
-                ];
-                try {
-                  // Create an instance of the mPDF class with the custom configuration
-                 //$mpdf = new \Mpdf\Mpdf($mpdfConfig);
-
-                 $mpdf = new \Mpdf\Mpdf($mpdfConfig);
-
-                  $mpdf->WriteHTML($htmlContent);
-                  // Output the PDF as a file
-                  // Send the generated PDF to the browser for download
-                  // The "D" parameter forces the browser to download the file
-                  $mpdf->Output("$filename.pdf", \Mpdf\Output\Destination::DOWNLOAD);
-                  //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
-
-                  //header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
-                  //header('Location: open_PDF.php');//redirecting to a different php file that will allow
-
-                  //exit;
-
-                }*/ catch (\Exception $e) {
+                catch (\Exception $e) {
                   alert("Δυστυχώς η διαδικασία απέτυχε. Προσπαθήστε ξανά ή επικοινωνήστε με τον διαχειριστή συστήματος.");
                   insertLog($conn, $e);
                   echo $e->getMessage();
                 }
 
-
-                //gpt
-                /*
-                try {
-                    // Ensure this directory exists and is writable
-                    $mpdfConfig = [
-                        'tempDir' => '/var/www/html/logbook/admin/tmp/mpdf', // Replace with a writable directory
-                    ];
-
-                    // Create an instance of the mPDF class with the custom configuration
-                    $mpdf = new \Mpdf\Mpdf($mpdfConfig);
-
-                    // Write the HTML content to the PDF
-                    $mpdf->WriteHTML($htmlContent);
-
-                    // Output the PDF for download
-                    $mpdf->Output("$filename.pdf", \Mpdf\Output\Destination::DOWNLOAD);
-
-                } catch (\Mpdf\MpdfException $e) {
-                    // Handle MPDF-specific exceptions
-                    alert("Δυστυχώς η διαδικασία απέτυχε. Προσπαθήστε ξανά ή επικοινωνήστε με τον διαχειριστή συστήματος.");
-                    insertLog($conn, $e->getMessage());  // Log the error
-                    echo "Error: " . $e->getMessage();   // Output the error message for debugging
-                }
-                */
 
 
             }
