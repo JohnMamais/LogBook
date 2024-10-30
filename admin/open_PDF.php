@@ -1,3 +1,4 @@
+<!-- PROBABLY REDUNDANT FILE. CHECK BEFORE DELETION -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

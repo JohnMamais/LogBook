@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="../Styles/adminStyleSheet.css">
     <link rel="stylesheet" href="../Styles/mainStyleSheet.css">
+    <link rel="stylesheet" href="../Styles/tables.css">
 
     <style>
        /* Initially, hide the span */
@@ -143,11 +144,11 @@
       έως:
       <input type="date" name="endDate" size="20" maxlength="20" />.
       <br>
-      Έναρξη σήμερα.
+      Έναρξη σήμερα:
       <input type="checkbox" name="checkStartDate" onclick="toggleHiddenSpan(this)" checked="checked"/>
       <br><br>
       Ισχύει για
-      <input type="number" name="teacherCount" size="5" />
+      <input type="number" name="teacherCount" size="5" style= "width: 40px"/>
       καθηγητές.
       <br><br>
       <button type="submit" id="refreshToken">Δημιουργία Token</button>
@@ -155,7 +156,7 @@
 
   <table border="3">
     <tr>
-      <td rowspan="2">Τρέχων Token:</td>
+      <td rowspan="2">Τρέχον Token:</td>
       <th>Token</th>
       <th>Expire Date</th>
     </tr>

@@ -1,0 +1,8 @@
+input{
+    border-radius: 10px;
+    background-color: white;
+    width: 200px;
+}
+input:hover{
+    background-color: azure;
+}

@@ -1,4 +1,12 @@
 <?php
+    /*
+    Author: Ilias Motsenigos
+    Date: 7/5/2024
+    Last Updated: 29/10/2024
+    Description: This php file is complementary to viewPastEntries.php and it dynamically updates its fields through AJAX.
+                By receiving the selected specialty from the parent file it runs a query to the application's database to fetch 
+                the available subjects in the every semester and populates the parent file with check box options.
+    */
     include_once '../Configs/Conn.php';
 
     //handling of unauthorized users
