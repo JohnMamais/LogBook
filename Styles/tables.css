@@ -1,0 +1,26 @@
+:root{
+    --light: #e5ffde;
+    --semilight: rgb(109, 147, 156);
+    --midtone: #96b4b2;
+    --semidark: #634b66;
+    --dark: #18020c;
+  }
+
+table{
+    background-color: var(--light);
+    border-radius: 20px;
+    padding: 10px;
+    color: var(--dark);
+}
+
+tr{
+    border: 3px solid var(--dark);
+    padding: 5px;
+    border-radius: 10px;
+}
+
+td{
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+}

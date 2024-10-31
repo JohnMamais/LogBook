@@ -7,6 +7,7 @@
   <title>Δ.Θ.Σ.Α.Ε.Κ. Αιγάλεω: Διαχείρηση</title>
 
   <link rel="stylesheet" href="../Styles/logBookMainStyleSheet.css">
+  <link rel="stylesheet" href="../Styles/input.css">
 
 </head>
 <body>

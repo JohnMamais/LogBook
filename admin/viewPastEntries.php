@@ -3,7 +3,7 @@
 <!--
     Author: Ilias Motsenigos
     Date: 1/5/2024
-    Last Updated: 7/5/2024
+    Last Updated: 29/10/2024
     Description: This page allows the school's admins to fetch all the log book entries that have been created through this system.
                 By selecting the educational period, specialty, semester, class and subject they want to check the approptiate results
                 are displayed in a table. The menus are updated with information from the database dynamically using AJAX to update
@@ -382,14 +382,9 @@ error_reporting(E_ALL);
                  // Output the PDF as a file
                  // Send the generated PDF to the browser for download
                  // The "D" parameter forces the browser to download the file
-                 //$mpdf->Output("$filename.pdf", \Mpdf\Output\Destination::DOWNLOAD);
-                 //$mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::FILE);
+
                  $mpdf->Output('book_entries.pdf', \Mpdf\Output\Destination::DOWNLOAD);
 
-                 //header('Content-Type: application/pdf');//declaring that the following content will be a pdf file
-                 //header('Location: open_PDF.php');//redirecting to a different php file that will allow
-
-                 //exit;
 
                }
                 catch (\Exception $e) {
