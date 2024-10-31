@@ -401,7 +401,10 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','$argon2id$v=19$m=65536,t=11,p=2$NHIxcVFXMWRTTVpPeTdGbQ$Yhh3a6S+rqD+HS8U3yOcbW3WpbKOfdJe3WvbO4XMwLg','Admin','Doe',NULL,1,1,NULL,'2024-05-24'),(2,'teacher','$argon2id$v=19$m=65536,t=11,p=2$RG5YWWJBS3NHcVVQM3hqbA$XBoqO4f1VwdfNYL3ZyjRs5bpoggZy71QLiZuZ5uEcCA','Teacher','Doe','teacher@example.com',0,1,NULL,'2024-05-24'),(3,'John@Super','$argon2id$v=19$m=65536,t=11,p=2$WlVPOURWS1hvL053S205ZA$pHxxNcvtCuVnY9cBxYeToYZDqFqL9/NmtLSvlk2m5Jg','John','Super',NULL,2,1,NULL,'2024-05-24'),(4,'Ilias@Super','$argon2id$v=19$m=65536,t=11,p=2$WlVPOURWS1hvL053S205ZA$pHxxNcvtCuVnY9cBxYeToYZDqFqL9/NmtLSvlk2m5Jg','Ilias','Super',NULL,2,1,NULL,'2024-05-24');
+INSERT INTO `user` VALUES
+(1,'admin','$argon2id$v=19$m=65536,t=11,p=2$NHIxcVFXMWRTTVpPeTdGbQ$Yhh3a6S+rqD+HS8U3yOcbW3WpbKOfdJe3WvbO4XMwLg','Admin','Doe',NULL,1,1,NULL,'2024-05-24'),
+(2,'teacher','$argon2id$v=19$m=65536,t=11,p=2$RG5YWWJBS3NHcVVQM3hqbA$XBoqO4f1VwdfNYL3ZyjRs5bpoggZy71QLiZuZ5uEcCA','Teacher','Doe',NULL,0,1,NULL,'2024-05-24'),
+(3,'user@Super','$argon2id$v=19$m=65536,t=11,p=2$WlVPOURWS1hvL053S205ZA$pHxxNcvtCuVnY9cBxYeToYZDqFqL9/NmtLSvlk2m5Jg','Super','User',NULL,2,1,NULL,'2024-05-24');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
