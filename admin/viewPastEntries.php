@@ -304,14 +304,14 @@ error_reporting(E_ALL);
                 }
 
                 //getting specialty name for pdf export
-                $query = "SELECT name FROM specialty WHERE specialtyID = $specialty;"
+                $query = "SELECT name FROM specialty WHERE specialtyID = $specialty;";
                 $result = $GLOBALS['conn']->query($query);
                 while ($row = $result->fetch_assoc()){
                     $specialtyName = $row['name'];
                 }
 
                 //getting subject name for pfd export
-                $query = "SELECT name FROM subjects WHERE subjectID = $subject;"
+                $query = "SELECT name FROM subjects WHERE subjectID = $subject;";
                 $result = $GLOBALS['conn']->query($query);
                 while ($row = $result->fetch_assoc()){
                     $subjectName = $row['name'];
